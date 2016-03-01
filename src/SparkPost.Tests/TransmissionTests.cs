@@ -12,5 +12,13 @@ namespace SparkPost.Tests
             var result = transmission.FireAnEmail("");
             result.Wait();
         }
+
+        [Test]
+        public void FireATemplate()
+        {
+            var transmission = new Transmission();
+            var result = transmission.FireATemplate("");
+            result.Wait();
+        }
     }
 }

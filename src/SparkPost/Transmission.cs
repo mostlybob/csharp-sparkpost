@@ -10,7 +10,11 @@ namespace SparkPost
         public string Id { get; set; }
         public string State { get; set; }
         public Options Options { get; set; }
+
+        // it’s either `recipients: []` or `recipients: { list_id: 'theID' }`
         public IList<Recipient> Recipients { get; set; }
+        public string ListId { get; set; }
+
         public string CampaignId { get; set; }
         public string Description { get; set; }
         public IDictionary<string, string> Metadata { get; set; }

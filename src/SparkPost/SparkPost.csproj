@@ -45,7 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Transmission.cs" />
+    <Compile Include="TransmissionSender.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

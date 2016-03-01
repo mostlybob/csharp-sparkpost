@@ -3,12 +3,12 @@
 namespace SparkPost.Tests
 {
     [TestFixture]
-    public class TransmissionTests
+    public class TransmissionSenderTests
     {
         [Test]
         public void FireAnEmail()
         {
-            var transmission = new Transmission();
+            var transmission = new SparkPost.TransmissionSender();
             var result = transmission.FireAnEmail("");
             result.Wait();
         }
@@ -16,7 +16,7 @@ namespace SparkPost.Tests
         [Test]
         public void FireATemplate()
         {
-            var transmission = new Transmission();
+            var transmission = new SparkPost.TransmissionSender();
             var result = transmission.FireATemplate("");
             result.Wait();
         }

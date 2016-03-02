@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Web.UI.Design;
+using Newtonsoft.Json;
 
 namespace SparkPost
 {
@@ -29,6 +30,11 @@ namespace SparkPost
 
     public class Recipient
     {
+        public Address Address { get; set; }
+        public string ReturnPath { get; set; }
+        public IList Tags { get; set; }
+        public IDictionary<string, string> Metadata { get; set; }
+        public IDictionary<string, string> SubstitutionData { get; set; }
     }
 
     public class Content
@@ -36,7 +42,7 @@ namespace SparkPost
         public string Html { get; set; }
         public string Text { get; set; }
         public string Subject { get; set; }
-        public IList<Email> From { get; set; }
+        public IList<Address> From { get; set; }
         public string ReplyTo { get; set; }
         public IDictionary<string, string> Headers { get; set; }
         public IEnumerable<Attachment> Attachments { get; set; }
@@ -45,10 +51,11 @@ namespace SparkPost
         public bool? UseDraftTemplate { get; set; }
     }
 
-    public class Email
+    public class Address
     {
         public string Name { get; set; }
-        public string Address { get; set; }
+        public string Email { get; set; }
+        public string HeaderTo { get; set; }
     }
 
     public class Attachment : File

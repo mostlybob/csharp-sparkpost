@@ -1,12 +1,55 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Dynamic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 namespace SparkPost
 {
+    public class Transmissions
+    {
+        private readonly string apiKey;
+        private readonly string apiHost;
+
+        public Transmissions(string apiKey, string apiHost = "https://api.sparkpost.com")
+        {
+            this.apiKey = apiKey;
+            this.apiHost = apiHost;
+        }
+
+        public async Task<HttpResponseMessage> Send(Transmission transmission)
+        {
+            using (var client = new HttpClient())
+            {
+
+                // New code:
+                client.BaseAddress = new Uri(apiHost);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Add("Authorization", apiKey);
+
+                dynamic content = new ExpandoObject();
+                content.from = transmission.Content.From.Email;
+                content.subject = transmission.Content.Subject;
+                content.text = transmission.Content.Text;
+
+                dynamic recipient = new ExpandoObject();
+                recipient.address = transmission.Recipients.First().Address.Email;
+
+                dynamic data = new ExpandoObject();
+                data.content = content;
+                data.recipients = new[] {recipient};
+
+                var theString = JsonConvert.SerializeObject(data);
+                var stringContent = new StringContent(JsonConvert.SerializeObject(data));
+
+                return await client.PostAsync("api/v1/transmissions", stringContent);
+            }
+
+        }
+    }
+
     public class TransmissionDemo
     {
         public async Task<HttpResponseMessage> FireAnEmail(string apiKey)

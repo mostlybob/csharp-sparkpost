@@ -8,6 +8,14 @@ namespace SparkPost
 {
     public class Transmission
     {
+        public Transmission()
+        {
+            Recipients = new List<Recipient>();
+            Metadata = new Dictionary<string, string>();
+            SubstitutionData = new Dictionary<string, string>();
+            Content = new Content();
+        }
+
         public string Id { get; set; }
         public string State { get; set; }
         public Options Options { get; set; }
@@ -42,7 +50,7 @@ namespace SparkPost
         public string Html { get; set; }
         public string Text { get; set; }
         public string Subject { get; set; }
-        public IList<Address> From { get; set; }
+        public Address From { get; set; }
         public string ReplyTo { get; set; }
         public IDictionary<string, string> Headers { get; set; }
         public IEnumerable<Attachment> Attachments { get; set; }

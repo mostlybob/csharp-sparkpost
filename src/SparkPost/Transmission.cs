@@ -17,7 +17,6 @@ namespace SparkPost
         public string State { get; set; }
         public Options Options { get; set; }
 
-        // it’s either `recipients: []` or `recipients: { list_id: 'theID' }`
         public IList<Recipient> Recipients { get; set; }
         public string ListId { get; set; }
 
@@ -34,10 +33,18 @@ namespace SparkPost
 
         public virtual IDictionary<string, object> ToDictionary()
         {
+            object recipients;
+            if (ListId != null)
+                recipients = new Dictionary<string, object>()
+                {
+                    ["list_id"] = ListId
+                };
+            else
+                recipients = Recipients.Select(x=>x.ToDictionary());
             return new Dictionary<string, object>
             {
                 ["content"] = Content.ToDictionary(),
-                ["recipients"] = Recipients.Select(x=>x.ToDictionary()),
+                ["recipients"] = recipients,
             };
         }
     }

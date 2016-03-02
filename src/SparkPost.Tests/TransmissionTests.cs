@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using Moq;
@@ -92,6 +93,16 @@ namespace SparkPost.Tests
                 result.Count().ShouldEqual(2);
                 result.ToList()[0].ShouldBeSameAs(recipient1Dictionary);
                 result.ToList()[1].ShouldBeSameAs(recipient2Dictionary);
+            }
+
+            [Test]
+            public void It_should_set_the_recipients_to_a_list_id_if_a_list_id_is_provided()
+            {
+                var listId = Guid.NewGuid().ToString();
+                transmission.ListId = listId;
+
+                var result = transmission.ToDictionary()["recipients"] as IDictionary<string, object>;
+                result["list_id"].ShouldEqual(listId);
             }
 
         }

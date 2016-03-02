@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Net.Http;
+using System.Threading.Tasks;
 using NUnit.Framework;
 
 namespace SparkPost.Tests
@@ -34,7 +36,8 @@ namespace SparkPost.Tests
 
             transmission.Recipients.Add(new Recipient {Address = new Address {Email = "darren@cauthon.com"}});
 
-            transmissions.Send(transmission).Wait();
+            var send = transmissions.Send(transmission);
+            send.Wait();
         }
     }
 

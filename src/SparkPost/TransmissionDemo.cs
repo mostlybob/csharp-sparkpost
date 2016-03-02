@@ -29,17 +29,7 @@ namespace SparkPost
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Add("Authorization", apiKey);
 
-                dynamic content = new ExpandoObject();
-                content.from = transmission.Content.From.Email;
-                content.subject = transmission.Content.Subject;
-                content.text = transmission.Content.Text;
-
-                dynamic recipient = new ExpandoObject();
-                recipient.address = transmission.Recipients.First().Address.Email;
-
-                dynamic data = new ExpandoObject();
-                data.content = content;
-                data.recipients = new[] {recipient};
+                var data = transmission.ToDictionary();
 
                 var theString = JsonConvert.SerializeObject(data);
                 var stringContent = new StringContent(JsonConvert.SerializeObject(data));

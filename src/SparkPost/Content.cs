@@ -17,8 +17,12 @@ namespace SparkPost
 
         public virtual IDictionary<string, object> ToDictionary()
         {
-            //throw new System.NotImplementedException();
-            return null;
+            return new Dictionary<string, object>()
+            {
+                ["from"] = From.Email,
+                ["subject"] = Subject,
+                ["text"] = Text
+            };
         }
     }
 }

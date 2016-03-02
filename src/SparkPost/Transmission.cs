@@ -33,19 +33,18 @@ namespace SparkPost
 
         public virtual IDictionary<string, object> ToDictionary()
         {
-            object recipients;
-            if (ListId != null)
-                recipients = new Dictionary<string, object>()
-                {
-                    ["list_id"] = ListId
-                };
-            else
-                recipients = Recipients.Select(x=>x.ToDictionary());
             return new Dictionary<string, object>
             {
                 ["content"] = Content.ToDictionary(),
-                ["recipients"] = recipients,
+                ["recipients"] = BuildTheRecipientRequest(),
             };
+        }
+
+        private object BuildTheRecipientRequest()
+        {
+            if (ListId != null)
+                return new Dictionary<string, object> {["list_id"] = ListId};
+            return Recipients.Select(x => x.ToDictionary());
         }
     }
 }

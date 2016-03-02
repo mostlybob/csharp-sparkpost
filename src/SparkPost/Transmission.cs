@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace SparkPost
 {
@@ -35,7 +36,8 @@ namespace SparkPost
         {
             return new Dictionary<string, object>
             {
-                ["content"] = Content.ToDictionary()
+                ["content"] = Content.ToDictionary(),
+                ["recipients"] = Recipients.Select(x=>x.ToDictionary()),
             };
         }
     }

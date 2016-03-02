@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.CompilerServices;
 using Moq;
 using NUnit.Framework;
 using Should;
@@ -65,6 +67,31 @@ namespace SparkPost.Tests
                 transmission.Content = content.Object;
                 transmission.ToDictionary()["content"]
                     .ShouldBeSameAs(contentDictionary);
+            }
+
+            [Test]
+            public void It_should_set_the_recipients()
+            {
+                var recipient1 = new Mock<Recipient>();
+                var recipient1Dictionary = new Dictionary<string, object>();
+                recipient1.Setup(x => x.ToDictionary()).Returns(recipient1Dictionary);
+
+                var recipient2 = new Mock<Recipient>();
+                var recipient2Dictionary = new Dictionary<string, object>();
+                recipient2.Setup(x => x.ToDictionary()).Returns(recipient2Dictionary);
+
+                var recipients = new List<Recipient>
+                {
+                    recipient1.Object, 
+                    recipient2.Object,
+                };
+
+                transmission.Recipients = recipients;
+
+                var result = transmission.ToDictionary()["recipients"] as IEnumerable<IDictionary<string, object>>;
+                result.Count().ShouldEqual(2);
+                result.ToList()[0].ShouldBeSameAs(recipient1Dictionary);
+                result.ToList()[1].ShouldBeSameAs(recipient2Dictionary);
             }
 
         }

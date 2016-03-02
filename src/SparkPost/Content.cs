@@ -17,7 +17,8 @@ namespace SparkPost
 
         public virtual IDictionary<string, object> ToDictionary()
         {
-            throw new System.NotImplementedException();
+            //throw new System.NotImplementedException();
+            return null;
         }
     }
 }

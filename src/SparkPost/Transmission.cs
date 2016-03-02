@@ -46,7 +46,7 @@ namespace SparkPost
         public string ReplyTo { get; set; }
         public IDictionary<string, string> Headers { get; set; }
         public IEnumerable<Attachment> Attachments { get; set; }
-        public IEnumerable<Attachment> InlineImages { get; set; }
+        public IEnumerable<InlineImage> InlineImages { get; set; }
         public string TemplateId { get; set; }
         public bool? UseDraftTemplate { get; set; }
     }

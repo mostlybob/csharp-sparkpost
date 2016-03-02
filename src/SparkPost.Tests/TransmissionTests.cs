@@ -1,4 +1,6 @@
-﻿using NUnit.Framework;
+﻿using System.Collections.Generic;
+using Moq;
+using NUnit.Framework;
 using Should;
 
 namespace SparkPost.Tests
@@ -39,6 +41,32 @@ namespace SparkPost.Tests
             {
                 transmission.SubstitutionData.ShouldNotBeNull();
             }
+        }
+
+        [TestFixture]
+        public class ToDictionaryTests
+        {
+            private Transmission transmission;
+
+            [SetUp]
+            public void Setup()
+            {
+                transmission = new Transmission();
+            }
+
+            [Test]
+            public void It_should_set_the_content_dictionary()
+            {
+                var content = new Mock<Content>();
+                var contentDictionary = new Dictionary<string, object>();
+                content.Setup(x => x.ToDictionary())
+                    .Returns(contentDictionary);
+
+                transmission.Content = content.Object;
+                transmission.ToDictionary()["content"]
+                    .ShouldBeSameAs(contentDictionary);
+            }
+
         }
     }
 }

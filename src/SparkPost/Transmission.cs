@@ -30,5 +30,13 @@ namespace SparkPost
         public int NumGenerated { get; set; }
         public int NumFailedGeneration { get; set; }
         public int NuMInvalidRecipients { get; set; }
+
+        public virtual IDictionary<string, object> ToDictionary()
+        {
+            return new Dictionary<string, object>
+            {
+                ["content"] = Content.ToDictionary()
+            };
+        }
     }
 }

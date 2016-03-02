@@ -14,5 +14,10 @@ namespace SparkPost
         public IEnumerable<InlineImage> InlineImages { get; set; }
         public string TemplateId { get; set; }
         public bool? UseDraftTemplate { get; set; }
+
+        public virtual IDictionary<string, object> ToDictionary()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace SparkPost
 {
-    public class TransmissionSender
+    public class TransmissionDemo
     {
         public async Task<HttpResponseMessage> FireAnEmail(string apiKey)
         {

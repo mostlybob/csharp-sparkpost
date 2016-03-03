@@ -30,7 +30,17 @@ namespace SparkPost
         {
             return RemoveNulls(new Dictionary<string, object>
             {
-                ["address"] = recipient.Address.Email
+                ["address"] = ToDictionary(recipient.Address),
+            });
+        }
+
+        public virtual IDictionary<string, object> ToDictionary(Address address)
+        {
+            return RemoveNulls(new Dictionary<string, object>
+            {
+                ["email"] = address.Email,
+                ["name"] = address.Name,
+                ["header_to"] = address.HeaderTo,
             });
         }
 

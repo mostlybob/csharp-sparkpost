@@ -9,6 +9,44 @@ namespace SparkPost.Tests
     public class DataMapperTests
     {
         [TestFixture]
+        public class AddressMappingTests
+        {
+            [SetUp]
+            public void Setup()
+            {
+                address = new Address();
+                mapper = new DataMapper("v1");
+            }
+
+            private Address address;
+            private DataMapper mapper;
+
+            [Test]
+            public void email()
+            {
+                var value = Guid.NewGuid().ToString();
+                address.Email = value;
+                mapper.ToDictionary(address)["email"].ShouldEqual(value);
+            }
+
+            [Test]
+            public void name()
+            {
+                var value = Guid.NewGuid().ToString();
+                address.Name = value;
+                mapper.ToDictionary(address)["name"].ShouldEqual(value);
+            }
+
+            [Test]
+            public void header_to()
+            {
+                var value = Guid.NewGuid().ToString();
+                address.HeaderTo = value;
+                mapper.ToDictionary(address)["header_to"].ShouldEqual(value);
+            }
+        }
+
+        [TestFixture]
         public class TransmissionMappingTests
         {
             [SetUp]
@@ -40,8 +78,12 @@ namespace SparkPost.Tests
 
                 var result = mapper.ToDictionary(transmission)["recipients"] as IEnumerable<IDictionary<string, object>>;
                 result.Count().ShouldEqual(2);
-                result.ToList()[0]["address"].ShouldBeSameAs(recipient1.Address.Email);
-                result.ToList()[1]["address"].ShouldBeSameAs(recipient2.Address.Email);
+                result.ToList()[0]["address"]
+                    .CastAs<IDictionary<string, object>>()
+                    ["email"].ShouldEqual(recipient1.Address.Email);
+                result.ToList()[1]["address"]
+                    .CastAs<IDictionary<string, object>>()
+                    ["email"].ShouldEqual(recipient2.Address.Email);
             }
 
             [Test]

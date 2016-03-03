@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 namespace SparkPost
 {
@@ -30,21 +29,5 @@ namespace SparkPost
         public int NumGenerated { get; set; }
         public int NumFailedGeneration { get; set; }
         public int NuMInvalidRecipients { get; set; }
-
-        public virtual IDictionary<string, object> ToDictionary()
-        {
-            return new Dictionary<string, object>
-            {
-                ["content"] = Content.ToDictionary(),
-                ["recipients"] = BuildTheRecipientRequest(),
-            };
-        }
-
-        private object BuildTheRecipientRequest()
-        {
-            if (ListId != null)
-                return new Dictionary<string, object> {["list_id"] = ListId};
-            return Recipients.Select(x => x.ToDictionary());
-        }
     }
 }

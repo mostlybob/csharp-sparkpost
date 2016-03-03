@@ -13,5 +13,6 @@
         public string ApiHost { get; set; }
 
         public Transmissions Transmissions { get; }
+        public string Version => "v1";
     }
 }

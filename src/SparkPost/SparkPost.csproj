@@ -49,6 +49,7 @@
     <Compile Include="Attachment.cs" />
     <Compile Include="Client.cs" />
     <Compile Include="Content.cs" />
+    <Compile Include="DataMapper.cs" />
     <Compile Include="File.cs" />
     <Compile Include="InlineImage.cs" />
     <Compile Include="Options.cs" />

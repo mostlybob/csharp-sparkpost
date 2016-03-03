@@ -33,6 +33,8 @@ namespace SparkPost
                 ["address"] = ToDictionary(recipient.Address),
                 ["return_path"] = recipient.ReturnPath,
                 ["tags"] = recipient.Tags.Count > 0 ? recipient.Tags : null,
+                ["metadata"] = recipient.Metadata.Count > 0 ? recipient.Metadata : null,
+                ["substitution_data"] = recipient.SubstitutionData.Count > 0 ? recipient.SubstitutionData : null,
             });
         }
 

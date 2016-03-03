@@ -9,6 +9,8 @@ namespace SparkPost
         {
             Address = new Address();
             Tags = new List<string>();
+            Metadata = new Dictionary<string, string>();
+            SubstitutionData = new Dictionary<string, string>();
         }
 
         public Address Address { get; set; }

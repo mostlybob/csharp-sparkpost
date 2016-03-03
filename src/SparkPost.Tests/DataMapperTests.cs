@@ -68,6 +68,38 @@ namespace SparkPost.Tests
                 mapper.ToDictionary(recipient)
                     .Keys.ShouldNotContain("tags");
             }
+
+            [Test]
+            public void metadata()
+            {
+                var key = Guid.NewGuid().ToString();
+                var value = Guid.NewGuid().ToString();
+                recipient.Metadata[key] = value;
+                mapper.ToDictionary(recipient)["metadata"]
+                    .CastAs<IDictionary<string, string>>()[key].ShouldEqual(value);
+            }
+
+            [Test]
+            public void do_not_include_empty_metadata()
+            {
+                mapper.ToDictionary(recipient).Keys.ShouldNotContain("metadata");
+            }
+
+            [Test]
+            public void substitution_data()
+            {
+                var key = Guid.NewGuid().ToString();
+                var value = Guid.NewGuid().ToString();
+                recipient.SubstitutionData[key] = value;
+                mapper.ToDictionary(recipient)["substitution_data"]
+                    .CastAs<IDictionary<string, string>>()[key].ShouldEqual(value);
+            }
+
+            [Test]
+            public void do_not_include_empty_substitution_data()
+            {
+                mapper.ToDictionary(recipient).Keys.ShouldNotContain("substitution_data");
+            }
         }
 
         [TestFixture]

@@ -38,24 +38,5 @@ namespace SparkPost.Tests
             result.Wait();
         }
     }
-
-    //[TestFixture]
-    //public class TransmissionSenderTests
-    //{
-    //    [Test]
-    //    public void FireAnEmail()
-    //    {
-    //        var transmission = new SparkPost.TransmissionDemo();
-    //        var result = transmission.FireAnEmail("");
-    //        result.Wait();
-    //    }
-
-    //    [Test]
-    //    public void FireATemplate()
-    //    {
-    //        var transmission = new SparkPost.TransmissionDemo();
-    //        var result = transmission.FireATemplate("");
-    //        result.Wait();
-    //    }
-    //}
+   
 }

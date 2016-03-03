@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace SparkPost
 {
@@ -20,13 +18,12 @@ namespace SparkPost
         {
             using (var c = new HttpClient())
             {
-                // New code:
                 c.BaseAddress = new Uri(client.ApiHost);
                 c.DefaultRequestHeaders.Accept.Clear();
                 c.DefaultRequestHeaders.Add("Authorization", client.ApiKey);
 
                 var result = await c.PostAsync(request.Method,
-                    new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(request.Data)));
+                    new StringContent(JsonConvert.SerializeObject(request.Data)));
 
                 return new Response
                 {

@@ -54,5 +54,51 @@ namespace SparkPost.Tests
                 result["list_id"].ShouldEqual(listId);
             }
         }
+
+        [TestFixture]
+        public class ContentMappingTests
+        {
+            [SetUp]
+            public void Setup()
+            {
+                content = new Content();
+                mapper = new DataMapper("v1");
+            }
+
+            private Content content;
+            private DataMapper mapper;
+
+            [Test]
+            public void from()
+            {
+                var email = Guid.NewGuid().ToString();
+                content.From.Email = email;
+                mapper.ToDictionary(content)["from"].ShouldEqual(email);
+            }
+
+            [Test]
+            public void subject()
+            {
+                var value = Guid.NewGuid().ToString();
+                content.Subject = value;
+                mapper.ToDictionary(content)["subject"].ShouldEqual(value);
+            }
+
+            [Test]
+            public void text()
+            {
+                var value = Guid.NewGuid().ToString();
+                content.Text = value;
+                mapper.ToDictionary(content)["text"].ShouldEqual(value);
+            }
+
+            [Test]
+            public void template_id()
+            {
+                var value = Guid.NewGuid().ToString();
+                content.TemplateId = value;
+                mapper.ToDictionary(content)["template_id"].ShouldEqual(value);
+            }
+        }
     }
 }

@@ -48,9 +48,10 @@ namespace SparkPost
 
         private static IDictionary<string, object> RemoveNulls(IDictionary<string, object> dictionary)
         {
-            foreach (var key in dictionary.Keys.Where(k => dictionary[k] == null).ToList())
-                dictionary.Remove(key);
-            return dictionary;
+            var newDictionary = new Dictionary<string, object>();
+            foreach (var key in dictionary.Keys.Where(k => dictionary[k] != null))
+                newDictionary[key] = dictionary[key];
+            return newDictionary;
         }
     }
 }

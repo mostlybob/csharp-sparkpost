@@ -10,33 +10,22 @@ namespace SparkPost
 {
     public class Transmissions
     {
-        private readonly string apiKey;
-        private readonly string apiHost;
+        private readonly Client client;
 
-        public Transmissions(string apiKey, string apiHost = "https://api.sparkpost.com")
+        public Transmissions(Client client)
         {
-            this.apiKey = apiKey;
-            this.apiHost = apiHost;
+            this.client = client;
         }
 
-        public async Task<HttpResponseMessage> Send(Transmission transmission)
+        public async Task<Response> Send(Transmission transmission)
         {
-            using (var client = new HttpClient())
+            var request = new Request
             {
+                Method = "api/v1/transmissions",
+                Data = transmission.ToDictionary()
+            };
 
-                // New code:
-                client.BaseAddress = new Uri(apiHost);
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Add("Authorization", apiKey);
-
-                var data = transmission.ToDictionary();
-
-                var theString = JsonConvert.SerializeObject(data);
-                var stringContent = new StringContent(JsonConvert.SerializeObject(data));
-
-                return await client.PostAsync("api/v1/transmissions", stringContent);
-            }
-
+            return await client.Process(request);
         }
     }
 

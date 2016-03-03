@@ -18,7 +18,8 @@ namespace SparkPost.Tests
         {
             apiKey = Guid.NewGuid().ToString();
             apiHost = Guid.NewGuid().ToString();
-            transmissions = new Transmissions(apiKey, apiHost);
+            var client = new Client(apiKey, apiHost);
+            transmissions = new Transmissions(client);
         }
 
         [Test]

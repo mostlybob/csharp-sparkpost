@@ -47,12 +47,15 @@
   <ItemGroup>
     <Compile Include="Address.cs" />
     <Compile Include="Attachment.cs" />
+    <Compile Include="Client.cs" />
     <Compile Include="Content.cs" />
     <Compile Include="File.cs" />
     <Compile Include="InlineImage.cs" />
     <Compile Include="Options.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Recipient.cs" />
+    <Compile Include="Request.cs" />
+    <Compile Include="Response.cs" />
     <Compile Include="Transmission.cs" />
     <Compile Include="TransmissionDemo.cs" />
   </ItemGroup>

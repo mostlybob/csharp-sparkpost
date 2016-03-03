@@ -353,5 +353,49 @@ namespace SparkPost.Tests
                     .Keys.ShouldNotContain("headers");
             }
         }
+
+        [TestFixture]
+        public class OptionsMappingTests
+        {
+            [SetUp]
+            public void Setup()
+            {
+                options = new Options();
+                mapper = new DataMapper("v1");
+            }
+
+            private DataMapper mapper;
+            private Options options;
+
+            [Test]
+            public void It_should_default_to_returning_null()
+            {
+                mapper.ToDictionary(options).ShouldBeNull();
+            }
+
+            [Test]
+            public void open_tracking()
+            {
+                options.OpenTracking = true;
+                mapper.ToDictionary(options).CastAs<IDictionary<string, object>>()
+                    ["open_tracking"].ShouldEqual("true");
+
+                options.OpenTracking = false;
+                mapper.ToDictionary(options).CastAs<IDictionary<string, object>>()
+                    ["open_tracking"].ShouldEqual("false");
+            }
+
+            [Test]
+            public void click_tracking()
+            {
+                options.ClickTracking = true;
+                mapper.ToDictionary(options).CastAs<IDictionary<string, object>>()
+                    ["click_tracking"].ShouldEqual("true");
+
+                options.ClickTracking = false;
+                mapper.ToDictionary(options).CastAs<IDictionary<string, object>>()
+                    ["click_tracking"].ShouldEqual("false");
+            }
+        }
     }
 }

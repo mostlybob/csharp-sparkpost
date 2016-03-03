@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 
@@ -50,10 +51,15 @@ namespace SparkPost
 
         public virtual IDictionary<string, object> ToDictionary(Options options)
         {
-            return RemoveNulls(new Dictionary<string, object>
-            {
-                ["click_tracking"] = options.ClickTracking.HasValue && options.ClickTracking.Value ? "true" : "false"
-            });
+            if (typeof (Options)
+                .GetProperties()
+                .Any(x => x.GetValue(options) != null))
+                return RemoveNulls(new Dictionary<string, object>
+                {
+                    ["open_tracking"] = options.OpenTracking.HasValue && options.OpenTracking.Value ? "true" : "false",
+                    ["click_tracking"] = options.ClickTracking.HasValue && options.ClickTracking.Value ? "true" : "false",
+                });
+            return null;
         }
 
         public virtual IDictionary<string, object> ToDictionary(Content content)

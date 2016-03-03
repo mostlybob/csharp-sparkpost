@@ -53,6 +53,23 @@ namespace SparkPost.Tests
                 var result = mapper.ToDictionary(transmission)["recipients"] as IDictionary<string, object>;
                 result["list_id"].ShouldEqual(listId);
             }
+
+            [Test]
+            public void campaign_id()
+            {
+                var value = Guid.NewGuid().ToString();
+                transmission.CampaignId = value;
+                mapper.ToDictionary(transmission)["campaign_id"].ShouldEqual(value);
+            }
+
+            [Test]
+            public void description()
+            {
+                var value = Guid.NewGuid().ToString();
+                transmission.Description = value;
+                mapper.ToDictionary(transmission)["description"].ShouldEqual(value);
+            }
+
         }
 
         [TestFixture]

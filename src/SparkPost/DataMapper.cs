@@ -16,6 +16,8 @@ namespace SparkPost
             return RemoveNulls(new Dictionary<string, object>
             {
                 ["content"] = ToDictionary(transmission.Content),
+                ["campaign_id"] = transmission.CampaignId,
+                ["description"] = transmission.Description,
                 ["recipients"] = BuildTheRecipientRequestFrom(transmission)
             });
         }

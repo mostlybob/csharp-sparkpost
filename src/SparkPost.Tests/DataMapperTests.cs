@@ -9,6 +9,68 @@ namespace SparkPost.Tests
     public class DataMapperTests
     {
         [TestFixture]
+        public class RecipientMappingTests
+        {
+            [SetUp]
+            public void Setup()
+            {
+                recipient = new Recipient();
+                mapper = new DataMapper("v1");
+            }
+
+            private DataMapper mapper;
+            private Recipient recipient;
+
+            [Test]
+            public void address()
+            {
+                var value = Guid.NewGuid().ToString();
+                recipient.Address.Email = value;
+                mapper.ToDictionary(recipient)
+                    ["address"]
+                    .CastAs<IDictionary<string, object>>()
+                    ["email"]
+                    .ShouldEqual(value);
+            }
+
+            [Test]
+            public void return_path()
+            {
+                var value = Guid.NewGuid().ToString();
+                recipient.ReturnPath = value;
+                mapper.ToDictionary(recipient)["return_path"].ShouldEqual(value);
+            }
+
+            [Test]
+            public void tags()
+            {
+                var tag1 = Guid.NewGuid().ToString();
+                var tag2 = Guid.NewGuid().ToString();
+                recipient.Tags.Add(tag1);
+                recipient.Tags.Add(tag2);
+                mapper.ToDictionary(recipient)
+                    ["tags"]
+                    .CastAs<IEnumerable<string>>()
+                    .Count().ShouldEqual(2);
+                mapper.ToDictionary(recipient)
+                    ["tags"]
+                    .CastAs<IEnumerable<string>>()
+                    .ShouldContain(tag1);
+                mapper.ToDictionary(recipient)
+                    ["tags"]
+                    .CastAs<IEnumerable<string>>()
+                    .ShouldContain(tag2);
+            }
+
+            [Test]
+            public void empty_tags_are_ignored()
+            {
+                mapper.ToDictionary(recipient)
+                    .Keys.ShouldNotContain("tags");
+            }
+        }
+
+        [TestFixture]
         public class AddressMappingTests
         {
             [SetUp]

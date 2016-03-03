@@ -31,6 +31,8 @@ namespace SparkPost
             return RemoveNulls(new Dictionary<string, object>
             {
                 ["address"] = ToDictionary(recipient.Address),
+                ["return_path"] = recipient.ReturnPath,
+                ["tags"] = recipient.Tags.Count > 0 ? recipient.Tags : null,
             });
         }
 

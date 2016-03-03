@@ -19,6 +19,7 @@ namespace SparkPost
                 ["campaign_id"] = transmission.CampaignId,
                 ["description"] = transmission.Description,
                 ["return_path"] = transmission.ReturnPath,
+                ["metadata"] = transmission.Metadata.Count > 0 ? transmission.Metadata : null,
                 ["recipients"] = BuildTheRecipientRequestFrom(transmission)
             });
         }

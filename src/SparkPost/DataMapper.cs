@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 
 namespace SparkPost
 {
@@ -12,29 +13,30 @@ namespace SparkPost
 
         public virtual IDictionary<string, object> ToDictionary(Transmission transmission)
         {
-            return new Dictionary<string, object>
+            return RemoveNulls(new Dictionary<string, object>
             {
                 ["content"] = ToDictionary(transmission.Content),
                 ["recipients"] = BuildTheRecipientRequestFrom(transmission)
-            };
+            });
         }
 
         public virtual IDictionary<string, object> ToDictionary(Recipient recipient)
         {
-            return new Dictionary<string, object>
+            return RemoveNulls(new Dictionary<string, object>
             {
                 ["address"] = recipient.Address.Email
-            };
+            });
         }
 
         public virtual IDictionary<string, object> ToDictionary(Content content)
         {
-            return new Dictionary<string, object>()
+            return RemoveNulls(new Dictionary<string, object>()
             {
                 ["from"] = content.From.Email,
                 ["subject"] = content.Subject,
-                ["text"] = content.Text
-            };
+                ["text"] = content.Text,
+                ["template_id"] = content.TemplateId
+            });
         }
 
         private object BuildTheRecipientRequestFrom(Transmission transmission)
@@ -42,6 +44,13 @@ namespace SparkPost
             return transmission.ListId != null
                 ? (object) new Dictionary<string, object> {["list_id"] = transmission.ListId}
                 : transmission.Recipients.Select(ToDictionary);
+        }
+
+        private static IDictionary<string, object> RemoveNulls(IDictionary<string, object> dictionary)
+        {
+            foreach (var key in dictionary.Keys.Where(k => dictionary[k] == null).ToList())
+                dictionary.Remove(key);
+            return dictionary;
         }
     }
 }

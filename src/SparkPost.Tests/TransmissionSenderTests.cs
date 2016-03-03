@@ -16,7 +16,7 @@ namespace SparkPost.Tests
         [SetUp]
         public void Setup()
         {
-            client = new Client(apiKey, apiHost);
+            client = new Client("9eeefef17e9852279cce57c44221bbbe450305c9");
         }
 
         [Test]
@@ -27,8 +27,7 @@ namespace SparkPost.Tests
                 Content =
                 {
                     From = new Address {Email = "testing@sparkpostbox.com"},
-                    Subject = "Oh hey",
-                    Text = "Testing"
+                    TemplateId = "my-first-email"
                 }
             };
 

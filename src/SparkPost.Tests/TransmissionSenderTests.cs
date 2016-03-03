@@ -1,7 +1,4 @@
-﻿using System;
-using System.Net.Http;
-using System.Threading.Tasks;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 namespace SparkPost.Tests
 {
@@ -16,7 +13,7 @@ namespace SparkPost.Tests
         [SetUp]
         public void Setup()
         {
-            client = new Client("9eeefef17e9852279cce57c44221bbbe450305c9");
+            client = new Client(apiKey, apiHost);
         }
 
         [Test]

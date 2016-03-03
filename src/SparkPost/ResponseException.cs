@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using Newtonsoft.Json;
 
 namespace SparkPost
 {
@@ -13,7 +11,6 @@ namespace SparkPost
             this.response = response;
         }
 
-        public override string Message =>
-            JsonConvert.DeserializeObject<Dictionary<string, string>>(response.Content)["errors"];
+        public override string Message => response.Content;
     }
 }

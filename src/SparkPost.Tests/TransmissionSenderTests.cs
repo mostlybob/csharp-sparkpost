@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System;
+using NUnit.Framework;
 
 namespace SparkPost.Tests
 {
@@ -13,7 +14,8 @@ namespace SparkPost.Tests
         [SetUp]
         public void Setup()
         {
-            client = new Client(apiKey, apiHost);
+            apiKey = Guid.NewGuid().ToString();
+            client = new Client(apiKey);
         }
 
         [Test]

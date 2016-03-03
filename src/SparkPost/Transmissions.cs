@@ -19,7 +19,7 @@ namespace SparkPost
         {
             var request = new Request
             {
-                Method = string.Format("api/{0}/transmissions", client.Version),
+                Method = $"api/{client.Version}/transmissions",
                 Data = dataMapper.ToDictionary(transmission)
             };
 

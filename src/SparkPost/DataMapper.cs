@@ -97,7 +97,9 @@ namespace SparkPost
         {
             return new Dictionary<string, object>()
             {
-                ["name"] = file.Name
+                ["name"] = file.Name,
+                ["type"] = file.Type,
+                ["data"] = file.Data
             };
         }
 

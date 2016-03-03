@@ -8,6 +8,7 @@ namespace SparkPost.Tests
 {
     public class DataMapperTests
     {
+
         [TestFixture]
         public class RecipientMappingTests
         {
@@ -502,6 +503,44 @@ namespace SparkPost.Tests
                 mapper.ToDictionary(options)
                     .CastAs<IDictionary<string, object>>()
                     .Keys.ShouldNotContain("start_time");
+            }
+        }
+
+        [TestFixture]
+        public class FileMappingTests
+        {
+            private File file;
+            private DataMapper mapper;
+
+            [SetUp]
+            public void Setup()
+            {
+                file = new Attachment();
+                mapper = new DataMapper("v1");
+            }
+
+            [Test]
+            public void name()
+            {
+                var value = Guid.NewGuid().ToString();
+                file.Name = value;
+                mapper.ToDictionary(file)["name"].ShouldEqual(value);
+            }
+
+            [Test]
+            public void type()
+            {
+                var value = Guid.NewGuid().ToString();
+                file.Type = value;
+                mapper.ToDictionary(file)["type"].ShouldEqual(value);
+            }
+
+            [Test]
+            public void data()
+            {
+                var value = Guid.NewGuid().ToString();
+                file.Data = value;
+                mapper.ToDictionary(file)["data"].ShouldEqual(value);
             }
         }
     }

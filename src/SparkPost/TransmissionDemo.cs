@@ -1,34 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Dynamic;
-using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 namespace SparkPost
 {
-    public class Transmissions
-    {
-        private readonly Client client;
-
-        public Transmissions(Client client)
-        {
-            this.client = client;
-        }
-
-        public async Task<Response> Send(Transmission transmission)
-        {
-            var request = new Request
-            {
-                Method = "api/v1/transmissions",
-                Data = transmission.ToDictionary()
-            };
-
-            return await client.Process(request);
-        }
-    }
-
     public class TransmissionDemo
     {
         public async Task<HttpResponseMessage> FireAnEmail(string apiKey)

@@ -28,6 +28,6 @@ namespace SparkPost
         public int TotalRecipients { get; set; }
         public int NumGenerated { get; set; }
         public int NumFailedGeneration { get; set; }
-        public int NuMInvalidRecipients { get; set; }
+        public int NumInvalidRecipients { get; set; }
     }
 }

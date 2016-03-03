@@ -49,7 +49,7 @@ namespace SparkPost
 
         public virtual IDictionary<string, object> ToDictionary(Options options)
         {
-            if (typeof (Options)
+            if (typeof(Options)
                 .GetProperties()
                 .Any(x => x.GetValue(options) != null))
                 return RemoveNulls(new Dictionary<string, object>
@@ -77,14 +77,35 @@ namespace SparkPost
                 ["html"] = content.Html,
                 ["reply_to"] = content.ReplyTo,
                 ["template_id"] = content.TemplateId,
-                ["headers"] = content.Headers.Keys.Count > 0 ? content.Headers : null
+                ["attachments"] = content.Attachments.Any() ? content.Attachments.Select(ToDictionary) : null,
+                ["inline_images"] = content.InlineImages.Any() ? content.InlineImages.Select(ToDictionary) : null,
+                ["headers"] = content.Headers.Keys.Count > 0 ? content.Headers : null,
             });
+        }
+
+        public virtual IDictionary<string, object> ToDictionary(Attachment attachment)
+        {
+            return ToDictionary(attachment as File);
+        }
+
+        public virtual IDictionary<string, object> ToDictionary(InlineImage inlineImage)
+        {
+            return ToDictionary(inlineImage as File);
+        }
+
+        public virtual IDictionary<string, object> ToDictionary(File file)
+        {
+            return new Dictionary<string, object>()
+            {
+                ["name"] = file.Name
+            };
         }
 
         private object BuildTheRecipientRequestFrom(Transmission transmission)
         {
+
             return transmission.ListId != null
-                ? (object) new Dictionary<string, object> {["list_id"] = transmission.ListId}
+                ? (object)new Dictionary<string, object> { ["list_id"] = transmission.ListId }
                 : transmission.Recipients.Select(ToDictionary);
         }
 

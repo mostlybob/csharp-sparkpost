@@ -164,7 +164,7 @@ namespace SparkPost.Tests
             public void It_should_set_the_content_dictionary()
             {
                 var email = Guid.NewGuid().ToString();
-                transmission.Content.From = new Address {Email = email};
+                transmission.Content.From = new Address { Email = email };
                 mapper.ToDictionary(transmission)["content"]
                     .CastAs<IDictionary<string, object>>()["from"].ShouldEqual(email);
             }
@@ -172,10 +172,10 @@ namespace SparkPost.Tests
             [Test]
             public void It_should_set_the_recipients()
             {
-                var recipient1 = new Recipient {Address = new Address {Email = Guid.NewGuid().ToString()}};
-                var recipient2 = new Recipient {Address = new Address {Email = Guid.NewGuid().ToString()}};
+                var recipient1 = new Recipient { Address = new Address { Email = Guid.NewGuid().ToString() } };
+                var recipient2 = new Recipient { Address = new Address { Email = Guid.NewGuid().ToString() } };
 
-                transmission.Recipients = new List<Recipient> {recipient1, recipient2};
+                transmission.Recipients = new List<Recipient> { recipient1, recipient2 };
 
                 var result = mapper.ToDictionary(transmission)["recipients"] as IEnumerable<IDictionary<string, object>>;
                 result.Count().ShouldEqual(2);
@@ -351,6 +351,54 @@ namespace SparkPost.Tests
             {
                 mapper.ToDictionary(content)
                     .Keys.ShouldNotContain("headers");
+            }
+
+            [Test]
+            public void attachments()
+            {
+                var firstName = Guid.NewGuid().ToString();
+                var secondName = Guid.NewGuid().ToString();
+                content.Attachments.Add(new Attachment { Name = firstName });
+                content.Attachments.Add(new Attachment { Name = secondName });
+
+                var mappedAttachments = mapper.ToDictionary(content)["attachments"];
+                var names = mappedAttachments
+                    .CastAs<IEnumerable<IDictionary<string, object>>>()
+                    .Select(x => x["name"]);
+
+                names.Count().ShouldEqual(2);
+                names.ShouldContain(firstName);
+                names.ShouldContain(secondName);
+            }
+
+            [Test]
+            public void no_attachments_should_not_include_the_attachments_block()
+            {
+                mapper.ToDictionary(content).Keys.ShouldNotContain("attachments");
+            }
+
+            [Test]
+            public void inline_images()
+            {
+                var firstName = Guid.NewGuid().ToString();
+                var secondName = Guid.NewGuid().ToString();
+                content.InlineImages.Add(new InlineImage { Name = firstName });
+                content.InlineImages.Add(new InlineImage { Name = secondName });
+
+                var mappedAttachments = mapper.ToDictionary(content)["inline_images"];
+                var names = mappedAttachments
+                    .CastAs<IEnumerable<IDictionary<string, object>>>()
+                    .Select(x => x["name"]);
+
+                names.Count().ShouldEqual(2);
+                names.ShouldContain(firstName);
+                names.ShouldContain(secondName);
+            }
+
+            [Test]
+            public void no_inline_images_should_not_include_the_inline_images_block()
+            {
+                mapper.ToDictionary(content).Keys.ShouldNotContain("inline_images");
             }
         }
 

@@ -99,6 +99,22 @@ namespace SparkPost.Tests
             {
                 mapper.ToDictionary(transmission).Keys.ShouldNotContain("metadata");
             }
+
+            [Test]
+            public void substitution_data()
+            {
+                var key = Guid.NewGuid().ToString();
+                var value = Guid.NewGuid().ToString();
+                transmission.SubstitutionData[key] = value;
+                mapper.ToDictionary(transmission)["substitution_data"]
+                    .CastAs<IDictionary<string, string>>()[key].ShouldEqual(value);
+            }
+
+            [Test]
+            public void do_not_include_empty_substitution_data()
+            {
+                mapper.ToDictionary(transmission).Keys.ShouldNotContain("substitution_data");
+            }
         }
 
         [TestFixture]

@@ -20,6 +20,7 @@ namespace SparkPost
                 ["description"] = transmission.Description,
                 ["return_path"] = transmission.ReturnPath,
                 ["metadata"] = transmission.Metadata.Count > 0 ? transmission.Metadata : null,
+                ["substitution_data"] = transmission.SubstitutionData.Count > 0 ? transmission.SubstitutionData : null,
                 ["recipients"] = BuildTheRecipientRequestFrom(transmission)
             });
         }

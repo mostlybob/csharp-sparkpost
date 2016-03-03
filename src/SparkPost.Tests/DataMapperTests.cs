@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Moq;
 using NUnit.Framework;
 using Should;
 
@@ -14,15 +11,15 @@ namespace SparkPost.Tests
         [TestFixture]
         public class TransmissionMappingTests
         {
-            private Transmission transmission;
-            private DataMapper mapper;
-
             [SetUp]
             public void Setup()
             {
                 transmission = new Transmission();
                 mapper = new DataMapper("v1");
             }
+
+            private Transmission transmission;
+            private DataMapper mapper;
 
             [Test]
             public void It_should_set_the_content_dictionary()
@@ -56,7 +53,6 @@ namespace SparkPost.Tests
                 var result = mapper.ToDictionary(transmission)["recipients"] as IDictionary<string, object>;
                 result["list_id"].ShouldEqual(listId);
             }
-
         }
     }
 }

@@ -34,6 +34,10 @@
       <HintPath>..\packages\AutoMoq.1.7.0.0\lib\net452\AutoMoq.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="CastAs, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\CastAs.4.0\lib\CastAs.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Unity.2.0\lib\20\Microsoft.Practices.ServiceLocation.dll</HintPath>
       <Private>True</Private>

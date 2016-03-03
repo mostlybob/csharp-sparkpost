@@ -14,16 +14,34 @@ namespace SparkPost
         {
             return new Dictionary<string, object>
             {
-                ["content"] = transmission.Content.ToDictionary(),
+                ["content"] = ToDictionary(transmission.Content),
                 ["recipients"] = BuildTheRecipientRequestFrom(transmission)
             };
         }
 
-        private static object BuildTheRecipientRequestFrom(Transmission transmission)
+        public virtual IDictionary<string, object> ToDictionary(Recipient recipient)
+        {
+            return new Dictionary<string, object>
+            {
+                ["address"] = recipient.Address.Email
+            };
+        }
+
+        public virtual IDictionary<string, object> ToDictionary(Content content)
+        {
+            return new Dictionary<string, object>()
+            {
+                ["from"] = content.From.Email,
+                ["subject"] = content.Subject,
+                ["text"] = content.Text
+            };
+        }
+
+        private object BuildTheRecipientRequestFrom(Transmission transmission)
         {
             return transmission.ListId != null
                 ? (object) new Dictionary<string, object> {["list_id"] = transmission.ListId}
-                : transmission.Recipients.Select(x => x.ToDictionary());
+                : transmission.Recipients.Select(ToDictionary);
         }
     }
 }

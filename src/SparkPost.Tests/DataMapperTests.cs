@@ -70,6 +70,19 @@ namespace SparkPost.Tests
                 mapper.ToDictionary(transmission)["description"].ShouldEqual(value);
             }
 
+            [Test]
+            public void return_path()
+            {
+                var value = Guid.NewGuid().ToString();
+                transmission.ReturnPath = value;
+                mapper.ToDictionary(transmission)["return_path"].ShouldEqual(value);
+            }
+
+            [Test]
+            public void do_not_send_the_return_path_if_it_is_not_provided()
+            {
+                mapper.ToDictionary(transmission).Keys.ShouldNotContain("return_path");
+            }
         }
 
         [TestFixture]

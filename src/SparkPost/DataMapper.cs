@@ -18,6 +18,7 @@ namespace SparkPost
                 ["content"] = ToDictionary(transmission.Content),
                 ["campaign_id"] = transmission.CampaignId,
                 ["description"] = transmission.Description,
+                ["return_path"] = transmission.ReturnPath,
                 ["recipients"] = BuildTheRecipientRequestFrom(transmission)
             });
         }

@@ -433,6 +433,28 @@ namespace SparkPost.Tests
                     ["skip_suppression"].ShouldEqual("false");
             }
 
+            [Test]
+            public void start_time()
+            {
+                var startTime = "2015-02-11T08:00:00-04:00";
+                options.StartTime = DateTimeOffset.Parse(startTime);
+                mapper.ToDictionary(options).CastAs<IDictionary<string, object>>()
+                    ["start_time"].ShouldEqual(startTime);
+
+                startTime = "2015-02-11T08:00:00-14:00";
+                options.StartTime = DateTimeOffset.Parse(startTime);
+                mapper.ToDictionary(options).CastAs<IDictionary<string, object>>()
+                    ["start_time"].ShouldEqual(startTime);
+            }
+
+            [Test]
+            public void hide_start_time_if_it_is_missing()
+            {
+                options.OpenTracking = true;
+                mapper.ToDictionary(options)
+                    .CastAs<IDictionary<string, object>>()
+                    .Keys.ShouldNotContain("start_time");
+            }
         }
     }
 }

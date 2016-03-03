@@ -56,6 +56,7 @@ namespace SparkPost
                 .Any(x => x.GetValue(options) != null))
                 return RemoveNulls(new Dictionary<string, object>
                 {
+                    ["start_time"] = options.StartTime.HasValue ? String.Format("{0:s}{0:zzz}", options.StartTime.Value) : null,
                     ["open_tracking"] = options.OpenTracking.HasValue && options.OpenTracking.Value ? "true" : "false",
                     ["click_tracking"] = options.ClickTracking.HasValue && options.ClickTracking.Value ? "true" : "false",
                     ["transactional"] = options.Transactional.HasValue && options.Transactional.Value ? "true" : "false",

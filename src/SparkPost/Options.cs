@@ -4,7 +4,7 @@ namespace SparkPost
 {
     public class Options
     {
-        public DateTime? StartTime { get; set; }
+        public DateTimeOffset? StartTime { get; set; }
         public bool? OpenTracking { get; set; }
         public bool? ClickTracking { get; set; }
         public bool? Transactional { get; set; }

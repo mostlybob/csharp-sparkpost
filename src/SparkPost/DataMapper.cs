@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography;
 
 namespace SparkPost
 {
@@ -35,7 +33,7 @@ namespace SparkPost
                 ["return_path"] = recipient.ReturnPath,
                 ["tags"] = recipient.Tags.Count > 0 ? recipient.Tags : null,
                 ["metadata"] = recipient.Metadata.Count > 0 ? recipient.Metadata : null,
-                ["substitution_data"] = recipient.SubstitutionData.Count > 0 ? recipient.SubstitutionData : null,
+                ["substitution_data"] = recipient.SubstitutionData.Count > 0 ? recipient.SubstitutionData : null
             });
         }
 
@@ -45,7 +43,7 @@ namespace SparkPost
             {
                 ["email"] = address.Email,
                 ["name"] = address.Name,
-                ["header_to"] = address.HeaderTo,
+                ["header_to"] = address.HeaderTo
             });
         }
 
@@ -56,19 +54,22 @@ namespace SparkPost
                 .Any(x => x.GetValue(options) != null))
                 return RemoveNulls(new Dictionary<string, object>
                 {
-                    ["start_time"] = options.StartTime.HasValue ? String.Format("{0:s}{0:zzz}", options.StartTime.Value) : null,
+                    ["start_time"] =
+                        options.StartTime.HasValue ? string.Format("{0:s}{0:zzz}", options.StartTime.Value) : null,
                     ["open_tracking"] = options.OpenTracking.HasValue && options.OpenTracking.Value ? "true" : "false",
-                    ["click_tracking"] = options.ClickTracking.HasValue && options.ClickTracking.Value ? "true" : "false",
+                    ["click_tracking"] =
+                        options.ClickTracking.HasValue && options.ClickTracking.Value ? "true" : "false",
                     ["transactional"] = options.Transactional.HasValue && options.Transactional.Value ? "true" : "false",
                     ["sandbox"] = options.Sandbox.HasValue && options.Sandbox.Value ? "true" : "false",
-                    ["skip_suppression"] = options.SkipSuppression.HasValue && options.SkipSuppression.Value ? "true" : "false",
+                    ["skip_suppression"] =
+                        options.SkipSuppression.HasValue && options.SkipSuppression.Value ? "true" : "false"
                 });
             return null;
         }
 
         public virtual IDictionary<string, object> ToDictionary(Content content)
         {
-            return RemoveNulls(new Dictionary<string, object>()
+            return RemoveNulls(new Dictionary<string, object>
             {
                 ["from"] = content.From.Email,
                 ["subject"] = content.Subject,
@@ -76,7 +77,7 @@ namespace SparkPost
                 ["html"] = content.Html,
                 ["reply_to"] = content.ReplyTo,
                 ["template_id"] = content.TemplateId,
-                ["headers"] = content.Headers.Keys.Count > 0 ? content.Headers : null,
+                ["headers"] = content.Headers.Keys.Count > 0 ? content.Headers : null
             });
         }
 

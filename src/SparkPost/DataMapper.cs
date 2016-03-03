@@ -35,7 +35,10 @@ namespace SparkPost
                 ["from"] = content.From.Email,
                 ["subject"] = content.Subject,
                 ["text"] = content.Text,
-                ["template_id"] = content.TemplateId
+                ["html"] = content.Html,
+                ["reply_to"] = content.ReplyTo,
+                ["template_id"] = content.TemplateId,
+                ["headers"] = content.Headers.Keys.Count > 0 ? content.Headers : null,
             });
         }
 

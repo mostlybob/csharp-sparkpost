@@ -99,6 +99,40 @@ namespace SparkPost.Tests
                 content.TemplateId = value;
                 mapper.ToDictionary(content)["template_id"].ShouldEqual(value);
             }
+
+            [Test]
+            public void html()
+            {
+                var value = Guid.NewGuid().ToString();
+                content.Html = value;
+                mapper.ToDictionary(content)["html"].ShouldEqual(value);
+            }
+
+            [Test]
+            public void reply_to()
+            {
+                var value = Guid.NewGuid().ToString();
+                content.ReplyTo = value;
+                mapper.ToDictionary(content)["reply_to"].ShouldEqual(value);
+            }
+
+            [Test]
+            public void headers()
+            {
+                var key = Guid.NewGuid().ToString();
+                var value = Guid.NewGuid().ToString();
+                content.Headers[key] = value;
+                mapper.ToDictionary(content)["headers"]
+                    .CastAs<IDictionary<string, string>>()
+                    [key].ShouldEqual(value);
+            }
+
+            [Test]
+            public void do_not_include_empty_headers()
+            {
+                mapper.ToDictionary(content)
+                    .Keys.ShouldNotContain("headers");
+            }
         }
     }
 }

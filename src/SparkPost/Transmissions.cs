@@ -6,7 +6,7 @@ namespace SparkPost
     {
         private readonly Client client;
         private readonly RequestSender requestSender;
-        private DataMapper dataMapper;
+        private readonly DataMapper dataMapper;
 
         public Transmissions(Client client)
         {

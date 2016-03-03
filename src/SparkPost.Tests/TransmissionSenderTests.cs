@@ -9,17 +9,14 @@ namespace SparkPost.Tests
     [TestFixture]
     public class TransmissionsTests
     {
-        private Transmissions transmissions;
         private string apiKey;
         private string apiHost;
+        private Client client;
 
         [SetUp]
         public void Setup()
         {
-            apiKey = Guid.NewGuid().ToString();
-            apiHost = Guid.NewGuid().ToString();
-            var client = new Client(apiKey, apiHost);
-            transmissions = new Transmissions(client);
+            client = new Client(apiKey, apiHost);
         }
 
         [Test]
@@ -37,8 +34,8 @@ namespace SparkPost.Tests
 
             transmission.Recipients.Add(new Recipient {Address = new Address {Email = "darren@cauthon.com"}});
 
-            var send = transmissions.Send(transmission);
-            send.Wait();
+            var result = client.Transmissions.Send(transmission);
+            result.Wait();
         }
     }
 

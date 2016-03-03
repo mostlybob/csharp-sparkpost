@@ -115,6 +115,20 @@ namespace SparkPost.Tests
             {
                 mapper.ToDictionary(transmission).Keys.ShouldNotContain("substitution_data");
             }
+
+            [Test]
+            public void options()
+            {
+                transmission.Options.ClickTracking = true;
+                mapper.ToDictionary(transmission)["options"]
+                    .CastAs<IDictionary<string, object>>()
+                    ["click_tracking"].ShouldEqual("true");
+
+                transmission.Options.ClickTracking = false;
+                mapper.ToDictionary(transmission)["options"]
+                    .CastAs<IDictionary<string, object>>()
+                    ["click_tracking"].ShouldEqual("false");
+            }
         }
 
         [TestFixture]

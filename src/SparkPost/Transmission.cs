@@ -10,6 +10,7 @@ namespace SparkPost
             Metadata = new Dictionary<string, string>();
             SubstitutionData = new Dictionary<string, string>();
             Content = new Content();
+            Options = new Options();
         }
 
         public string Id { get; set; }

@@ -20,6 +20,7 @@ namespace SparkPost
                 ["description"] = transmission.Description,
                 ["return_path"] = transmission.ReturnPath,
                 ["metadata"] = transmission.Metadata.Count > 0 ? transmission.Metadata : null,
+                ["options"] = ToDictionary(transmission.Options),
                 ["substitution_data"] = transmission.SubstitutionData.Count > 0 ? transmission.SubstitutionData : null,
                 ["recipients"] = BuildTheRecipientRequestFrom(transmission)
             });
@@ -30,6 +31,14 @@ namespace SparkPost
             return RemoveNulls(new Dictionary<string, object>
             {
                 ["address"] = recipient.Address.Email
+            });
+        }
+
+        public virtual IDictionary<string, object> ToDictionary(Options options)
+        {
+            return RemoveNulls(new Dictionary<string, object>
+            {
+                ["click_tracking"] = options.ClickTracking.HasValue && options.ClickTracking.Value ? "true" : "false"
             });
         }
 

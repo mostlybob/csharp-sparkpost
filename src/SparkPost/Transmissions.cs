@@ -8,11 +8,11 @@ namespace SparkPost
         private readonly RequestSender requestSender;
         private readonly DataMapper dataMapper;
 
-        public Transmissions(Client client)
+        public Transmissions(Client client, RequestSender requestSender, DataMapper dataMapper)
         {
             this.client = client;
-            requestSender = new RequestSender(client);
-            dataMapper = new DataMapper("v1");
+            this.requestSender = requestSender;
+            this.dataMapper = dataMapper;
         }
 
         public async Task<Response> Send(Transmission transmission)

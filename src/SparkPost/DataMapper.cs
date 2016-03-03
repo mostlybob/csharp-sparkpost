@@ -58,6 +58,9 @@ namespace SparkPost
                 {
                     ["open_tracking"] = options.OpenTracking.HasValue && options.OpenTracking.Value ? "true" : "false",
                     ["click_tracking"] = options.ClickTracking.HasValue && options.ClickTracking.Value ? "true" : "false",
+                    ["transactional"] = options.Transactional.HasValue && options.Transactional.Value ? "true" : "false",
+                    ["sandbox"] = options.Sandbox.HasValue && options.Sandbox.Value ? "true" : "false",
+                    ["skip_suppression"] = options.SkipSuppression.HasValue && options.SkipSuppression.Value ? "true" : "false",
                 });
             return null;
         }

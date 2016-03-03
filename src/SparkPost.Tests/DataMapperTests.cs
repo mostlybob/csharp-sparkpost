@@ -396,6 +396,43 @@ namespace SparkPost.Tests
                 mapper.ToDictionary(options).CastAs<IDictionary<string, object>>()
                     ["click_tracking"].ShouldEqual("false");
             }
+
+            [Test]
+            public void transactional()
+            {
+                options.Transactional = true;
+                mapper.ToDictionary(options).CastAs<IDictionary<string, object>>()
+                    ["transactional"].ShouldEqual("true");
+
+                options.Transactional = false;
+                mapper.ToDictionary(options).CastAs<IDictionary<string, object>>()
+                    ["transactional"].ShouldEqual("false");
+            }
+
+            [Test]
+            public void sandbox()
+            {
+                options.Sandbox = true;
+                mapper.ToDictionary(options).CastAs<IDictionary<string, object>>()
+                    ["sandbox"].ShouldEqual("true");
+
+                options.Sandbox = false;
+                mapper.ToDictionary(options).CastAs<IDictionary<string, object>>()
+                    ["sandbox"].ShouldEqual("false");
+            }
+
+            [Test]
+            public void skip_suppression()
+            {
+                options.SkipSuppression = true;
+                mapper.ToDictionary(options).CastAs<IDictionary<string, object>>()
+                    ["skip_suppression"].ShouldEqual("true");
+
+                options.SkipSuppression = false;
+                mapper.ToDictionary(options).CastAs<IDictionary<string, object>>()
+                    ["skip_suppression"].ShouldEqual("false");
+            }
+
         }
     }
 }

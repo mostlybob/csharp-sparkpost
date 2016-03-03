@@ -44,6 +44,13 @@ namespace SparkPost.Tests
                 address.HeaderTo = value;
                 mapper.ToDictionary(address)["header_to"].ShouldEqual(value);
             }
+
+            [Test]
+            public void header_to_is_not_returned_if_empty()
+            {
+                mapper.ToDictionary(address)
+                    .Keys.ShouldNotContain("header_to");
+            }
         }
 
         [TestFixture]

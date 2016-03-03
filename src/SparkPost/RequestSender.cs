@@ -22,7 +22,7 @@ namespace SparkPost
                 c.DefaultRequestHeaders.Accept.Clear();
                 c.DefaultRequestHeaders.Add("Authorization", client.ApiKey);
 
-                var result = await c.PostAsync(request.Method,
+                var result = await c.PostAsync(request.Url,
                     new StringContent(JsonConvert.SerializeObject(request.Data)));
 
                 return new Response

@@ -1,4 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Net;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace SparkPost
 {
@@ -15,7 +18,7 @@ namespace SparkPost
             this.dataMapper = dataMapper;
         }
 
-        public async Task<Response> Send(Transmission transmission)
+        public async Task<SendTransmissionResponse> Send(Transmission transmission)
         {
             var request = new Request
             {
@@ -23,7 +26,19 @@ namespace SparkPost
                 Data = dataMapper.ToDictionary(transmission)
             };
 
-            return await requestSender.Send(request);
+            var response = await requestSender.Send(request);
+            if (response.StatusCode != HttpStatusCode.OK) throw new ResponseException(response);
+
+            var results = JsonConvert.DeserializeObject<dynamic>(response.Content).results;
+            return new SendTransmissionResponse()
+            {
+                Id = results.id,
+                ReasonPhrase = response.ReasonPhrase,
+                StatusCode = response.StatusCode,
+                Content = response.Content,
+                TotalAcceptedRecipients = results.total_accepted_recipients,
+                TotalRejectedRecipients = results.total_rejected_recipients,
+            };
         }
     }
 }

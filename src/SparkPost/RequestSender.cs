@@ -28,7 +28,8 @@ namespace SparkPost
                 return new Response
                 {
                     StatusCode = result.StatusCode,
-                    ReasonPhrase = result.ReasonPhrase
+                    ReasonPhrase = result.ReasonPhrase,
+                    Content = await result.Content.ReadAsStringAsync(),
                 };
             }
         }

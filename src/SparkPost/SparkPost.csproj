@@ -58,6 +58,8 @@
     <Compile Include="Request.cs" />
     <Compile Include="RequestSender.cs" />
     <Compile Include="Response.cs" />
+    <Compile Include="ResponseException.cs" />
+    <Compile Include="SendTransmissionResponse.cs" />
     <Compile Include="Transmission.cs" />
     <Compile Include="TransmissionDemo.cs" />
     <Compile Include="Transmissions.cs" />

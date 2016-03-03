@@ -1,4 +1,5 @@
 using System.Net;
+using System.Threading.Tasks;
 
 namespace SparkPost
 {
@@ -6,5 +7,6 @@ namespace SparkPost
     {
         public HttpStatusCode StatusCode { get; set; }
         public string ReasonPhrase { get; set; }
+        public string Content { get; set; }
     }
 }

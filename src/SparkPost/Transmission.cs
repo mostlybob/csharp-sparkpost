@@ -7,8 +7,8 @@ namespace SparkPost
         public Transmission()
         {
             Recipients = new List<Recipient>();
-            Metadata = new Dictionary<string, string>();
-            SubstitutionData = new Dictionary<string, string>();
+            Metadata = new Dictionary<string, object>();
+            SubstitutionData = new Dictionary<string, object>();
             Content = new Content();
             Options = new Options();
         }
@@ -22,8 +22,8 @@ namespace SparkPost
 
         public string CampaignId { get; set; }
         public string Description { get; set; }
-        public IDictionary<string, string> Metadata { get; set; }
-        public IDictionary<string, string> SubstitutionData { get; set; }
+        public IDictionary<string, object> Metadata { get; set; }
+        public IDictionary<string, object> SubstitutionData { get; set; }
         public string ReturnPath { get; set; }
         public Content Content { get; set; }
         public int TotalRecipients { get; set; }

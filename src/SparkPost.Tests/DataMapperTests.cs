@@ -77,7 +77,7 @@ namespace SparkPost.Tests
                 var value = Guid.NewGuid().ToString();
                 recipient.Metadata[key] = value;
                 mapper.ToDictionary(recipient)["metadata"]
-                    .CastAs<IDictionary<string, string>>()[key].ShouldEqual(value);
+                    .CastAs<IDictionary<string, object>>()[key].ShouldEqual(value);
             }
 
             [Test]
@@ -93,7 +93,7 @@ namespace SparkPost.Tests
                 var value = Guid.NewGuid().ToString();
                 recipient.SubstitutionData[key] = value;
                 mapper.ToDictionary(recipient)["substitution_data"]
-                    .CastAs<IDictionary<string, string>>()[key].ShouldEqual(value);
+                    .CastAs<IDictionary<string, object>>()[key].ShouldEqual(value);
             }
 
             [Test]
@@ -235,7 +235,7 @@ namespace SparkPost.Tests
                 var value = Guid.NewGuid().ToString();
                 transmission.Metadata[key] = value;
                 mapper.ToDictionary(transmission)["metadata"]
-                    .CastAs<IDictionary<string, string>>()[key].ShouldEqual(value);
+                    .CastAs<IDictionary<string, object>>()[key].ShouldEqual(value);
             }
 
             [Test]
@@ -251,7 +251,7 @@ namespace SparkPost.Tests
                 var value = Guid.NewGuid().ToString();
                 transmission.SubstitutionData[key] = value;
                 mapper.ToDictionary(transmission)["substitution_data"]
-                    .CastAs<IDictionary<string, string>>()[key].ShouldEqual(value);
+                    .CastAs<IDictionary<string, object>>()[key].ShouldEqual(value);
             }
 
             [Test]

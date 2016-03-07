@@ -25,11 +25,11 @@ transmission.Content.Html = "<b>My HTML Content</b>";
 
 var recipient = new Recipient
 {
-    Address = new Address { Email = "my@email.com }
+    Address = new Address { Email = "my@email.com" }
 };
 transmissionission.Recipients.Add(recipient);
 
-var client = new Client("MY_API_KEY);
+var client = new Client("MY_API_KEY");
 client.Transmissions.Send(transmission)
 
 ```
@@ -42,7 +42,7 @@ transmission.Content.TemplateId = "my-template-id";
 transmission.Content.From.Email = "no-reply@myemail.com";
 
 transmission.SubstitutionData["first_name"] = "John";
-transmission.SparkPostubstitutionData["last_name"] = "Doe";
+transmission.SubstitutionData["last_name"] = "Doe";
 
 var orders = new List<Order>
 {
@@ -55,7 +55,7 @@ transmission.SubstitutionData["orders"] = orders;
 
 var recipient = new Recipient
 {
-    Address = new Address { Email = "my@email.com }
+    Address = new Address { Email = "my@email.com" }
 };
 
 transmissionission.Recipients.Add(recipient);

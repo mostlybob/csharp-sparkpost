@@ -62,7 +62,7 @@ var recipient = new Recipient
     Address = new Address { Email = "my@email.com" }
 };
 
-transmissionission.Recipients.Add(recipient);
+transmission.Recipients.Add(recipient);
 
 var client = new Client("MY_API_KEY);
 client.Transmissions.Send(transmission)

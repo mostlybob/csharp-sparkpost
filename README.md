@@ -34,7 +34,7 @@ var recipient = new Recipient
 transmissionission.Recipients.Add(recipient);
 
 var client = new Client("MY_API_KEY");
-client.Transmissions.Send(transmission)
+client.Transmissions.Send(transmission);
 
 ```
 
@@ -65,7 +65,7 @@ var recipient = new Recipient
 transmission.Recipients.Add(recipient);
 
 var client = new Client("MY_API_KEY);
-client.Transmissions.Send(transmission)
+client.Transmissions.Send(transmission);
 
 ```
 

@@ -8,7 +8,11 @@ The official C# package for the [SparkPost API](https://www.sparkpost.com/api).
 
 ## Installation
 
-This library can be found on Nuget at ?
+To install via NuGet, run the following command in the [Package Manager Console](http://docs.nuget.org/consume/package-manager-console):
+
+```
+PM> Install-Package SparkPost
+```
 
 Alternatively, you can get the latest dll from the releases tab.  You can also download this code and compile it yourself.
 

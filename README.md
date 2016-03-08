@@ -22,10 +22,10 @@ To send an email:
 
 ```c#
 var transmission = new Transmission();
-transmission.Content.From.Email = "no-reply@myemail.com";
-transmission.Content.Subject = "My Email Subject";
-transmission.Content.Text = "my text content";
-transmission.Content.Html = "<b>My HTML Content</b>";
+transmission.Content.From.Email = "testing@sparkpostbox.com";;
+transmission.Content.Subject = "Oh hey!";
+transmission.Content.Text = "Testing SparkPost - the world\'s most awesomest email service!";
+transmission.Content.Html = "<html><body><p>Testing SparkPost - the world\'s most awesomest email service!</p></body></html>";
 
 var recipient = new Recipient
 {
@@ -33,7 +33,7 @@ var recipient = new Recipient
 };
 transmission.Recipients.Add(recipient);
 
-var client = new Client("MY_API_KEY");
+var client = new Client("<YOUR API KEY>");
 client.Transmissions.Send(transmission);
 
 ```
@@ -43,7 +43,7 @@ To send a template email:
 ```c#
 var transmission = new Transmission();
 transmission.Content.TemplateId = "my-template-id";
-transmission.Content.From.Email = "no-reply@myemail.com";
+transmission.Content.From.Email = "testing@sparkpostbox.com";
 
 transmission.SubstitutionData["first_name"] = "John";
 transmission.SubstitutionData["last_name"] = "Doe";

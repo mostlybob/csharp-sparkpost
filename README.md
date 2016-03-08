@@ -31,7 +31,7 @@ var recipient = new Recipient
 {
     Address = new Address { Email = "my@email.com" }
 };
-transmissionission.Recipients.Add(recipient);
+transmission.Recipients.Add(recipient);
 
 var client = new Client("MY_API_KEY");
 client.Transmissions.Send(transmission);
@@ -53,6 +53,7 @@ var orders = new List<Order>
     new Order { OrderId = "1", Total = 101 },
     new Order { OrderId = "2", Total = 304 }
 };
+
 // you can pass more complicated data, so long as it
 // can be parsed easily to JSON
 transmission.SubstitutionData["orders"] = orders;
@@ -61,7 +62,6 @@ var recipient = new Recipient
 {
     Address = new Address { Email = "my@email.com" }
 };
-
 transmission.Recipients.Add(recipient);
 
 var client = new Client("MY_API_KEY);

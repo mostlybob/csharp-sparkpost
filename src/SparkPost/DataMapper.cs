@@ -91,12 +91,7 @@ namespace SparkPost
 
         public virtual IDictionary<string, object> ToDictionary(File file)
         {
-            return new Dictionary<string, object>()
-            {
-                ["name"] = file.Name,
-                ["type"] = file.Type,
-                ["data"] = file.Data
-            };
+            return WithCommonConventions(file);
         }
 
         private object BuildTheRecipientRequestFrom(Transmission transmission)

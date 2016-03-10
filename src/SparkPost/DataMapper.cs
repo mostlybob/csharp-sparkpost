@@ -28,10 +28,9 @@ namespace SparkPost
 
         public virtual IDictionary<string, object> ToDictionary(Recipient recipient)
         {
-            return RemoveNulls(new Dictionary<string, object>
+            return WithCommonConventions(recipient, new Dictionary<string, object>()
             {
                 ["address"] = ToDictionary(recipient.Address),
-                ["return_path"] = recipient.ReturnPath,
                 ["tags"] = recipient.Tags.Count > 0 ? recipient.Tags : null,
                 ["metadata"] = recipient.Metadata.Count > 0 ? recipient.Metadata : null,
                 ["substitution_data"] = recipient.SubstitutionData.Count > 0 ? recipient.SubstitutionData : null
@@ -110,11 +109,15 @@ namespace SparkPost
             return newDictionary;
         }
 
-        private IDictionary<string, object> WithCommonConventions(object target)
+        private IDictionary<string, object> WithCommonConventions(object target, IDictionary<string, object> results = null)
         {
-            var results = new Dictionary<string, object>();
+            if (results == null) results = new Dictionary<string, object>();
             foreach (var property in target.GetType().GetProperties())
-                results[ToSnakeCase(property.Name)] = property.GetValue(target);
+            {
+                var name = ToSnakeCase(property.Name);
+                if (results.ContainsKey(name) == false)
+                    results[name] = property.GetValue(target);
+            }
             return RemoveNulls(results);
         }
 

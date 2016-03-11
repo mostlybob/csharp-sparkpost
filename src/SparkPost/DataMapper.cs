@@ -52,17 +52,10 @@ namespace SparkPost
             if (typeof(Options)
                 .GetProperties()
                 .Any(x => x.GetValue(options) != null))
-                return RemoveNulls(new Dictionary<string, object>
+                return WithCommonConventions(options, new Dictionary<string, object>
                 {
                     ["start_time"] =
                         options.StartTime.HasValue ? string.Format("{0:s}{0:zzz}", options.StartTime.Value) : null,
-                    ["open_tracking"] = options.OpenTracking.HasValue && options.OpenTracking.Value ? "true" : "false",
-                    ["click_tracking"] =
-                        options.ClickTracking.HasValue && options.ClickTracking.Value ? "true" : "false",
-                    ["transactional"] = options.Transactional.HasValue && options.Transactional.Value ? "true" : "false",
-                    ["sandbox"] = options.Sandbox.HasValue && options.Sandbox.Value ? "true" : "false",
-                    ["skip_suppression"] =
-                        options.SkipSuppression.HasValue && options.SkipSuppression.Value ? "true" : "false"
                 });
             return null;
         }
@@ -125,6 +118,9 @@ namespace SparkPost
                 var dictionary = dictionaryConverters[propertyType].Invoke(this, BindingFlags.Default, null,
                     new[] {value}, CultureInfo.CurrentCulture);
                 value = dictionary;
+            }else if (value != null && value is bool?)
+            {
+                value = value as bool? == true ? "true" : "false";
             }
             else if (value != null && value.GetType() != typeof (string) &&
                      (value as IDictionary<string, object>) != null)

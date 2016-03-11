@@ -132,12 +132,10 @@ namespace SparkPost
                 var dictionary = (IDictionary<string, string>) value;
                 value = (dictionary.Count > 0) ? dictionary : null;
             }
-            else if (value != null && value.GetType() != typeof(string) && (value as IEnumerable) != null)
+            else if (value != null && value.GetType() != typeof(string) && value is IEnumerable)
             {
-                var collection = (IEnumerable) value;
-                var things = new List<object>();
-                foreach (var thing in collection)
-                    things.Add(GetTheValue(thing.GetType(), thing));
+                var things = (from object thing in (IEnumerable) value
+                    select GetTheValue(thing.GetType(), thing)).ToList();
                 value = things.Count > 0 ? things : null;
             }
             return value;

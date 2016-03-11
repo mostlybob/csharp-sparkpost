@@ -93,7 +93,6 @@ namespace SparkPost
 
         private object BuildTheRecipientRequestFrom(Transmission transmission)
         {
-
             return transmission.ListId != null
                 ? (object)new Dictionary<string, object> { ["list_id"] = transmission.ListId }
                 : transmission.Recipients.Select(ToDictionary);

@@ -52,11 +52,7 @@ namespace SparkPost
             if (typeof(Options)
                 .GetProperties()
                 .Any(x => x.GetValue(options) != null))
-                return WithCommonConventions(options, new Dictionary<string, object>
-                {
-                    ["start_time"] =
-                        options.StartTime.HasValue ? string.Format("{0:s}{0:zzz}", options.StartTime.Value) : null,
-                });
+                return WithCommonConventions(options, new Dictionary<string, object>());
             return null;
         }
 
@@ -118,9 +114,15 @@ namespace SparkPost
                 var dictionary = dictionaryConverters[propertyType].Invoke(this, BindingFlags.Default, null,
                     new[] {value}, CultureInfo.CurrentCulture);
                 value = dictionary;
-            }else if (value is bool?)
+            }
+            else if (value is bool?)
             {
                 value = value as bool? == true ? "true" : "false";
+            }
+            else if (value is DateTimeOffset?)
+            {
+                var date = value as DateTimeOffset?;
+                value = date.HasValue ? string.Format("{0:s}{0:zzz}", date) : null;
             }
             else if (value != null && value.GetType() != typeof (string) &&
                      (value as IDictionary<string, object>) != null)

@@ -125,12 +125,12 @@ namespace SparkPost
             else if (value is IDictionary<string, object>)
             {
                 var dictionary = (IDictionary<string, object>) value;
-                value = (dictionary.Count > 0) ? dictionary : null;
+                value = dictionary.Count > 0 ? dictionary : null;
             }
             else if (value is IDictionary<string, string>)
             {
                 var dictionary = (IDictionary<string, string>) value;
-                value = (dictionary.Count > 0) ? dictionary : null;
+                value = dictionary.Count > 0 ? dictionary : null;
             }
             else if (value != null && value.GetType() != typeof(string) && value is IEnumerable)
             {

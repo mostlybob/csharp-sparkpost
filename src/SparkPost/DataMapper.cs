@@ -61,14 +61,9 @@ namespace SparkPost
 
         public virtual IDictionary<string, object> ToDictionary(Content content)
         {
-            return RemoveNulls(new Dictionary<string, object>
+            return WithCommonConventions(content, new Dictionary<string, object>
             {
                 ["from"] = content.From.Email,
-                ["subject"] = content.Subject,
-                ["text"] = content.Text,
-                ["html"] = content.Html,
-                ["reply_to"] = content.ReplyTo,
-                ["template_id"] = content.TemplateId,
                 ["attachments"] = content.Attachments.Any() ? content.Attachments.Select(ToDictionary) : null,
                 ["inline_images"] = content.InlineImages.Any() ? content.InlineImages.Select(ToDictionary) : null,
                 ["headers"] = content.Headers.Keys.Count > 0 ? content.Headers : null,

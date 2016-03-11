@@ -123,14 +123,12 @@ namespace SparkPost
                 var date = value as DateTimeOffset?;
                 value = date.HasValue ? string.Format("{0:s}{0:zzz}", date) : null;
             }
-            else if (value != null && value.GetType() != typeof (string) &&
-                     (value as IDictionary<string, object>) != null)
+            else if (value != null && (value as IDictionary<string, object>) != null)
             {
                 var dictionary = value as IDictionary<string, object>;
                 value = (dictionary.Count > 0) ? dictionary : null;
             }
-            else if (value != null && value.GetType() != typeof (string) &&
-                     (value as IDictionary<string, string>) != null)
+            else if (value != null && (value as IDictionary<string, string>) != null)
             {
                 var dictionary = value as IDictionary<string, string>;
                 value = (dictionary.Count > 0) ? dictionary : null;

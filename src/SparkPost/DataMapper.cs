@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using System.Text.RegularExpressions;
 
 namespace SparkPost
@@ -30,7 +33,6 @@ namespace SparkPost
         {
             return WithCommonConventions(recipient, new Dictionary<string, object>()
             {
-                ["address"] = ToDictionary(recipient.Address),
                 ["tags"] = recipient.Tags.Count > 0 ? recipient.Tags : null,
                 ["metadata"] = recipient.Metadata.Count > 0 ? recipient.Metadata : null,
                 ["substitution_data"] = recipient.SubstitutionData.Count > 0 ? recipient.SubstitutionData : null
@@ -111,12 +113,33 @@ namespace SparkPost
 
         private IDictionary<string, object> WithCommonConventions(object target, IDictionary<string, object> results = null)
         {
+            var list = typeof (DataMapper).GetMethods()
+                .Where(x => x.Name == "ToDictionary")
+                .Where(x => x.GetParameters().Count() == 1)
+                .Select(x => new {
+                    TheType = x.GetParameters().First().ParameterType,
+                    TheMethod = x
+                }).ToList();
+            var dictionary = list
+                .ToDictionary(x=>x.TheType, x=>x.TheMethod);
+
             if (results == null) results = new Dictionary<string, object>();
             foreach (var property in target.GetType().GetProperties())
             {
                 var name = ToSnakeCase(property.Name);
                 if (results.ContainsKey(name) == false)
-                    results[name] = property.GetValue(target);
+                {
+                    var propertyType = property.PropertyType;
+                    var o = property.GetValue(target);
+                    if (dictionary.ContainsKey(propertyType))
+                    {
+                        var value = dictionary[propertyType].Invoke(this, BindingFlags.Default, null,
+                            new[] {o}, CultureInfo.CurrentCulture);
+                        results[name] = value;
+                    }
+
+                    if(results.ContainsKey(name) == false) results[name] = o;
+                }
             }
             return RemoveNulls(results);
         }

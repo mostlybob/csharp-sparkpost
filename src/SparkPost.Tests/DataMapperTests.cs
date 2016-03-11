@@ -49,17 +49,18 @@ namespace SparkPost.Tests
                 var tag2 = Guid.NewGuid().ToString();
                 recipient.Tags.Add(tag1);
                 recipient.Tags.Add(tag2);
-                mapper.ToDictionary(recipient)
-                    ["tags"]
-                    .CastAs<IEnumerable<string>>()
+                var theTags = mapper.ToDictionary(recipient)
+                    ["tags"];
+                theTags
+                    .CastAs<IEnumerable<object>>()
                     .Count().ShouldEqual(2);
                 mapper.ToDictionary(recipient)
                     ["tags"]
-                    .CastAs<IEnumerable<string>>()
+                    .CastAs<IEnumerable<object>>()
                     .ShouldContain(tag1);
                 mapper.ToDictionary(recipient)
                     ["tags"]
-                    .CastAs<IEnumerable<string>>()
+                    .CastAs<IEnumerable<object>>()
                     .ShouldContain(tag2);
             }
 

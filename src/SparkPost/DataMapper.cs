@@ -10,9 +10,21 @@ namespace SparkPost
 {
     public class DataMapper
     {
+        private readonly Dictionary<Type, MethodInfo> dictionaryConverters;
+
         public DataMapper(string version)
         {
             // sticking with v1 for now
+
+            var list = typeof (DataMapper).GetMethods()
+                .Where(x => x.Name == "ToDictionary")
+                .Where(x => x.GetParameters().Count() == 1)
+                .Select(x => new {
+                    TheType = x.GetParameters().First().ParameterType,
+                    TheMethod = x
+                }).ToList();
+            dictionaryConverters = list
+                .ToDictionary(x=>x.TheType, x=>x.TheMethod);
         }
 
         public virtual IDictionary<string, object> ToDictionary(Transmission transmission)
@@ -104,15 +116,6 @@ namespace SparkPost
 
         private IDictionary<string, object> WithCommonConventions(object target, IDictionary<string, object> results = null)
         {
-            var list = typeof (DataMapper).GetMethods()
-                .Where(x => x.Name == "ToDictionary")
-                .Where(x => x.GetParameters().Count() == 1)
-                .Select(x => new {
-                    TheType = x.GetParameters().First().ParameterType,
-                    TheMethod = x
-                }).ToList();
-            var dictionaryConverters = list
-                .ToDictionary(x=>x.TheType, x=>x.TheMethod);
 
             if (results == null) results = new Dictionary<string, object>();
             foreach (var property in target.GetType().GetProperties())
@@ -120,26 +123,31 @@ namespace SparkPost
                 var name = ToSnakeCase(property.Name);
                 if (results.ContainsKey(name) == false)
                 {
-                    var propertyType = property.PropertyType;
-                    var value = property.GetValue(target);
-                    if (dictionaryConverters.ContainsKey(propertyType))
-                    {
-                        var dictionary = dictionaryConverters[propertyType].Invoke(this, BindingFlags.Default, null,
-                            new[] {value}, CultureInfo.CurrentCulture);
-                        results[name] = dictionary;
-                    }else if (((IEnumerable) value) != null)
-                    {
-                        var collection = (IEnumerable) value;
-                        var things = new List<object>();
-                        foreach (var thing in collection)
-                            things.Add(thing);
-                        results[name] = things;
-                    }
+                    var value = GetTheValue(property.PropertyType, property.GetValue(target));
 
                     if(results.ContainsKey(name) == false) results[name] = value;
                 }
             }
             return RemoveNulls(results);
+        }
+
+        private object GetTheValue(Type propertyType, object value)
+        {
+            if (dictionaryConverters.ContainsKey(propertyType))
+            {
+                var dictionary = dictionaryConverters[propertyType].Invoke(this, BindingFlags.Default, null,
+                    new[] {value}, CultureInfo.CurrentCulture);
+                value = dictionary;
+            }
+            else if (value != null && value.GetType() != typeof(string) && (value as IEnumerable) != null)
+            {
+                var collection = (IEnumerable) value;
+                var things = new List<object>();
+                foreach (var thing in collection)
+                    things.Add(GetTheValue(thing.GetType(), thing));
+                value = things.Count > 0 ? things : null;
+            }
+            return value;
         }
 
         private string ToSnakeCase(string input)

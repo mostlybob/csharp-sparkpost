@@ -63,7 +63,6 @@ namespace SparkPost
                 ["from"] = content.From.Email,
                 ["attachments"] = content.Attachments.Any() ? content.Attachments.Select(ToDictionary) : null,
                 ["inline_images"] = content.InlineImages.Any() ? content.InlineImages.Select(ToDictionary) : null,
-                ["headers"] = content.Headers.Keys.Count > 0 ? content.Headers : null,
             });
         }
 
@@ -128,6 +127,12 @@ namespace SparkPost
                      (value as IDictionary<string, object>) != null)
             {
                 var dictionary = value as IDictionary<string, object>;
+                value = (dictionary.Count > 0) ? dictionary : null;
+            }
+            else if (value != null && value.GetType() != typeof (string) &&
+                     (value as IDictionary<string, string>) != null)
+            {
+                var dictionary = value as IDictionary<string, string>;
                 value = (dictionary.Count > 0) ? dictionary : null;
             }
             else if (value != null && value.GetType() != typeof(string) && (value as IEnumerable) != null)

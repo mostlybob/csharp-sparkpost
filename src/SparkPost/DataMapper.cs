@@ -14,17 +14,15 @@ namespace SparkPost
 
         public DataMapper(string version)
         {
-            // sticking with v1 for now
-
-            var list = typeof (DataMapper).GetMethods()
+            dictionaryConverters = typeof (DataMapper).GetMethods()
                 .Where(x => x.Name == "ToDictionary")
                 .Where(x => x.GetParameters().Count() == 1)
-                .Select(x => new {
+                .Select(x => new
+                {
                     TheType = x.GetParameters().First().ParameterType,
                     TheMethod = x
-                }).ToList();
-            dictionaryConverters = list
-                .ToDictionary(x=>x.TheType, x=>x.TheMethod);
+                }).ToList()
+                .ToDictionary(x => x.TheType, x => x.TheMethod);
         }
 
         public virtual IDictionary<string, object> ToDictionary(Transmission transmission)

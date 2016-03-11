@@ -16,14 +16,9 @@ namespace SparkPost
 
         public virtual IDictionary<string, object> ToDictionary(Transmission transmission)
         {
-            return RemoveNulls(new Dictionary<string, object>
+            return WithCommonConventions(transmission, new Dictionary<string, object>
             {
-                ["content"] = ToDictionary(transmission.Content),
-                ["campaign_id"] = transmission.CampaignId,
-                ["description"] = transmission.Description,
-                ["return_path"] = transmission.ReturnPath,
                 ["metadata"] = transmission.Metadata.Count > 0 ? transmission.Metadata : null,
-                ["options"] = ToDictionary(transmission.Options),
                 ["substitution_data"] = transmission.SubstitutionData.Count > 0 ? transmission.SubstitutionData : null,
                 ["recipients"] = BuildTheRecipientRequestFrom(transmission)
             });

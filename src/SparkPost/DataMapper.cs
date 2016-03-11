@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -28,7 +29,7 @@ namespace SparkPost
         {
             return WithCommonConventions(recipient, new Dictionary<string, object>()
             {
-                ["tags"] = recipient.Tags.Count > 0 ? recipient.Tags : null,
+                //["tags"] = recipient.Tags.Count > 0 ? recipient.Tags : null,
                 ["metadata"] = recipient.Metadata.Count > 0 ? recipient.Metadata : null,
                 ["substitution_data"] = recipient.SubstitutionData.Count > 0 ? recipient.SubstitutionData : null
             });
@@ -110,7 +111,7 @@ namespace SparkPost
                     TheType = x.GetParameters().First().ParameterType,
                     TheMethod = x
                 }).ToList();
-            var dictionary = list
+            var dictionaryConverters = list
                 .ToDictionary(x=>x.TheType, x=>x.TheMethod);
 
             if (results == null) results = new Dictionary<string, object>();
@@ -120,15 +121,22 @@ namespace SparkPost
                 if (results.ContainsKey(name) == false)
                 {
                     var propertyType = property.PropertyType;
-                    var o = property.GetValue(target);
-                    if (dictionary.ContainsKey(propertyType))
+                    var value = property.GetValue(target);
+                    if (dictionaryConverters.ContainsKey(propertyType))
                     {
-                        var value = dictionary[propertyType].Invoke(this, BindingFlags.Default, null,
-                            new[] {o}, CultureInfo.CurrentCulture);
-                        results[name] = value;
+                        var dictionary = dictionaryConverters[propertyType].Invoke(this, BindingFlags.Default, null,
+                            new[] {value}, CultureInfo.CurrentCulture);
+                        results[name] = dictionary;
+                    }else if (((IEnumerable) value) != null)
+                    {
+                        var collection = (IEnumerable) value;
+                        var things = new List<object>();
+                        foreach (var thing in collection)
+                            things.Add(thing);
+                        results[name] = things;
                     }
 
-                    if(results.ContainsKey(name) == false) results[name] = o;
+                    if(results.ContainsKey(name) == false) results[name] = value;
                 }
             }
             return RemoveNulls(results);

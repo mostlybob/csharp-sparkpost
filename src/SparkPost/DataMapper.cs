@@ -31,7 +31,9 @@ namespace SparkPost
         {
             return WithCommonConventions(transmission, new Dictionary<string, object>
             {
-                ["recipients"] = BuildTheRecipientRequestFrom(transmission)
+                ["recipients"] = transmission.ListId != null
+                    ? (object) new Dictionary<string, object> {["list_id"] = transmission.ListId}
+                    : transmission.Recipients.Select(ToDictionary)
             });
         }
 
@@ -89,13 +91,6 @@ namespace SparkPost
         public virtual IDictionary<string, object> ToDictionary(File file)
         {
             return WithCommonConventions(file);
-        }
-
-        private object BuildTheRecipientRequestFrom(Transmission transmission)
-        {
-            return transmission.ListId != null
-                ? (object)new Dictionary<string, object> { ["list_id"] = transmission.ListId }
-                : transmission.Recipients.Select(ToDictionary);
         }
 
         private static IDictionary<string, object> RemoveNulls(IDictionary<string, object> dictionary)

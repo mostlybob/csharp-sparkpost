@@ -118,7 +118,7 @@ namespace SparkPost
                 var dictionary = dictionaryConverters[propertyType].Invoke(this, BindingFlags.Default, null,
                     new[] {value}, CultureInfo.CurrentCulture);
                 value = dictionary;
-            }else if (value != null && value is bool?)
+            }else if (value is bool?)
             {
                 value = value as bool? == true ? "true" : "false";
             }

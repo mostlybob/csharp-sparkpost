@@ -120,17 +120,16 @@ namespace SparkPost
             }
             else if (value is DateTimeOffset?)
             {
-                var date = value as DateTimeOffset?;
-                value = date.HasValue ? string.Format("{0:s}{0:zzz}", date) : null;
+                value = string.Format("{0:s}{0:zzz}", (DateTimeOffset?)value);
             }
-            else if (value != null && (value as IDictionary<string, object>) != null)
+            else if (value is IDictionary<string, object>)
             {
-                var dictionary = value as IDictionary<string, object>;
+                var dictionary = (IDictionary<string, object>) value;
                 value = (dictionary.Count > 0) ? dictionary : null;
             }
-            else if (value != null && (value as IDictionary<string, string>) != null)
+            else if (value is IDictionary<string, string>)
             {
-                var dictionary = value as IDictionary<string, string>;
+                var dictionary = (IDictionary<string, string>) value;
                 value = (dictionary.Count > 0) ? dictionary : null;
             }
             else if (value != null && value.GetType() != typeof(string) && (value as IEnumerable) != null)

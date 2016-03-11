@@ -39,12 +39,7 @@ namespace SparkPost
 
         public virtual IDictionary<string, object> ToDictionary(Recipient recipient)
         {
-            return WithCommonConventions(recipient, new Dictionary<string, object>()
-            {
-                //["tags"] = recipient.Tags.Count > 0 ? recipient.Tags : null,
-                ["metadata"] = recipient.Metadata.Count > 0 ? recipient.Metadata : null,
-                ["substitution_data"] = recipient.SubstitutionData.Count > 0 ? recipient.SubstitutionData : null
-            });
+            return WithCommonConventions(recipient, new Dictionary<string, object>());
         }
 
         public virtual IDictionary<string, object> ToDictionary(Address address)
@@ -138,6 +133,12 @@ namespace SparkPost
                 var dictionary = dictionaryConverters[propertyType].Invoke(this, BindingFlags.Default, null,
                     new[] {value}, CultureInfo.CurrentCulture);
                 value = dictionary;
+            }
+            else if (value != null && value.GetType() != typeof (string) &&
+                     (value as IDictionary<string, object>) != null)
+            {
+                var dictionary = value as IDictionary<string, object>;
+                value = (dictionary.Count > 0) ? dictionary : null;
             }
             else if (value != null && value.GetType() != typeof(string) && (value as IEnumerable) != null)
             {

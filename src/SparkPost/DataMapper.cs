@@ -52,13 +52,6 @@ namespace SparkPost
                 : null;
         }
 
-        private static bool AtLeastOneOptionWasSet(Options options)
-        {
-            return typeof(Options)
-                .GetProperties()
-                .Any(x => x.GetValue(options) != null);
-        }
-
         public virtual IDictionary<string, object> ToDictionary(Content content)
         {
             return WithCommonConventions(content, new Dictionary<string, object>
@@ -157,6 +150,13 @@ namespace SparkPost
                 input = input.Substring(1, input.Length - 1);
 
             return input;
+        }
+
+        private static bool AtLeastOneOptionWasSet(Options options)
+        {
+            return typeof(Options)
+                .GetProperties()
+                .Any(x => x.GetValue(options) != null);
         }
     }
 }

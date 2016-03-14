@@ -2,9 +2,9 @@ language: csharp
 solution: src/SparkPost.sln
 before_install:
   - sudo apt-get install nunit-console
--before_script:
+before_script:
   - nuget restore src/SparkPost.sln
--script:
+script:
   - xbuild /p:Configuration=Release src/SparkPost.sln
--after_script:
+after_script:
   - nunit-console /home/travis/build/SparkPost/csharp-sparkpost/src/SparkPost.Tests/bin/Release/SparkPost.Tests.dll

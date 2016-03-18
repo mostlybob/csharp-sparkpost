@@ -56,13 +56,11 @@ namespace SparkPost
                 {
                     ["start_time"] =
                         options.StartTime.HasValue ? string.Format("{0:s}{0:zzz}", options.StartTime.Value) : null,
-                    ["open_tracking"] = options.OpenTracking.HasValue && options.OpenTracking.Value ? "true" : "false",
-                    ["click_tracking"] =
-                        options.ClickTracking.HasValue && options.ClickTracking.Value ? "true" : "false",
-                    ["transactional"] = options.Transactional.HasValue && options.Transactional.Value ? "true" : "false",
-                    ["sandbox"] = options.Sandbox.HasValue && options.Sandbox.Value ? "true" : "false",
-                    ["skip_suppression"] =
-                        options.SkipSuppression.HasValue && options.SkipSuppression.Value ? "true" : "false"
+                    ["open_tracking"] = options.OpenTracking.HasValue && options.OpenTracking.Value,
+                    ["click_tracking"] = options.ClickTracking.HasValue && options.ClickTracking.Value,
+                    ["transactional"] = options.Transactional.HasValue && options.Transactional.Value,
+                    ["sandbox"] = options.Sandbox.HasValue && options.Sandbox.Value,
+                    ["skip_suppression"] = options.SkipSuppression.HasValue && options.SkipSuppression.Value
                 });
             return null;
         }

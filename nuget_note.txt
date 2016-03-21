@@ -1,0 +1,1 @@
+nuget pack src\SparkPost\SparkPost.csproj -Prop Configuration=Release

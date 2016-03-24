@@ -93,12 +93,9 @@ namespace SparkPost
             foreach (var property in target.GetType().GetProperties())
             {
                 var name = ToSnakeCase(property.Name);
-                if (results.ContainsKey(name) == false)
-                {
-                    var value = GetTheValue(property.PropertyType, property.GetValue(target));
+                if (results.ContainsKey(name)) continue;
 
-                    if(results.ContainsKey(name) == false) results[name] = value;
-                }
+                results[name] = GetTheValue(property.PropertyType, property.GetValue(target));
             }
             return RemoveNulls(results);
         }

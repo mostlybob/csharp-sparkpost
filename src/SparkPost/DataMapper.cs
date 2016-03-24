@@ -50,11 +50,7 @@ namespace SparkPost
             if (typeof(Options)
                 .GetProperties()
                 .Any(x => x.GetValue(options) != null))
-                return WithCommonConventions(options, new Dictionary<string, object>
-                {
-                    ["start_time"] =
-                        options.StartTime.HasValue ? string.Format("{0:s}{0:zzz}", options.StartTime.Value) : null,
-                });
+                return WithCommonConventions(options);
             return null;
         }
 

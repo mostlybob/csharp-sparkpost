@@ -12,7 +12,7 @@ namespace SparkPost
     {
         private readonly Dictionary<Type, MethodInfo> converters;
 
-        public DataMapper(string version)
+        public DataMapper(string version = "v1")
         {
             converters = GetTheConverters();
         }

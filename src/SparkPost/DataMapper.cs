@@ -67,7 +67,6 @@ namespace SparkPost
         {
             return WithCommonConventions(content, new Dictionary<string, object>
             {
-                ["from"] = content.From.Email,
                 ["attachments"] = content.Attachments.Any() ? content.Attachments.Select(ToDictionary) : null,
                 ["inline_images"] = content.InlineImages.Any() ? content.InlineImages.Select(ToDictionary) : null,
             });

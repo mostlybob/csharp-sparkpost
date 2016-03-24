@@ -168,7 +168,9 @@ namespace SparkPost.Tests
                 var email = Guid.NewGuid().ToString();
                 transmission.Content.From = new Address { Email = email };
                 mapper.ToDictionary(transmission)["content"]
-                    .CastAs<IDictionary<string, object>>()["from"].ShouldEqual(email);
+                    .CastAs<IDictionary<string, object>>()["from"]
+                    .CastAs<IDictionary<string, object>>()["email"]
+                    .ShouldEqual(email);
             }
 
             [Test]
@@ -292,9 +294,15 @@ namespace SparkPost.Tests
             [Test]
             public void from()
             {
-                var email = Guid.NewGuid().ToString();
-                content.From.Email = email;
-                mapper.ToDictionary(content)["from"].ShouldEqual(email);
+                content.From.Email = Guid.NewGuid().ToString();
+                content.From.HeaderTo = Guid.NewGuid().ToString();
+                content.From.Name = Guid.NewGuid().ToString();
+
+                var result = mapper.ToDictionary(content)["from"].CastAs<IDictionary<string, object>>();
+
+                result["email"].ShouldEqual(content.From.Email);
+                result["header_to"].ShouldEqual(content.From.HeaderTo);
+                result["name"].ShouldEqual(content.From.Name);
             }
 
             [Test]

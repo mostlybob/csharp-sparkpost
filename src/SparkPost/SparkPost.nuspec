@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>$id$</id>
-    <version>$version$</version>
+    <version>1.0.3</version>
     <title>$title$</title>
     <authors>$author$</authors>
     <owners>$author$</owners>
@@ -15,7 +15,7 @@
     <copyright>Copyright 2016</copyright>
     <tags>email</tags>
     <dependencies>
-      <dependency id="Newtonsoft.Json" version="6.0" />
+      <dependency id="Newtonsoft.Json" version="(6.0,)" />
     </dependencies>
   </metadata>
 </package>

@@ -47,9 +47,20 @@ namespace SparkPost
 
         public virtual IDictionary<string, object> ToDictionary(Options options)
         {
-            return AtLeastOneOptionWasSet(options)
-                ? WithCommonConventions(options, new Dictionary<string, object>())
-                : null;
+            if (typeof(Options)
+                .GetProperties()
+                .Any(x => x.GetValue(options) != null))
+                return RemoveNulls(new Dictionary<string, object>
+                {
+                    ["start_time"] =
+                        options.StartTime.HasValue ? string.Format("{0:s}{0:zzz}", options.StartTime.Value) : null,
+                    ["open_tracking"] = options.OpenTracking.HasValue && options.OpenTracking.Value,
+                    ["click_tracking"] = options.ClickTracking.HasValue && options.ClickTracking.Value,
+                    ["transactional"] = options.Transactional.HasValue && options.Transactional.Value,
+                    ["sandbox"] = options.Sandbox.HasValue && options.Sandbox.Value,
+                    ["skip_suppression"] = options.SkipSuppression.HasValue && options.SkipSuppression.Value
+                });
+            return null;
         }
 
         public virtual IDictionary<string, object> ToDictionary(Content content)

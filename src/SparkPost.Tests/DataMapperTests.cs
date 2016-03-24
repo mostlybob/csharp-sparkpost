@@ -267,12 +267,12 @@ namespace SparkPost.Tests
                 transmission.Options.ClickTracking = true;
                 mapper.ToDictionary(transmission)["options"]
                     .CastAs<IDictionary<string, object>>()
-                    ["click_tracking"].ShouldEqual("true");
+                    ["click_tracking"].ShouldEqual(true);
 
                 transmission.Options.ClickTracking = false;
                 mapper.ToDictionary(transmission)["options"]
                     .CastAs<IDictionary<string, object>>()
-                    ["click_tracking"].ShouldEqual("false");
+                    ["click_tracking"].ShouldEqual(false);
             }
         }
 
@@ -428,11 +428,11 @@ namespace SparkPost.Tests
             {
                 options.OpenTracking = true;
                 mapper.ToDictionary(options).CastAs<IDictionary<string, object>>()
-                    ["open_tracking"].ShouldEqual("true");
+                    ["open_tracking"].ShouldEqual(true);
 
                 options.OpenTracking = false;
                 mapper.ToDictionary(options).CastAs<IDictionary<string, object>>()
-                    ["open_tracking"].ShouldEqual("false");
+                    ["open_tracking"].ShouldEqual(false);
             }
 
             [Test]
@@ -440,11 +440,11 @@ namespace SparkPost.Tests
             {
                 options.ClickTracking = true;
                 mapper.ToDictionary(options).CastAs<IDictionary<string, object>>()
-                    ["click_tracking"].ShouldEqual("true");
+                    ["click_tracking"].ShouldEqual(true);
 
                 options.ClickTracking = false;
                 mapper.ToDictionary(options).CastAs<IDictionary<string, object>>()
-                    ["click_tracking"].ShouldEqual("false");
+                    ["click_tracking"].ShouldEqual(false);
             }
 
             [Test]
@@ -452,11 +452,11 @@ namespace SparkPost.Tests
             {
                 options.Transactional = true;
                 mapper.ToDictionary(options).CastAs<IDictionary<string, object>>()
-                    ["transactional"].ShouldEqual("true");
+                    ["transactional"].ShouldEqual(true);
 
                 options.Transactional = false;
                 mapper.ToDictionary(options).CastAs<IDictionary<string, object>>()
-                    ["transactional"].ShouldEqual("false");
+                    ["transactional"].ShouldEqual(false);
             }
 
             [Test]
@@ -464,11 +464,11 @@ namespace SparkPost.Tests
             {
                 options.Sandbox = true;
                 mapper.ToDictionary(options).CastAs<IDictionary<string, object>>()
-                    ["sandbox"].ShouldEqual("true");
+                    ["sandbox"].ShouldEqual(true);
 
                 options.Sandbox = false;
                 mapper.ToDictionary(options).CastAs<IDictionary<string, object>>()
-                    ["sandbox"].ShouldEqual("false");
+                    ["sandbox"].ShouldEqual(false);
             }
 
             [Test]
@@ -476,11 +476,11 @@ namespace SparkPost.Tests
             {
                 options.SkipSuppression = true;
                 mapper.ToDictionary(options).CastAs<IDictionary<string, object>>()
-                    ["skip_suppression"].ShouldEqual("true");
+                    ["skip_suppression"].ShouldEqual(true);
 
                 options.SkipSuppression = false;
                 mapper.ToDictionary(options).CastAs<IDictionary<string, object>>()
-                    ["skip_suppression"].ShouldEqual("false");
+                    ["skip_suppression"].ShouldEqual(false);
             }
 
             [Test]

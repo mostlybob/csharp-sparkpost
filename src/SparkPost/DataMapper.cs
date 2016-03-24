@@ -47,9 +47,7 @@ namespace SparkPost
 
         public virtual IDictionary<string, object> ToDictionary(Options options)
         {
-            if (AnyValuesWereSetOn(options))
-                return WithCommonConventions(options);
-            return null;
+            return AnyValuesWereSetOn(options) ? WithCommonConventions(options) : null;
         }
 
         private static bool AnyValuesWereSetOn(object target)

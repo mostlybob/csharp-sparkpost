@@ -98,19 +98,12 @@ namespace SparkPost
         private object GetTheValue(Type propertyType, object value)
         {
             if (converters.ContainsKey(propertyType))
-            {
-                var dictionary = converters[propertyType].Invoke(this, BindingFlags.Default, null,
+                value = converters[propertyType].Invoke(this, BindingFlags.Default, null,
                     new[] {value}, CultureInfo.CurrentCulture);
-                value = dictionary;
-            }
             else if (value is bool?)
-            {
                 value = value as bool? == true;
-            }
             else if (value is DateTimeOffset?)
-            {
                 value = string.Format("{0:s}{0:zzz}", (DateTimeOffset?)value);
-            }
             else if (value is IDictionary<string, object>)
             {
                 var dictionary = (IDictionary<string, object>) value;

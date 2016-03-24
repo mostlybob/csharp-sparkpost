@@ -50,15 +50,10 @@ namespace SparkPost
             if (typeof(Options)
                 .GetProperties()
                 .Any(x => x.GetValue(options) != null))
-                return RemoveNulls(new Dictionary<string, object>
+                return WithCommonConventions(options, new Dictionary<string, object>
                 {
                     ["start_time"] =
                         options.StartTime.HasValue ? string.Format("{0:s}{0:zzz}", options.StartTime.Value) : null,
-                    ["open_tracking"] = options.OpenTracking.HasValue && options.OpenTracking.Value,
-                    ["click_tracking"] = options.ClickTracking.HasValue && options.ClickTracking.Value,
-                    ["transactional"] = options.Transactional.HasValue && options.Transactional.Value,
-                    ["sandbox"] = options.Sandbox.HasValue && options.Sandbox.Value,
-                    ["skip_suppression"] = options.SkipSuppression.HasValue && options.SkipSuppression.Value
                 });
             return null;
         }
@@ -122,7 +117,7 @@ namespace SparkPost
             }
             else if (value is bool?)
             {
-                value = value as bool? == true ? "true" : "false";
+                value = value as bool? == true;
             }
             else if (value is DateTimeOffset?)
             {

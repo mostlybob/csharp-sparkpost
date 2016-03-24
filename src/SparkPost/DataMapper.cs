@@ -16,7 +16,7 @@ namespace SparkPost
         {
             dictionaryConverters = typeof (DataMapper).GetMethods()
                 .Where(x => x.Name == "ToDictionary")
-                .Where(x => x.GetParameters().Count() == 1)
+                .Where(x => x.GetParameters().Length == 1)
                 .Select(x => new
                 {
                     TheType = x.GetParameters().First().ParameterType,
@@ -135,7 +135,7 @@ namespace SparkPost
             return value;
         }
 
-        private string ToSnakeCase(string input)
+        private static string ToSnakeCase(string input)
         {
             var regex = new Regex("[A-Z]");
 
@@ -148,13 +148,6 @@ namespace SparkPost
                 input = input.Substring(1, input.Length - 1);
 
             return input;
-        }
-
-        private static bool AtLeastOneOptionWasSet(Options options)
-        {
-            return typeof(Options)
-                .GetProperties()
-                .Any(x => x.GetValue(options) != null);
         }
     }
 }

@@ -47,11 +47,16 @@ namespace SparkPost
 
         public virtual IDictionary<string, object> ToDictionary(Options options)
         {
-            if (typeof(Options)
-                .GetProperties()
-                .Any(x => x.GetValue(options) != null))
+            if (AnyValuesWereSetOn(options))
                 return WithCommonConventions(options);
             return null;
+        }
+
+        private static bool AnyValuesWereSetOn(object target)
+        {
+            return target.GetType()
+                .GetProperties()
+                .Any(x => x.GetValue(target) != null);
         }
 
         public virtual IDictionary<string, object> ToDictionary(Content content)

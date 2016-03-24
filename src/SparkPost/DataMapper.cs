@@ -10,19 +10,11 @@ namespace SparkPost
 {
     public class DataMapper
     {
-        private readonly Dictionary<Type, MethodInfo> dictionaryConverters;
+        private readonly Dictionary<Type, MethodInfo> converters;
 
         public DataMapper(string version)
         {
-            dictionaryConverters = typeof (DataMapper).GetMethods()
-                .Where(x => x.Name == "ToDictionary")
-                .Where(x => x.GetParameters().Length == 1)
-                .Select(x => new
-                {
-                    TheType = x.GetParameters().First().ParameterType,
-                    TheMethod = x
-                }).ToList()
-                .ToDictionary(x => x.TheType, x => x.TheMethod);
+            converters = GetTheConverters();
         }
 
         public virtual IDictionary<string, object> ToDictionary(Transmission transmission)
@@ -105,9 +97,9 @@ namespace SparkPost
 
         private object GetTheValue(Type propertyType, object value)
         {
-            if (dictionaryConverters.ContainsKey(propertyType))
+            if (converters.ContainsKey(propertyType))
             {
-                var dictionary = dictionaryConverters[propertyType].Invoke(this, BindingFlags.Default, null,
+                var dictionary = converters[propertyType].Invoke(this, BindingFlags.Default, null,
                     new[] {value}, CultureInfo.CurrentCulture);
                 value = dictionary;
             }
@@ -151,6 +143,19 @@ namespace SparkPost
                 input = input.Substring(1, input.Length - 1);
 
             return input;
+        }
+
+        private static Dictionary<Type, MethodInfo> GetTheConverters()
+        {
+            return typeof (DataMapper).GetMethods()
+                .Where(x => x.Name == "ToDictionary")
+                .Where(x => x.GetParameters().Length == 1)
+                .Select(x => new
+                {
+                    TheType = x.GetParameters().First().ParameterType,
+                    TheMethod = x
+                }).ToList()
+                .ToDictionary(x => x.TheType, x => x.TheMethod);
         }
     }
 }

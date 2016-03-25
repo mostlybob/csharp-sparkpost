@@ -1,84 +1,50 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Reflection;
+using System.Text.RegularExpressions;
 
 namespace SparkPost
 {
     public class DataMapper
     {
-        public DataMapper(string version)
+        private readonly Dictionary<Type, MethodInfo> converters;
+
+        public DataMapper(string version = "v1")
         {
-            // sticking with v1 for now
+            converters = GetTheConverters();
         }
 
         public virtual IDictionary<string, object> ToDictionary(Transmission transmission)
         {
-            return RemoveNulls(new Dictionary<string, object>
+            return WithCommonConventions(transmission, new Dictionary<string, object>
             {
-                ["content"] = ToDictionary(transmission.Content),
-                ["campaign_id"] = transmission.CampaignId,
-                ["description"] = transmission.Description,
-                ["return_path"] = transmission.ReturnPath,
-                ["metadata"] = transmission.Metadata.Count > 0 ? transmission.Metadata : null,
-                ["options"] = ToDictionary(transmission.Options),
-                ["substitution_data"] = transmission.SubstitutionData.Count > 0 ? transmission.SubstitutionData : null,
-                ["recipients"] = BuildTheRecipientRequestFrom(transmission)
+                ["recipients"] = transmission.ListId != null
+                    ? (object) new Dictionary<string, object> {["list_id"] = transmission.ListId}
+                    : transmission.Recipients.Select(ToDictionary)
             });
         }
 
         public virtual IDictionary<string, object> ToDictionary(Recipient recipient)
         {
-            return RemoveNulls(new Dictionary<string, object>
-            {
-                ["address"] = ToDictionary(recipient.Address),
-                ["return_path"] = recipient.ReturnPath,
-                ["tags"] = recipient.Tags.Count > 0 ? recipient.Tags : null,
-                ["metadata"] = recipient.Metadata.Count > 0 ? recipient.Metadata : null,
-                ["substitution_data"] = recipient.SubstitutionData.Count > 0 ? recipient.SubstitutionData : null
-            });
+            return WithCommonConventions(recipient);
         }
 
         public virtual IDictionary<string, object> ToDictionary(Address address)
         {
-            return RemoveNulls(new Dictionary<string, object>
-            {
-                ["email"] = address.Email,
-                ["name"] = address.Name,
-                ["header_to"] = address.HeaderTo
-            });
+            return WithCommonConventions(address);
         }
 
         public virtual IDictionary<string, object> ToDictionary(Options options)
         {
-            if (typeof(Options)
-                .GetProperties()
-                .Any(x => x.GetValue(options) != null))
-                return RemoveNulls(new Dictionary<string, object>
-                {
-                    ["start_time"] =
-                        options.StartTime.HasValue ? string.Format("{0:s}{0:zzz}", options.StartTime.Value) : null,
-                    ["open_tracking"] = options.OpenTracking.HasValue && options.OpenTracking.Value,
-                    ["click_tracking"] = options.ClickTracking.HasValue && options.ClickTracking.Value,
-                    ["transactional"] = options.Transactional.HasValue && options.Transactional.Value,
-                    ["sandbox"] = options.Sandbox.HasValue && options.Sandbox.Value,
-                    ["skip_suppression"] = options.SkipSuppression.HasValue && options.SkipSuppression.Value
-                });
-            return null;
+            return AnyValuesWereSetOn(options) ? WithCommonConventions(options) : null;
         }
 
         public virtual IDictionary<string, object> ToDictionary(Content content)
         {
-            return RemoveNulls(new Dictionary<string, object>
-            {
-                ["from"] = content.From.Email,
-                ["subject"] = content.Subject,
-                ["text"] = content.Text,
-                ["html"] = content.Html,
-                ["reply_to"] = content.ReplyTo,
-                ["template_id"] = content.TemplateId,
-                ["attachments"] = content.Attachments.Any() ? content.Attachments.Select(ToDictionary) : null,
-                ["inline_images"] = content.InlineImages.Any() ? content.InlineImages.Select(ToDictionary) : null,
-                ["headers"] = content.Headers.Keys.Count > 0 ? content.Headers : null,
-            });
+            return WithCommonConventions(content);
         }
 
         public virtual IDictionary<string, object> ToDictionary(Attachment attachment)
@@ -93,20 +59,14 @@ namespace SparkPost
 
         public virtual IDictionary<string, object> ToDictionary(File file)
         {
-            return new Dictionary<string, object>()
-            {
-                ["name"] = file.Name,
-                ["type"] = file.Type,
-                ["data"] = file.Data
-            };
+            return WithCommonConventions(file);
         }
 
-        private object BuildTheRecipientRequestFrom(Transmission transmission)
+        private static bool AnyValuesWereSetOn(object target)
         {
-
-            return transmission.ListId != null
-                ? (object)new Dictionary<string, object> { ["list_id"] = transmission.ListId }
-                : transmission.Recipients.Select(ToDictionary);
+            return target.GetType()
+                .GetProperties()
+                .Any(x => x.GetValue(target) != null);
         }
 
         private static IDictionary<string, object> RemoveNulls(IDictionary<string, object> dictionary)
@@ -115,6 +75,90 @@ namespace SparkPost
             foreach (var key in dictionary.Keys.Where(k => dictionary[k] != null))
                 newDictionary[key] = dictionary[key];
             return newDictionary;
+        }
+
+        private IDictionary<string, object> WithCommonConventions(object target, IDictionary<string, object> results = null)
+        {
+
+            if (results == null) results = new Dictionary<string, object>();
+            foreach (var property in target.GetType().GetProperties())
+            {
+                var name = ToSnakeCase(property.Name);
+                if (results.ContainsKey(name)) continue;
+
+                results[name] = GetTheValue(property.PropertyType, property.GetValue(target));
+            }
+            return RemoveNulls(results);
+        }
+
+        private object GetTheValue(Type propertyType, object value)
+        {
+            if (propertyType != typeof(int) && converters.ContainsKey(propertyType))
+                value = converters[propertyType].Invoke(this, BindingFlags.Default, null,
+                    new[] {value}, CultureInfo.CurrentCulture);
+            else if (value != null && propertyType.Name.EndsWith("List`1") &&
+                     propertyType.GetGenericArguments().Count() == 1 &&
+                     converters.ContainsKey(propertyType.GetGenericArguments().First()))
+            {
+                var converter = converters[propertyType.GetGenericArguments().First()];
+
+                var list = (value as IEnumerable<object>).ToList();
+
+                if (list.Any())
+                    value = list.Select(x => converter.Invoke(this, BindingFlags.Default, null,
+                        new[] {x}, CultureInfo.CurrentCulture)).ToList();
+                else
+                    value = null;
+            }
+            else if (value is bool?)
+                value = value as bool? == true;
+            else if (value is DateTimeOffset?)
+                value = string.Format("{0:s}{0:zzz}", (DateTimeOffset?)value);
+            else if (value is IDictionary<string, object>)
+            {
+                var dictionary = (IDictionary<string, object>) value;
+                value = dictionary.Count > 0 ? dictionary : null;
+            }
+            else if (value is IDictionary<string, string>)
+            {
+                var dictionary = (IDictionary<string, string>) value;
+                value = dictionary.Count > 0 ? dictionary : null;
+            }
+            else if (value != null && value.GetType() != typeof(string) && value is IEnumerable)
+            {
+                var things = (from object thing in (IEnumerable) value
+                    select GetTheValue(thing.GetType(), thing)).ToList();
+                value = things.Count > 0 ? things : null;
+            }
+            return value;
+        }
+
+        private static string ToSnakeCase(string input)
+        {
+            var regex = new Regex("[A-Z]");
+
+            var matches = regex.Matches(input);
+
+            for (var i = 0; i < matches.Count; i++)
+                input = input.Replace(matches[i].Value, "_" + matches[i].Value.ToLower());
+
+            if (input.StartsWith("_"))
+                input = input.Substring(1, input.Length - 1);
+
+            return input;
+        }
+
+        private static Dictionary<Type, MethodInfo> GetTheConverters()
+        {
+            return typeof (DataMapper).GetMethods()
+                .Where(x => x.Name == "ToDictionary")
+                .Where(x => x.GetParameters().Length == 1)
+                .Select(x => new
+                {
+                    TheType = x.GetParameters().First().ParameterType,
+                    TheMethod = x
+                }).ToList()
+                .ToDictionary(x => x.TheType, x => x.TheMethod);
         }
     }
 }

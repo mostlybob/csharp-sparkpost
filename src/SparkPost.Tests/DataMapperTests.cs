@@ -49,17 +49,18 @@ namespace SparkPost.Tests
                 var tag2 = Guid.NewGuid().ToString();
                 recipient.Tags.Add(tag1);
                 recipient.Tags.Add(tag2);
-                mapper.ToDictionary(recipient)
-                    ["tags"]
-                    .CastAs<IEnumerable<string>>()
+                var theTags = mapper.ToDictionary(recipient)
+                    ["tags"];
+                theTags
+                    .CastAs<IEnumerable<object>>()
                     .Count().ShouldEqual(2);
                 mapper.ToDictionary(recipient)
                     ["tags"]
-                    .CastAs<IEnumerable<string>>()
+                    .CastAs<IEnumerable<object>>()
                     .ShouldContain(tag1);
                 mapper.ToDictionary(recipient)
                     ["tags"]
-                    .CastAs<IEnumerable<string>>()
+                    .CastAs<IEnumerable<object>>()
                     .ShouldContain(tag2);
             }
 
@@ -167,7 +168,9 @@ namespace SparkPost.Tests
                 var email = Guid.NewGuid().ToString();
                 transmission.Content.From = new Address { Email = email };
                 mapper.ToDictionary(transmission)["content"]
-                    .CastAs<IDictionary<string, object>>()["from"].ShouldEqual(email);
+                    .CastAs<IDictionary<string, object>>()["from"]
+                    .CastAs<IDictionary<string, object>>()["email"]
+                    .ShouldEqual(email);
             }
 
             [Test]
@@ -291,9 +294,15 @@ namespace SparkPost.Tests
             [Test]
             public void from()
             {
-                var email = Guid.NewGuid().ToString();
-                content.From.Email = email;
-                mapper.ToDictionary(content)["from"].ShouldEqual(email);
+                content.From.Email = Guid.NewGuid().ToString();
+                content.From.HeaderTo = Guid.NewGuid().ToString();
+                content.From.Name = Guid.NewGuid().ToString();
+
+                var result = mapper.ToDictionary(content)["from"].CastAs<IDictionary<string, object>>();
+
+                result["email"].ShouldEqual(content.From.Email);
+                result["header_to"].ShouldEqual(content.From.HeaderTo);
+                result["name"].ShouldEqual(content.From.Name);
             }
 
             [Test]
@@ -362,9 +371,9 @@ namespace SparkPost.Tests
                 content.Attachments.Add(new Attachment { Name = firstName });
                 content.Attachments.Add(new Attachment { Name = secondName });
 
-                var mappedAttachments = mapper.ToDictionary(content)["attachments"];
-                var names = mappedAttachments
-                    .CastAs<IEnumerable<IDictionary<string, object>>>()
+                var names = mapper.ToDictionary(content)["attachments"]
+                    .CastAs<IEnumerable<object>>()
+                    .Select(x => x.CastAs<Dictionary<string, object>>())
                     .Select(x => x["name"]);
 
                 names.Count().ShouldEqual(2);
@@ -388,7 +397,8 @@ namespace SparkPost.Tests
 
                 var mappedAttachments = mapper.ToDictionary(content)["inline_images"];
                 var names = mappedAttachments
-                    .CastAs<IEnumerable<IDictionary<string, object>>>()
+                    .CastAs<IEnumerable<object>>()
+                    .Select(x => x.CastAs<Dictionary<string, object>>())
                     .Select(x => x["name"]);
 
                 names.Count().ShouldEqual(2);

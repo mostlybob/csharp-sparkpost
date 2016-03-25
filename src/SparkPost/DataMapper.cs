@@ -42,13 +42,6 @@ namespace SparkPost
             return AnyValuesWereSetOn(options) ? WithCommonConventions(options) : null;
         }
 
-        private static bool AnyValuesWereSetOn(object target)
-        {
-            return target.GetType()
-                .GetProperties()
-                .Any(x => x.GetValue(target) != null);
-        }
-
         public virtual IDictionary<string, object> ToDictionary(Content content)
         {
             return WithCommonConventions(content, new Dictionary<string, object>
@@ -71,6 +64,13 @@ namespace SparkPost
         public virtual IDictionary<string, object> ToDictionary(File file)
         {
             return WithCommonConventions(file);
+        }
+
+        private static bool AnyValuesWereSetOn(object target)
+        {
+            return target.GetType()
+                .GetProperties()
+                .Any(x => x.GetValue(target) != null);
         }
 
         private static IDictionary<string, object> RemoveNulls(IDictionary<string, object> dictionary)

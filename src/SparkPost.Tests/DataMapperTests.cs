@@ -371,9 +371,9 @@ namespace SparkPost.Tests
                 content.Attachments.Add(new Attachment { Name = firstName });
                 content.Attachments.Add(new Attachment { Name = secondName });
 
-                var mappedAttachments = mapper.ToDictionary(content)["attachments"];
-                var names = mappedAttachments
-                    .CastAs<IEnumerable<IDictionary<string, object>>>()
+                var names = mapper.ToDictionary(content)["attachments"]
+                    .CastAs<IEnumerable<object>>()
+                    .Select(x => x.CastAs<Dictionary<string, object>>())
                     .Select(x => x["name"]);
 
                 names.Count().ShouldEqual(2);
@@ -397,7 +397,8 @@ namespace SparkPost.Tests
 
                 var mappedAttachments = mapper.ToDictionary(content)["inline_images"];
                 var names = mappedAttachments
-                    .CastAs<IEnumerable<IDictionary<string, object>>>()
+                    .CastAs<IEnumerable<object>>()
+                    .Select(x => x.CastAs<Dictionary<string, object>>())
                     .Select(x => x["name"]);
 
                 names.Count().ShouldEqual(2);

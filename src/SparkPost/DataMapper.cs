@@ -44,11 +44,7 @@ namespace SparkPost
 
         public virtual IDictionary<string, object> ToDictionary(Content content)
         {
-            return WithCommonConventions(content, new Dictionary<string, object>
-            {
-                ["attachments"] = content.Attachments.Any() ? content.Attachments.Select(ToDictionary) : null,
-                ["inline_images"] = content.InlineImages.Any() ? content.InlineImages.Select(ToDictionary) : null,
-            });
+            return WithCommonConventions(content);
         }
 
         public virtual IDictionary<string, object> ToDictionary(Attachment attachment)
@@ -97,9 +93,23 @@ namespace SparkPost
 
         private object GetTheValue(Type propertyType, object value)
         {
-            if (converters.ContainsKey(propertyType))
+            if (propertyType != typeof(int) && converters.ContainsKey(propertyType))
                 value = converters[propertyType].Invoke(this, BindingFlags.Default, null,
                     new[] {value}, CultureInfo.CurrentCulture);
+            else if (value != null && propertyType.Name.EndsWith("List`1") &&
+                     propertyType.GetGenericArguments().Count() == 1 &&
+                     converters.ContainsKey(propertyType.GetGenericArguments().First()))
+            {
+                var converter = converters[propertyType.GetGenericArguments().First()];
+
+                var list = (value as IEnumerable<object>).ToList();
+
+                if (list.Any())
+                    value = list.Select(x => converter.Invoke(this, BindingFlags.Default, null,
+                        new[] {x}, CultureInfo.CurrentCulture)).ToList();
+                else
+                    value = null;
+            }
             else if (value is bool?)
                 value = value as bool? == true;
             else if (value is DateTimeOffset?)

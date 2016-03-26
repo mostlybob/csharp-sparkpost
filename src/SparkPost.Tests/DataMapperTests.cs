@@ -386,6 +386,19 @@ namespace SparkPost.Tests
                     .ShouldBeFalse();
             }
 
+            [Test]
+            public void It_should_ignore_any_cc_recipients_with_no_address()
+            {
+                var recipient1 = new Recipient {Type = RecipientType.CC, Address = null};
+                transmission.Recipients = new List<Recipient> {recipient1};
+
+                 mapper.ToDictionary(transmission)
+                    ["content"]
+                    .CastAs<IDictionary<string, object>>()
+                    .ContainsKey("headers")
+                    .ShouldBeFalse();
+            }
+
         }
 
         [TestFixture]

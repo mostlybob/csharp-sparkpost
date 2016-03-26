@@ -173,6 +173,7 @@ namespace SparkPost
             var ccAddresses =
                 transmission.Recipients
                 .Where(x => x.Type == RecipientType.CC)
+                .Where(x => x.Address != null)
                 .Where(x => string.IsNullOrWhiteSpace(x.Address.Email) == false)
                 .Select(x => "<" + x.Address.Email + ">");
             var cc = string.Join(",", ccAddresses);

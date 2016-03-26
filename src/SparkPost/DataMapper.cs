@@ -170,15 +170,13 @@ namespace SparkPost
 
         private static void SetAnyCCsInTheHeader(Transmission transmission, IDictionary<string, object> result)
         {
-            var ccAddresses =
-                transmission.Recipients
+            var ccAddresses = transmission.Recipients
                 .Where(x => x.Type == RecipientType.CC)
                 .Where(x => x.Address != null)
                 .Where(x => string.IsNullOrWhiteSpace(x.Address.Email) == false)
                 .Select(x => "<" + x.Address.Email + ">");
-            var cc = string.Join(",", ccAddresses);
 
-            if (string.IsNullOrEmpty(cc)) return;
+            if (ccAddresses.Any() == false) return;
 
             if (result.ContainsKey("content") == false)
                 result["content"] = new Dictionary<string, object>();
@@ -186,8 +184,9 @@ namespace SparkPost
             var content = result["content"] as IDictionary<string, object>;
             if (content.ContainsKey("headers") == false)
                 content["headers"] = new Dictionary<string, string>();
-            var headers = content["headers"] as IDictionary<string, string>;
-            headers["CC"] = cc;
+
+            ((IDictionary<string, string>)((IDictionary<string, object>) result["content"])["headers"])
+                ["CC"] = string.Join(",", ccAddresses);
         }
     }
 }

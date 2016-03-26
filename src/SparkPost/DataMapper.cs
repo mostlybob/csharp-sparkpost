@@ -33,9 +33,10 @@ namespace SparkPost
                 result["content"] = new Dictionary<string, object>();
 
             var content = result["content"] as IDictionary<string, object>;
-            var headers = new Dictionary<string, string> {["CC"] = cc};
-            content["headers"] = headers;
-            result["content"] = content;
+            if (content.ContainsKey("headers") == false)
+                content["headers"] = new Dictionary<string, string>();
+            var headers = content["headers"] as IDictionary<string, string>;
+            headers["CC"] = cc;
 
             return result;
         }

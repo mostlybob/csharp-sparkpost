@@ -316,6 +316,25 @@ namespace SparkPost.Tests
 
                 cc.ShouldEqual("<" + recipient1.Address.Email + ">,<" + recipient3.Address.Email + ">");
             }
+
+            [Test]
+            public void It_should_not_overwrite_any_existing_headers()
+            {
+                var key = Guid.NewGuid().ToString();
+                var value = Guid.NewGuid().ToString();
+
+                var recipient1 = new Recipient {Type = RecipientType.CC, Address = new Address {Email = Guid.NewGuid().ToString()}};
+                transmission.Recipients = new List<Recipient> {recipient1};
+
+                transmission.Content.Headers[key] = value;
+
+                 mapper.ToDictionary(transmission)
+                    ["content"]
+                    .CastAs<IDictionary<string, object>>()
+                    ["headers"]
+                    .CastAs<IDictionary<string, string>>()
+                    [key].ShouldEqual(value);
+            }
         }
 
         [TestFixture]

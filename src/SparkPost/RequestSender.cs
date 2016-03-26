@@ -22,9 +22,7 @@ namespace SparkPost
                 c.DefaultRequestHeaders.Accept.Clear();
                 c.DefaultRequestHeaders.Add("Authorization", client.ApiKey);
 
-                var settings = new JsonSerializerSettings {TypeNameHandling = TypeNameHandling.None};
-                var result = await c.PostAsync(request.Url,
-                    new StringContent(JsonConvert.SerializeObject(request.Data, settings)));
+                var result = await c.PostAsync(request.Url, BuildContent(request.Data));
 
                 return new Response
                 {
@@ -33,6 +31,11 @@ namespace SparkPost
                     Content = await result.Content.ReadAsStringAsync(),
                 };
             }
+        }
+
+        private static StringContent BuildContent(object data)
+        {
+            return new StringContent(JsonConvert.SerializeObject(data, new JsonSerializerSettings {TypeNameHandling = TypeNameHandling.None}));
         }
     }
 }

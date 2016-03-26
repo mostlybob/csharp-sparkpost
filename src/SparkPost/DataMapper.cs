@@ -29,7 +29,10 @@ namespace SparkPost
 
         public virtual IDictionary<string, object> ToDictionary(Recipient recipient)
         {
-            return WithCommonConventions(recipient);
+            return WithCommonConventions(recipient, new Dictionary<string, object>()
+            {
+                ["type"] = null,
+            });
         }
 
         public virtual IDictionary<string, object> ToDictionary(Address address)

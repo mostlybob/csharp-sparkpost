@@ -102,6 +102,13 @@ namespace SparkPost.Tests
             {
                 mapper.ToDictionary(recipient).Keys.ShouldNotContain("substitution_data");
             }
+
+            [Test]
+            public void The_type_should_be_ignored()
+            {
+                recipient.Type = RecipientType.CC;
+                mapper.ToDictionary(recipient).Keys.ShouldNotContain("type");
+            }
         }
 
         [TestFixture]

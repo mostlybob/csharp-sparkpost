@@ -335,6 +335,57 @@ namespace SparkPost.Tests
                     .CastAs<IDictionary<string, string>>()
                     [key].ShouldEqual(value);
             }
+
+            [Test]
+            public void It_should_not_set_the_cc_if_there_are_no_cc_emails()
+            {
+                var key = Guid.NewGuid().ToString();
+                var value = Guid.NewGuid().ToString();
+
+                var recipient1 = new Recipient {Type = RecipientType.To, Address = new Address {Email = Guid.NewGuid().ToString()}};
+                var recipient2 = new Recipient {Type = RecipientType.BCC, Address = new Address {Email = Guid.NewGuid().ToString()}};
+                transmission.Recipients = new List<Recipient> {recipient1, recipient2};
+
+                transmission.Content.Headers[key] = value;
+
+                 mapper.ToDictionary(transmission)
+                    ["content"]
+                    .CastAs<IDictionary<string, object>>()
+                    ["headers"]
+                    .CastAs<IDictionary<string, string>>()
+                    .ContainsKey("CC")
+                    .ShouldBeFalse();
+            }
+
+            [Test]
+            public void It_should_not_set_a_header_value_if_there_are_no_ccs()
+            {
+                var recipient1 = new Recipient {Type = RecipientType.To, Address = new Address {Email = Guid.NewGuid().ToString()}};
+                var recipient2 = new Recipient {Type = RecipientType.BCC, Address = new Address {Email = Guid.NewGuid().ToString()}};
+                transmission.Recipients = new List<Recipient> {recipient1, recipient2};
+
+                 mapper.ToDictionary(transmission)
+                    ["content"]
+                    .CastAs<IDictionary<string, object>>()
+                    .ContainsKey("headers")
+                    .ShouldBeFalse();
+            }
+
+            [Test]
+            public void It_should_ignore_empty_ccs()
+            {
+                var recipient1 = new Recipient {Type = RecipientType.CC, Address = new Address {Email = ""}};
+                var recipient2 = new Recipient {Type = RecipientType.CC, Address = new Address {Email = null}};
+                var recipient3 = new Recipient {Type = RecipientType.CC, Address = new Address {Email = " "}};
+                transmission.Recipients = new List<Recipient> {recipient1, recipient2, recipient3};
+
+                 mapper.ToDictionary(transmission)
+                    ["content"]
+                    .CastAs<IDictionary<string, object>>()
+                    .ContainsKey("headers")
+                    .ShouldBeFalse();
+            }
+
         }
 
         [TestFixture]

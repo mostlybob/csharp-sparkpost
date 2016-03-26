@@ -170,23 +170,38 @@ namespace SparkPost
 
         private static void SetAnyCCsInTheHeader(Transmission transmission, IDictionary<string, object> result)
         {
-            var ccAddresses = transmission.Recipients
+            var ccs = GetTheCcEmails(transmission);
+
+            if (ccs.Any() == false) return;
+
+            MakeSureThereIsAHeaderDefinedInTheRequest(result);
+
+            SetThisHeaderValue(result, "CC", string.Join(",", ccs));
+        }
+
+        private static IEnumerable<string> GetTheCcEmails(Transmission transmission)
+        {
+            return transmission.Recipients
                 .Where(x => x.Type == RecipientType.CC)
                 .Where(x => x.Address != null)
                 .Where(x => string.IsNullOrWhiteSpace(x.Address.Email) == false)
                 .Select(x => "<" + x.Address.Email + ">");
+        }
 
-            if (ccAddresses.Any() == false) return;
-
+        private static void MakeSureThereIsAHeaderDefinedInTheRequest(IDictionary<string, object> result)
+        {
             if (result.ContainsKey("content") == false)
                 result["content"] = new Dictionary<string, object>();
 
             var content = result["content"] as IDictionary<string, object>;
             if (content.ContainsKey("headers") == false)
                 content["headers"] = new Dictionary<string, string>();
+        }
 
-            ((IDictionary<string, string>)((IDictionary<string, object>) result["content"])["headers"])
-                ["CC"] = string.Join(",", ccAddresses);
+        private static void SetThisHeaderValue(IDictionary<string, object> result, string key, string value)
+        {
+            ((IDictionary<string, string>) ((IDictionary<string, object>) result["content"])["headers"])
+                [key] = value;
         }
     }
 }

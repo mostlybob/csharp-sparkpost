@@ -176,7 +176,12 @@ namespace SparkPost
 
             MakeSureThereIsAHeaderDefinedInTheRequest(result);
 
-            SetThisHeaderValue(result, "CC", string.Join(",", ccs));
+            SetThisHeaderValue(result, "CC", FormatTheCCs(ccs));
+        }
+
+        private static string FormatTheCCs(IEnumerable<string> ccs)
+        {
+            return string.Join(",", ccs.Select(x=> "<" + x + ">"));
         }
 
         private static IEnumerable<string> GetTheCcEmails(Transmission transmission)
@@ -185,7 +190,7 @@ namespace SparkPost
                 .Where(x => x.Type == RecipientType.CC)
                 .Where(x => x.Address != null)
                 .Where(x => string.IsNullOrWhiteSpace(x.Address.Email) == false)
-                .Select(x => "<" + x.Address.Email + ">");
+                .Select(x => x.Address.Email);
         }
 
         private static void MakeSureThereIsAHeaderDefinedInTheRequest(IDictionary<string, object> result)

@@ -286,6 +286,39 @@ namespace SparkPost.Tests
         }
 
         [TestFixture]
+        public class MappingCcFields
+        {
+            [SetUp]
+            public void Setup()
+            {
+                transmission = new Transmission();
+                mapper = new DataMapper("v1");
+            }
+
+            private Transmission transmission;
+            private DataMapper mapper;
+
+            [Test]
+            public void It_should_set_the_CC_Header_for_the_cc_emails()
+            {
+                var recipient1 = new Recipient {Type = RecipientType.CC, Address = new Address {Email = Guid.NewGuid().ToString()}};
+                var recipient2 = new Recipient {Type = RecipientType.To, Address = new Address {Email = Guid.NewGuid().ToString()}};
+                var recipient3 = new Recipient {Type = RecipientType.CC, Address = new Address {Email = Guid.NewGuid().ToString()}};
+
+                transmission.Recipients = new List<Recipient> {recipient1, recipient2, recipient3};
+
+                var cc = mapper.ToDictionary(transmission)
+                    ["content"]
+                    .CastAs<IDictionary<string, object>>()
+                    ["headers"]
+                    .CastAs<IDictionary<string, string>>()
+                    ["CC"];
+
+                cc.ShouldEqual("<" + recipient1.Address.Email + ">,<" + recipient3.Address.Email + ">");
+            }
+        }
+
+        [TestFixture]
         public class ContentMappingTests
         {
             [SetUp]

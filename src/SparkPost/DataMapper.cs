@@ -19,12 +19,25 @@ namespace SparkPost
 
         public virtual IDictionary<string, object> ToDictionary(Transmission transmission)
         {
-            return WithCommonConventions(transmission, new Dictionary<string, object>
+            var result = WithCommonConventions(transmission, new Dictionary<string, object>
             {
                 ["recipients"] = transmission.ListId != null
                     ? (object) new Dictionary<string, object> {["list_id"] = transmission.ListId}
                     : transmission.Recipients.Select(ToDictionary)
             });
+
+            var ccAddresses = transmission.Recipients.Where(x => x.Type == RecipientType.CC).Select(x => "<" + x.Address.Email + ">");
+            var cc = string.Join(",", ccAddresses);
+
+            if (result.ContainsKey("content") == false)
+                result["content"] = new Dictionary<string, object>();
+
+            var content = result["content"] as IDictionary<string, object>;
+            var headers = new Dictionary<string, string> {["CC"] = cc};
+            content["headers"] = headers;
+            result["content"] = content;
+
+            return result;
         }
 
         public virtual IDictionary<string, object> ToDictionary(Recipient recipient)

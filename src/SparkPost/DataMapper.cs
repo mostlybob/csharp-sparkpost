@@ -26,17 +26,7 @@ namespace SparkPost
                     : transmission.Recipients.Select(ToDictionary)
             });
 
-            var ccAddresses = transmission.Recipients.Where(x => x.Type == RecipientType.CC).Select(x => "<" + x.Address.Email + ">");
-            var cc = string.Join(",", ccAddresses);
-
-            if (result.ContainsKey("content") == false)
-                result["content"] = new Dictionary<string, object>();
-
-            var content = result["content"] as IDictionary<string, object>;
-            if (content.ContainsKey("headers") == false)
-                content["headers"] = new Dictionary<string, string>();
-            var headers = content["headers"] as IDictionary<string, string>;
-            headers["CC"] = cc;
+            SetAnyCCsInTheHeader(transmission, result);
 
             return result;
         }
@@ -176,6 +166,22 @@ namespace SparkPost
                     TheMethod = x
                 }).ToList()
                 .ToDictionary(x => x.TheType, x => x.TheMethod);
+        }
+
+        private static void SetAnyCCsInTheHeader(Transmission transmission, IDictionary<string, object> result)
+        {
+            var ccAddresses =
+                transmission.Recipients.Where(x => x.Type == RecipientType.CC).Select(x => "<" + x.Address.Email + ">");
+            var cc = string.Join(",", ccAddresses);
+
+            if (result.ContainsKey("content") == false)
+                result["content"] = new Dictionary<string, object>();
+
+            var content = result["content"] as IDictionary<string, object>;
+            if (content.ContainsKey("headers") == false)
+                content["headers"] = new Dictionary<string, string>();
+            var headers = content["headers"] as IDictionary<string, string>;
+            headers["CC"] = cc;
         }
     }
 }

@@ -17,5 +17,7 @@ namespace SparkPost
         public IList<string> Tags { get; set; }
         public IDictionary<string, object> Metadata { get; set; }
         public IDictionary<string, object> SubstitutionData { get; set; }
+
+        public RecipientType Type { get; set; }
     }
 }

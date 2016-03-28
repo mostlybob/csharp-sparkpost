@@ -102,6 +102,13 @@ namespace SparkPost.Tests
             {
                 mapper.ToDictionary(recipient).Keys.ShouldNotContain("substitution_data");
             }
+
+            [Test]
+            public void The_type_should_be_ignored()
+            {
+                recipient.Type = RecipientType.CC;
+                mapper.ToDictionary(recipient).Keys.ShouldNotContain("type");
+            }
         }
 
         [TestFixture]
@@ -276,6 +283,122 @@ namespace SparkPost.Tests
                     .CastAs<IDictionary<string, object>>()
                     ["click_tracking"].ShouldEqual(false);
             }
+        }
+
+        [TestFixture]
+        public class MappingCcFields
+        {
+            [SetUp]
+            public void Setup()
+            {
+                transmission = new Transmission();
+                mapper = new DataMapper("v1");
+            }
+
+            private Transmission transmission;
+            private DataMapper mapper;
+
+            [Test]
+            public void It_should_set_the_CC_Header_for_the_cc_emails()
+            {
+                var recipient1 = new Recipient {Type = RecipientType.CC, Address = new Address {Email = Guid.NewGuid().ToString()}};
+                var recipient2 = new Recipient {Type = RecipientType.To, Address = new Address {Email = Guid.NewGuid().ToString()}};
+                var recipient3 = new Recipient {Type = RecipientType.CC, Address = new Address {Email = Guid.NewGuid().ToString()}};
+
+                transmission.Recipients = new List<Recipient> {recipient1, recipient2, recipient3};
+
+                var cc = mapper.ToDictionary(transmission)
+                    ["content"]
+                    .CastAs<IDictionary<string, object>>()
+                    ["headers"]
+                    .CastAs<IDictionary<string, string>>()
+                    ["CC"];
+
+                cc.ShouldEqual("<" + recipient1.Address.Email + ">,<" + recipient3.Address.Email + ">");
+            }
+
+            [Test]
+            public void It_should_not_overwrite_any_existing_headers()
+            {
+                var key = Guid.NewGuid().ToString();
+                var value = Guid.NewGuid().ToString();
+
+                var recipient1 = new Recipient {Type = RecipientType.CC, Address = new Address {Email = Guid.NewGuid().ToString()}};
+                transmission.Recipients = new List<Recipient> {recipient1};
+
+                transmission.Content.Headers[key] = value;
+
+                 mapper.ToDictionary(transmission)
+                    ["content"]
+                    .CastAs<IDictionary<string, object>>()
+                    ["headers"]
+                    .CastAs<IDictionary<string, string>>()
+                    [key].ShouldEqual(value);
+            }
+
+            [Test]
+            public void It_should_not_set_the_cc_if_there_are_no_cc_emails()
+            {
+                var key = Guid.NewGuid().ToString();
+                var value = Guid.NewGuid().ToString();
+
+                var recipient1 = new Recipient {Type = RecipientType.To, Address = new Address {Email = Guid.NewGuid().ToString()}};
+                var recipient2 = new Recipient {Type = RecipientType.BCC, Address = new Address {Email = Guid.NewGuid().ToString()}};
+                transmission.Recipients = new List<Recipient> {recipient1, recipient2};
+
+                transmission.Content.Headers[key] = value;
+
+                 mapper.ToDictionary(transmission)
+                    ["content"]
+                    .CastAs<IDictionary<string, object>>()
+                    ["headers"]
+                    .CastAs<IDictionary<string, string>>()
+                    .ContainsKey("CC")
+                    .ShouldBeFalse();
+            }
+
+            [Test]
+            public void It_should_not_set_a_header_value_if_there_are_no_ccs()
+            {
+                var recipient1 = new Recipient {Type = RecipientType.To, Address = new Address {Email = Guid.NewGuid().ToString()}};
+                var recipient2 = new Recipient {Type = RecipientType.BCC, Address = new Address {Email = Guid.NewGuid().ToString()}};
+                transmission.Recipients = new List<Recipient> {recipient1, recipient2};
+
+                 mapper.ToDictionary(transmission)
+                    ["content"]
+                    .CastAs<IDictionary<string, object>>()
+                    .ContainsKey("headers")
+                    .ShouldBeFalse();
+            }
+
+            [Test]
+            public void It_should_ignore_empty_ccs()
+            {
+                var recipient1 = new Recipient {Type = RecipientType.CC, Address = new Address {Email = ""}};
+                var recipient2 = new Recipient {Type = RecipientType.CC, Address = new Address {Email = null}};
+                var recipient3 = new Recipient {Type = RecipientType.CC, Address = new Address {Email = " "}};
+                transmission.Recipients = new List<Recipient> {recipient1, recipient2, recipient3};
+
+                 mapper.ToDictionary(transmission)
+                    ["content"]
+                    .CastAs<IDictionary<string, object>>()
+                    .ContainsKey("headers")
+                    .ShouldBeFalse();
+            }
+
+            [Test]
+            public void It_should_ignore_any_cc_recipients_with_no_address()
+            {
+                var recipient1 = new Recipient {Type = RecipientType.CC, Address = null};
+                transmission.Recipients = new List<Recipient> {recipient1};
+
+                 mapper.ToDictionary(transmission)
+                    ["content"]
+                    .CastAs<IDictionary<string, object>>()
+                    .ContainsKey("headers")
+                    .ShouldBeFalse();
+            }
+
         }
 
         [TestFixture]

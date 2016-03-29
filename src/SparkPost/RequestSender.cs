@@ -44,6 +44,7 @@ namespace SparkPost
 
         private static string ConvertToQueryString(object data)
         {
+            if (data == null) return null;
             var dictionary = JsonConvert.DeserializeObject<IDictionary<string, string>>(JsonConvert.SerializeObject(data));
 
             var values = dictionary

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
@@ -27,7 +29,7 @@ namespace SparkPost
                 if (request.Method == "POST")
                     result = await c.PostAsync(request.Url, BuildContent(request.Data));
                 else
-                    result = await c.GetAsync(request.Url);
+                    result = await c.GetAsync(request.Url + "?" + ConvertToQueryString(request.Data));
 
                 return new Response
                 {
@@ -36,6 +38,12 @@ namespace SparkPost
                     Content = await result.Content.ReadAsStringAsync(),
                 };
             }
+        }
+
+        private static string ConvertToQueryString(object data)
+        {
+            var values = JsonConvert.DeserializeObject<IDictionary<string, string>>(JsonConvert.SerializeObject(data));
+            return string.Join("&", values.Select(x => HttpUtility.UrlEncode(x.Key) + "=" + HttpUtility.UrlEncode(x.Value)));
         }
 
         private static StringContent BuildContent(object data)

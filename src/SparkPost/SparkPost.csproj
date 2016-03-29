@@ -55,6 +55,7 @@
     <Compile Include="DataMapper.cs" />
     <Compile Include="File.cs" />
     <Compile Include="InlineImage.cs" />
+    <Compile Include="ListTransmissionResponse.cs" />
     <Compile Include="Options.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Recipient.cs" />

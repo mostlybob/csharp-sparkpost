@@ -29,7 +29,9 @@ namespace SparkPost
                 if (request.Method == "POST")
                     result = await c.PostAsync(request.Url, BuildContent(request.Data));
                 else
-                    result = await c.GetAsync(request.Url + "?" + ConvertToQueryString(request.Data));
+                    result = await c.GetAsync(string.Join("?",
+                        new[] {request.Url, ConvertToQueryString(request.Data)}
+                            .Where(x => string.IsNullOrEmpty(x) == false)));
 
                 return new Response
                 {

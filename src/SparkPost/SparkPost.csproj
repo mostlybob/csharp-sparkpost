@@ -66,6 +66,8 @@
     <Compile Include="ResponseException.cs" />
     <Compile Include="RetrieveTransmissionResponse.cs" />
     <Compile Include="SendTransmissionResponse.cs" />
+    <Compile Include="Suppression.cs" />
+    <Compile Include="Suppressions.cs" />
     <Compile Include="Transmission.cs" />
     <Compile Include="Transmissions.cs" />
   </ItemGroup>

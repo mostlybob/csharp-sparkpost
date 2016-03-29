@@ -28,6 +28,11 @@ namespace SparkPost
                 HttpResponseMessage result;
                 if (request.Method == "POST")
                     result = await c.PostAsync(request.Url, BuildContent(request.Data));
+                if (request.Method == "PUT")
+                {
+                    //throw new Exception(SerializeObject(request.Data));
+                    result = await c.PutAsync(request.Url, BuildContent(request.Data));
+                }
                 else
                     result = await c.GetAsync(string.Join("?",
                         new[] {request.Url, ConvertToQueryString(request.Data)}

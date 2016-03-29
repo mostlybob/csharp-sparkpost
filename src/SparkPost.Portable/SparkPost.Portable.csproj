@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{2F7E9E0B-27BB-42AC-AB4A-B8249B64C654}</ProjectGuid>
+    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <RootNamespace>SparkPost</RootNamespace>
+    <AssemblyName>SparkPost.Portable</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Profile7</TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;PORTABLE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <NoStdLib>false</NoStdLib>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <DefineConstants>PORTABLE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <NoStdLib>false</NoStdLib>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="..\SparkPost\Address.cs">
+      <Link>Address.cs</Link>
+    </Compile>
+    <Compile Include="..\SparkPost\Attachment.cs">
+      <Link>Attachment.cs</Link>
+    </Compile>
+    <Compile Include="..\SparkPost\CcHandling.cs">
+      <Link>CcHandling.cs</Link>
+    </Compile>
+    <Compile Include="..\SparkPost\Client.cs">
+      <Link>Client.cs</Link>
+    </Compile>
+    <Compile Include="..\SparkPost\Content.cs">
+      <Link>Content.cs</Link>
+    </Compile>
+    <Compile Include="..\SparkPost\DataMapper.cs">
+      <Link>DataMapper.cs</Link>
+    </Compile>
+    <Compile Include="..\SparkPost\File.cs">
+      <Link>File.cs</Link>
+    </Compile>
+    <Compile Include="..\SparkPost\InlineImage.cs">
+      <Link>InlineImage.cs</Link>
+    </Compile>
+    <Compile Include="..\SparkPost\Options.cs">
+      <Link>Options.cs</Link>
+    </Compile>
+    <Compile Include="..\SparkPost\Recipient.cs">
+      <Link>Recipient.cs</Link>
+    </Compile>
+    <Compile Include="..\SparkPost\RecipientType.cs">
+      <Link>RecipientType.cs</Link>
+    </Compile>
+    <Compile Include="..\SparkPost\Request.cs">
+      <Link>Request.cs</Link>
+    </Compile>
+    <Compile Include="..\SparkPost\RequestSender.cs">
+      <Link>RequestSender.cs</Link>
+    </Compile>
+    <Compile Include="..\SparkPost\Response.cs">
+      <Link>Response.cs</Link>
+    </Compile>
+    <Compile Include="..\SparkPost\ResponseException.cs">
+      <Link>ResponseException.cs</Link>
+    </Compile>
+    <Compile Include="..\SparkPost\SendTransmissionResponse.cs">
+      <Link>SendTransmissionResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\SparkPost\Transmission.cs">
+      <Link>Transmission.cs</Link>
+    </Compile>
+    <Compile Include="..\SparkPost\Transmissions.cs">
+      <Link>Transmissions.cs</Link>
+    </Compile>
+    <Compile Include="PortableReflectionExtensions.cs" />
+    <Compile Include="..\SparkPost\Properties\AssemblyInfo.cs">
+      <Link>Properties\AssemblyInfo.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.2\lib\portable-net45+wp80+win8+wpa81+dnxcore50\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="..\SparkPost\SparkPost.nuspec">
+      <Link>SparkPost.nuspec</Link>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
+</Project>

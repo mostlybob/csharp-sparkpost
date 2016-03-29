@@ -42,8 +42,13 @@ namespace SparkPost
 
         private static string ConvertToQueryString(object data)
         {
-            var values = JsonConvert.DeserializeObject<IDictionary<string, string>>(JsonConvert.SerializeObject(data));
-            return string.Join("&", values.Select(x => HttpUtility.UrlEncode(x.Key) + "=" + HttpUtility.UrlEncode(x.Value)));
+            var dictionary = JsonConvert.DeserializeObject<IDictionary<string, string>>(JsonConvert.SerializeObject(data));
+
+            var values = dictionary
+                .Where(x => string.IsNullOrEmpty(x.Value) == false)
+                .Select(x => HttpUtility.UrlEncode(DataMapper.ToSnakeCase(x.Key)) + "=" + HttpUtility.UrlEncode(x.Value));
+
+            return string.Join("&", values);
         }
 
         private static StringContent BuildContent(object data)

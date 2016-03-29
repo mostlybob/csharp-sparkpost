@@ -140,7 +140,7 @@ namespace SparkPost
             return value;
         }
 
-        private static string ToSnakeCase(string input)
+        public static string ToSnakeCase(string input)
         {
             var regex = new Regex("[A-Z]");
 

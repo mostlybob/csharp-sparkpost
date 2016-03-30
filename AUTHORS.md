@@ -1,7 +1,7 @@
 ## Core contributors
 
 * Darren Cauthon (http://github.com/darrencauthon)
-* ADD YOURSELF HERE (and link to your github page)
+* Stefan de Vogelaere (http://githun.com/stefandevo) - Xamarin Support
 
 ## Patches and suggestions
 

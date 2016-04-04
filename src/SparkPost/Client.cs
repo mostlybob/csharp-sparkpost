@@ -12,7 +12,7 @@
         public string ApiKey { get; set; }
         public string ApiHost { get; set; }
 
-        public Transmissions Transmissions { get; }
+        public ITransmissions Transmissions { get; }
         public string Version => "v1";
     }
 }

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -53,8 +53,14 @@
     <Compile Include="..\SparkPost\File.cs">
       <Link>File.cs</Link>
     </Compile>
+    <Compile Include="..\SparkPost\IClient.cs">
+      <Link>IClient.cs</Link>
+    </Compile>
     <Compile Include="..\SparkPost\InlineImage.cs">
       <Link>InlineImage.cs</Link>
+    </Compile>
+    <Compile Include="..\SparkPost\ITransmissions.cs">
+      <Link>ITransmissions.cs</Link>
     </Compile>
     <Compile Include="..\SparkPost\Options.cs">
       <Link>Options.cs</Link>
@@ -102,8 +108,6 @@
       <Link>SparkPost.nuspec</Link>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Properties\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
 </Project>

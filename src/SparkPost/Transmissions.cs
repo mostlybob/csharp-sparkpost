@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace SparkPost
 {
-    public class Transmissions
+    public class Transmissions : ITransmissions
     {
         private readonly Client client;
         private readonly RequestSender requestSender;

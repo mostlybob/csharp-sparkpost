@@ -18,7 +18,7 @@
         /// <summary>
         /// Gets access to the transmissions resource of the SparkPost API.
         /// </summary>
-        Transmissions Transmissions { get; }
+        ITransmissions Transmissions { get; }
 
         /// <summary>
         /// Gets the API version supported by this client.

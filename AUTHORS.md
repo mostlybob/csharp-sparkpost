@@ -6,4 +6,5 @@
 
 ## Patches and suggestions
 
+* Chris Charabaruk (https://github.com/coldacid) - SPEQit
 * ADD YOURSELF HERE (and link to your github page)

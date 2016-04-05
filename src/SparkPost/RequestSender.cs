@@ -27,17 +27,21 @@ namespace SparkPost
                 c.DefaultRequestHeaders.Add("Authorization", client.ApiKey);
 
                 HttpResponseMessage result;
-                if (request.Method == "POST")
-                    result = await c.PostAsync(request.Url, BuildContent(request.Data));
-                else if (request.Method == "PUT JSON")
+                switch (request.Method)
                 {
-                    var content = new StringContent(SerializeObject(request.Data), Encoding.UTF8, "application/json");
-                    result = await c.PutAsync(request.Url, content);
+                    case "POST":
+                        result = await c.PostAsync(request.Url, BuildContent(request.Data));
+                        break;
+                    case "PUT JSON":
+                        var content = new StringContent(SerializeObject(request.Data), Encoding.UTF8, "application/json");
+                        result = await c.PutAsync(request.Url, content);
+                        break;
+                    default:
+                        result = await c.GetAsync(string.Join("?",
+                            new[] {request.Url, ConvertToQueryString(request.Data)}
+                                .Where(x => string.IsNullOrEmpty(x) == false)));
+                        break;
                 }
-                else
-                    result = await c.GetAsync(string.Join("?",
-                        new[] {request.Url, ConvertToQueryString(request.Data)}
-                            .Where(x => string.IsNullOrEmpty(x) == false)));
 
                 return new Response
                 {

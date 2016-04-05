@@ -19,6 +19,26 @@ namespace SparkPost
             this.dataMapper = dataMapper;
         }
 
+        public async Task<Response> List(object query = null)
+        {
+            if (query == null) query = new {limit = 25};
+            var request = new Request()
+            {
+                Url = $"/api/{client.Version}/suppression-list",
+                Method = "GET",
+                Data = query
+            };
+
+            var response = await requestSender.Send(request);
+            if (response.StatusCode != HttpStatusCode.OK) throw new ResponseException(response);
+            return new Response()
+            {
+                ReasonPhrase = response.ReasonPhrase,
+                StatusCode = response.StatusCode,
+                Content = response.Content,
+            };
+        }
+
         public async Task<Response> CreateOrUpdate(IEnumerable<Suppression> suppressions)
         {
             var request = new Request

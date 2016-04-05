@@ -23,7 +23,7 @@ namespace SparkPost
             var request = new Request
             {
                 Url = $"api/{client.Version}/suppression-list",
-                Method = "PUT",
+                Method = "PUT JSON",
                 Data = new { recipients = new [] { new { email = "x@y.com", transactional = true, non_transactional = true, description = "testing"} } },
             };
 

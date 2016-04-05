@@ -29,7 +29,7 @@ namespace SparkPost
                 HttpResponseMessage result;
                 if (request.Method == "POST")
                     result = await c.PostAsync(request.Url, BuildContent(request.Data));
-                else if (request.Method == "PUT")
+                else if (request.Method == "PUT JSON")
                 {
                     var content = new StringContent(SerializeObject(request.Data), Encoding.UTF8, "application/json");
                     result = await c.PutAsync(request.Url, content);

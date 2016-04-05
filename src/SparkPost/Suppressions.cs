@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -24,7 +25,18 @@ namespace SparkPost
             {
                 Url = $"api/{client.Version}/suppression-list",
                 Method = "PUT JSON",
-                Data = new { recipients = new [] { new { email = "x@y.com", transactional = true, non_transactional = true, description = "testing"} } },
+                Data = new
+                {
+                    recipients = suppressions
+                        .Select(x => new
+                        {
+                            email = x.Email,
+                            transactional = x.Transactional,
+                            non_transactional = !x.Transactional,
+                            description = x.Description
+                        })
+                        .ToList()
+                }
             };
 
             var response = await requestSender.Send(request);

@@ -85,7 +85,6 @@ namespace SparkPost
             var response = await requestSender.Send(request);
             if (response.StatusCode != HttpStatusCode.OK) throw new ResponseException(response);
 
-            //var results = JsonConvert.DeserializeObject<dynamic>(response.Content).results;
             var transmissionResponse = new ListTransmissionResponse()
             {
                 ReasonPhrase = response.ReasonPhrase,

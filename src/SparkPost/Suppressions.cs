@@ -20,6 +20,11 @@ namespace SparkPost
             this.dataMapper = dataMapper;
         }
 
+        public async Task<Response> List(SuppressionsQuery supppressionsQuery)
+        {
+            return await List(supppressionsQuery as object);
+        }
+
         public async Task<Response> List(object query = null)
         {
             if (query == null) query = new {};

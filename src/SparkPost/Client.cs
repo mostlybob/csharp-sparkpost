@@ -1,6 +1,6 @@
 ﻿namespace SparkPost
 {
-    public class Client
+    public class Client : IClient
     {
         public Client(string apiKey, string apiHost = "https://api.sparkpost.com")
         {
@@ -13,7 +13,7 @@
         public string ApiKey { get; set; }
         public string ApiHost { get; set; }
 
-        public Transmissions Transmissions { get; }
+        public ITransmissions Transmissions { get; }
         public Suppressions Suppressions { get; }
         public string Version => "v1";
     }

@@ -6,7 +6,7 @@
 
 [![Travis CI](https://travis-ci.org/SparkPost/ruby-sparkpost.svg?branch=master)](https://travis-ci.org/SparkPost/csharp-sparkpost)  [![Slack Status](http://slack.sparkpost.com/badge.svg)](http://slack.sparkpost.com)
 
-The official C# package for the [SparkPost API](https://www.sparkpost.com/api).
+The official C# package for the [SparkPost API](https://www.sparkpost.com/api). Xamarin.iOS and Xamarin.Android support provided in the Portable Package (PCL Profile7).
 
 ## Installation
 

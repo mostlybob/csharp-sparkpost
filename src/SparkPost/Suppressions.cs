@@ -40,7 +40,7 @@ namespace SparkPost
 
             var results = JsonConvert.DeserializeObject<dynamic>(response.Content).results;
 
-            return new SuppressionListResponse
+            return new ListSuppressionResponse
             {
                 ReasonPhrase = response.ReasonPhrase,
                 StatusCode = response.StatusCode,
@@ -49,7 +49,7 @@ namespace SparkPost
             };
         }
 
-        public async Task<SuppressionListResponse> Retrieve(string email)
+        public async Task<ListSuppressionResponse> Retrieve(string email)
         {
             var request = new Request
             {
@@ -66,7 +66,7 @@ namespace SparkPost
                 ? JsonConvert.DeserializeObject<dynamic>(response.Content).results
                 : null;
 
-            return new SuppressionListResponse
+            return new ListSuppressionResponse
             {
                 ReasonPhrase = response.ReasonPhrase,
                 StatusCode = response.StatusCode,
@@ -137,9 +137,5 @@ namespace SparkPost
             return suppressions;
         }
 
-        public class SuppressionListResponse : Response
-        {
-            public IEnumerable<Suppression> Suppressions { get; set; }
-        }
     }
 }

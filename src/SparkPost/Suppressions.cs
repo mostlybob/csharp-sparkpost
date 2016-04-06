@@ -10,8 +10,8 @@ namespace SparkPost
     public class Suppressions
     {
         private readonly Client client;
-        private readonly RequestSender requestSender;
         private readonly DataMapper dataMapper;
+        private readonly RequestSender requestSender;
 
         public Suppressions(Client client, RequestSender requestSender, DataMapper dataMapper)
         {
@@ -28,7 +28,7 @@ namespace SparkPost
         public async Task<Response> List(object query = null)
         {
             if (query == null) query = new {};
-            var request = new Request()
+            var request = new Request
             {
                 Url = $"/api/{client.Version}/suppression-list",
                 Method = "GET",
@@ -40,7 +40,7 @@ namespace SparkPost
 
             var results = JsonConvert.DeserializeObject<dynamic>(response.Content).results;
 
-            return new SuppressionListResponse()
+            return new SuppressionListResponse
             {
                 ReasonPhrase = response.ReasonPhrase,
                 StatusCode = response.StatusCode,
@@ -51,7 +51,7 @@ namespace SparkPost
 
         public async Task<SuppressionListResponse> Retrieve(string email)
         {
-            var request = new Request()
+            var request = new Request
             {
                 Url = $"/api/{client.Version}/suppression-list/{HttpUtility.UrlEncode(email)}",
                 Method = "GET"
@@ -66,7 +66,7 @@ namespace SparkPost
                 ? JsonConvert.DeserializeObject<dynamic>(response.Content).results
                 : null;
 
-            return new SuppressionListResponse()
+            return new SuppressionListResponse
             {
                 ReasonPhrase = response.ReasonPhrase,
                 StatusCode = response.StatusCode,
@@ -98,17 +98,12 @@ namespace SparkPost
             var response = await requestSender.Send(request);
             if (response.StatusCode != HttpStatusCode.OK) throw new ResponseException(response);
 
-            return new Response()
+            return new Response
             {
                 ReasonPhrase = response.ReasonPhrase,
                 StatusCode = response.StatusCode,
-                Content = response.Content,
+                Content = response.Content
             };
-        }
-
-        public class SuppressionListResponse : Response
-        {
-            public IEnumerable<Suppression> Suppressions { get; set; }
         }
 
         public async Task<bool> Delete(string email)
@@ -131,7 +126,7 @@ namespace SparkPost
 
             foreach (var result in results)
             {
-                suppressions.Add(new Suppression()
+                suppressions.Add(new Suppression
                 {
                     Description = result.description,
                     Transactional = result.transactional,
@@ -142,5 +137,9 @@ namespace SparkPost
             return suppressions;
         }
 
+        public class SuppressionListResponse : Response
+        {
+            public IEnumerable<Suppression> Suppressions { get; set; }
+        }
     }
 }

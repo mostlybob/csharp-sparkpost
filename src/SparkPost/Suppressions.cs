@@ -31,6 +31,25 @@ namespace SparkPost
             };
 
             var response = await requestSender.Send(request);
+            if (response.StatusCode != HttpStatusCode.OK)
+                throw new ResponseException(response);
+            return new Response()
+            {
+                ReasonPhrase = response.ReasonPhrase,
+                StatusCode = response.StatusCode,
+                Content = response.Content,
+            };
+        }
+
+        public async Task<Response> Retrieve(string email)
+        {
+            var request = new Request()
+            {
+                Url = $"/api/{client.Version}/suppression-list/{HttpUtility.UrlEncode(email)}",
+                Method = "GET"
+            };
+
+            var response = await requestSender.Send(request);
             if (response.StatusCode != HttpStatusCode.OK) throw new ResponseException(response);
             return new Response()
             {
@@ -53,7 +72,7 @@ namespace SparkPost
                         {
                             email = x.Email,
                             transactional = x.Transactional,
-                            non_transactional = !x.Transactional,
+                            non_transactional = x.NonTransactional,
                             description = x.Description
                         })
                         .ToList()

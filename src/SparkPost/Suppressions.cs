@@ -37,11 +37,27 @@ namespace SparkPost
 
             var response = await requestSender.Send(request);
             if (response.StatusCode != HttpStatusCode.OK) throw new ResponseException(response);
-            return new Response()
+
+            var results = JsonConvert.DeserializeObject<dynamic>(response.Content).results;
+
+            var list = new List<Suppression>();
+
+            foreach (var result in results)
+            {
+                list.Add(new Suppression()
+                {
+                    Description = result.description,
+                    Transactional = result.transactional,
+                    NonTransactional = result.non_transactional,
+                    Email = result.recipient
+                });
+            }
+            return new SuppressionListResponse()
             {
                 ReasonPhrase = response.ReasonPhrase,
                 StatusCode = response.StatusCode,
                 Content = response.Content,
+                Suppressions = list
             };
         }
 
@@ -87,12 +103,19 @@ namespace SparkPost
             if (response.StatusCode != HttpStatusCode.OK) throw new ResponseException(response);
 
             var results = JsonConvert.DeserializeObject<dynamic>(response.Content).results;
-            return new Response()
+
+            return new SuppressionListResponse()
             {
                 ReasonPhrase = response.ReasonPhrase,
                 StatusCode = response.StatusCode,
                 Content = response.Content,
+                Suppressions = results
             };
+        }
+
+        public class SuppressionListResponse : Response
+        {
+            public IEnumerable<Suppression> Suppressions { get; set; }
         }
 
         public async Task<bool> Delete(string email)

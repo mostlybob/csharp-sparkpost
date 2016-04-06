@@ -40,28 +40,16 @@ namespace SparkPost
 
             var results = JsonConvert.DeserializeObject<dynamic>(response.Content).results;
 
-            var suppressions = new List<Suppression>();
-
-            foreach (var result in results)
-            {
-                suppressions.Add(new Suppression()
-                {
-                    Description = result.description,
-                    Transactional = result.transactional,
-                    NonTransactional = result.non_transactional,
-                    Email = result.recipient
-                });
-            }
             return new SuppressionListResponse()
             {
                 ReasonPhrase = response.ReasonPhrase,
                 StatusCode = response.StatusCode,
                 Content = response.Content,
-                Suppressions = suppressions
+                Suppressions = ConvertResultsToAListOfSuppressions(results)
             };
         }
 
-        public async Task<Response> Retrieve(string email)
+        public async Task<SuppressionListResponse> Retrieve(string email)
         {
             var request = new Request()
             {
@@ -71,11 +59,15 @@ namespace SparkPost
 
             var response = await requestSender.Send(request);
             if (response.StatusCode != HttpStatusCode.OK) throw new ResponseException(response);
-            return new Response()
+
+            var results = JsonConvert.DeserializeObject<dynamic>(response.Content).results;
+
+            return new SuppressionListResponse()
             {
                 ReasonPhrase = response.ReasonPhrase,
                 StatusCode = response.StatusCode,
                 Content = response.Content,
+                Suppressions = ConvertResultsToAListOfSuppressions(results)
             };
         }
 
@@ -128,6 +120,23 @@ namespace SparkPost
 
             var response = await requestSender.Send(request);
             return response.StatusCode == HttpStatusCode.NoContent;
+        }
+
+        private static IEnumerable<Suppression> ConvertResultsToAListOfSuppressions(dynamic results)
+        {
+            var suppressions = new List<Suppression>();
+
+            foreach (var result in results)
+            {
+                suppressions.Add(new Suppression()
+                {
+                    Description = result.description,
+                    Transactional = result.transactional,
+                    NonTransactional = result.non_transactional,
+                    Email = result.recipient
+                });
+            }
+            return suppressions;
         }
 
     }

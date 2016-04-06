@@ -14,7 +14,7 @@
         public string ApiHost { get; set; }
 
         public ITransmissions Transmissions { get; }
-        public Suppressions Suppressions { get; }
+        public ISuppressions Suppressions { get; }
         public string Version => "v1";
     }
 }

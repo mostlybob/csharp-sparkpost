@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace SparkPost
 {
-    public class Suppressions
+    public class Suppressions : ISuppressions
     {
         private readonly Client client;
         private readonly RequestSender requestSender;

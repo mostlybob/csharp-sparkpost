@@ -21,6 +21,11 @@
         ITransmissions Transmissions { get; }
 
         /// <summary>
+        /// Gets access to the suppressions resource of the SparkPost API.
+        /// </summary>
+        ISuppressions Suppressions { get; }
+
+        /// <summary>
         /// Gets the API version supported by this client.
         /// </summary>
         string Version { get; }

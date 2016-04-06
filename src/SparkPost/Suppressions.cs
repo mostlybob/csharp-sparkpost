@@ -58,9 +58,10 @@ namespace SparkPost
             };
 
             var response = await requestSender.Send(request);
-            if (response.StatusCode != HttpStatusCode.OK) throw new ResponseException(response);
 
-            var results = JsonConvert.DeserializeObject<dynamic>(response.Content).results;
+            dynamic results = response.StatusCode == HttpStatusCode.OK
+                ? JsonConvert.DeserializeObject<dynamic>(response.Content).results
+                : null;
 
             return new SuppressionListResponse()
             {
@@ -94,14 +95,11 @@ namespace SparkPost
             var response = await requestSender.Send(request);
             if (response.StatusCode != HttpStatusCode.OK) throw new ResponseException(response);
 
-            var results = JsonConvert.DeserializeObject<dynamic>(response.Content).results;
-
-            return new SuppressionListResponse()
+            return new Response()
             {
                 ReasonPhrase = response.ReasonPhrase,
                 StatusCode = response.StatusCode,
                 Content = response.Content,
-                Suppressions = results
             };
         }
 
@@ -125,6 +123,8 @@ namespace SparkPost
         private static IEnumerable<Suppression> ConvertResultsToAListOfSuppressions(dynamic results)
         {
             var suppressions = new List<Suppression>();
+
+            if (results == null) return suppressions;
 
             foreach (var result in results)
             {

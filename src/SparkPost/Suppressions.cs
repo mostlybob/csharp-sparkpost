@@ -22,7 +22,7 @@ namespace SparkPost
 
         public async Task<Response> List(object query = null)
         {
-            if (query == null) query = new {limit = 25};
+            if (query == null) query = new {};
             var request = new Request()
             {
                 Url = $"/api/{client.Version}/suppression-list",

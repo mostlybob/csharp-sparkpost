@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using System.Web;
 using Newtonsoft.Json;
 
 namespace SparkPost
@@ -69,6 +70,18 @@ namespace SparkPost
                 StatusCode = response.StatusCode,
                 Content = response.Content,
             };
+        }
+
+        public async Task<bool> Delete(string email)
+        {
+            var request = new Request
+            {
+                Url = $"api/{client.Version}/suppression-list/{HttpUtility.UrlEncode(email)}",
+                Method = "DELETE"
+            };
+
+            var response = await requestSender.Send(request);
+            return response.StatusCode == HttpStatusCode.NoContent;
         }
 
     }

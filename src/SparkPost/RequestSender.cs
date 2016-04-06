@@ -29,6 +29,9 @@ namespace SparkPost
                 HttpResponseMessage result;
                 switch (request.Method)
                 {
+                    case "DELETE":
+                        result = await c.DeleteAsync(request.Url);
+                        break;
                     case "POST":
                         result = await c.PostAsync(request.Url, BuildContent(request.Data));
                         break;

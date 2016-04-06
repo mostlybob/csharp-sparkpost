@@ -40,11 +40,11 @@ namespace SparkPost
 
             var results = JsonConvert.DeserializeObject<dynamic>(response.Content).results;
 
-            var list = new List<Suppression>();
+            var suppressions = new List<Suppression>();
 
             foreach (var result in results)
             {
-                list.Add(new Suppression()
+                suppressions.Add(new Suppression()
                 {
                     Description = result.description,
                     Transactional = result.transactional,
@@ -57,7 +57,7 @@ namespace SparkPost
                 ReasonPhrase = response.ReasonPhrase,
                 StatusCode = response.StatusCode,
                 Content = response.Content,
-                Suppressions = list
+                Suppressions = suppressions
             };
         }
 

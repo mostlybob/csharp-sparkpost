@@ -31,8 +31,7 @@ namespace SparkPost
             };
 
             var response = await requestSender.Send(request);
-            if (response.StatusCode != HttpStatusCode.OK)
-                throw new ResponseException(response);
+            if (response.StatusCode != HttpStatusCode.OK) throw new ResponseException(response);
             return new Response()
             {
                 ReasonPhrase = response.ReasonPhrase,

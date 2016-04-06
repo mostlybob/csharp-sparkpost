@@ -10,14 +10,12 @@ namespace SparkPost
     public class Suppressions
     {
         private readonly Client client;
-        private readonly DataMapper dataMapper;
         private readonly RequestSender requestSender;
 
-        public Suppressions(Client client, RequestSender requestSender, DataMapper dataMapper)
+        public Suppressions(Client client, RequestSender requestSender)
         {
             this.client = client;
             this.requestSender = requestSender;
-            this.dataMapper = dataMapper;
         }
 
         public async Task<Response> List(SuppressionsQuery supppressionsQuery)

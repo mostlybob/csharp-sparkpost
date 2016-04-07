@@ -9,10 +9,10 @@ namespace SparkPost
 {
     public class Suppressions : ISuppressions
     {
-        private readonly Client client;
-        private readonly RequestSender requestSender;
+        private readonly IClient client;
+        private readonly IRequestSender requestSender;
 
-        public Suppressions(Client client, RequestSender requestSender)
+        public Suppressions(IClient client, IRequestSender requestSender)
         {
             this.client = client;
             this.requestSender = requestSender;

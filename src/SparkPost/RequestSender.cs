@@ -9,7 +9,12 @@ using Newtonsoft.Json;
 
 namespace SparkPost
 {
-    public class RequestSender
+    public interface IRequestSender
+    {
+        Task<Response> Send(Request request);
+    }
+
+    public class RequestSender : IRequestSender
     {
         private readonly Client client;
 

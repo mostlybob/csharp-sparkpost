@@ -50,6 +50,50 @@ namespace SparkPost.Tests
                 response.StatusCode = HttpStatusCode.UpgradeRequired;
                 (await Subject.Delete(email)).ShouldBeFalse();
             }
+
+            [Test]
+            public async void It_should_build_the_web_request_parameters_correctly()
+            {
+                var version = Guid.NewGuid().ToString();
+
+                Mocked<IClient>()
+                    .Setup(x => x.Version)
+                    .Returns(version);
+
+                Mocked<IRequestSender>()
+                    .Setup(x => x.Send(It.IsAny<Request>()))
+                    .Callback((Request r) =>
+                    {
+                        r.Url.ShouldEqual($"api/{version}/suppression-list/{email}");
+                        r.Method.ShouldEqual("DELETE");
+                    })
+                    .Returns(Task.FromResult(response));
+
+                await Subject.Delete(email);
+            }
+
+            [Test]
+            public async void It_should_encode_the_email_address()
+            {
+                var version = Guid.NewGuid().ToString();
+
+                email = "testing@test.com";
+
+                Mocked<IClient>()
+                    .Setup(x => x.Version)
+                    .Returns(version);
+
+                Mocked<IRequestSender>()
+                    .Setup(x => x.Send(It.IsAny<Request>()))
+                    .Callback((Request r) =>
+                    {
+                        r.Url.ShouldEqual($"api/{version}/suppression-list/testing%40test.com");
+                        r.Method.ShouldEqual("DELETE");
+                    })
+                    .Returns(Task.FromResult(response));
+
+                await Subject.Delete(email);
+            }
         }
     }
 }

@@ -20,6 +20,8 @@ Alternatively, you can get the latest dll from the releases tab.  You can also d
 
 ## Usage
 
+### Transmissions
+
 To send an email:
 
 ```c#
@@ -70,6 +72,49 @@ var client = new Client("MY_API_KEY");
 client.Transmissions.Send(transmission);
 
 ```
+
+
+### Suppression List
+
+The suppression list are users who have opted-out of your emails.  To retrieve this list:
+
+```c#
+var client = new Client("MY_API_KEY");
+
+client.Suppressions.List(); // returns a list of 
+
+client.Suppressions.List(new { limit = 3 }); // it accepts an anonymous type for filters
+
+client.Suppressions.List(new SuppressionQuery()); // a SuppressionQuery is also allowed for typed help
+```
+
+To add email addresses to the list:
+
+```c#
+var client = new Client("MY_API_KEY");
+
+var item1 = new Suppression { Email = "testing@testing.com", NonTransactional = true };
+var item2 = new Suppression { Email = "testing2@testing.com", Description = "testing" };
+
+client.Suppressions.CreateOrUpdate(new []{ item1, item2 });
+```
+
+To delete email addresses from the list:
+
+```c#
+var client = new Client("MY_API_KEY");
+
+client.Suppressions.Delete("testing@testing.com");
+```
+
+To retrieve details about an email address on (or not on) the list:
+
+```c#
+var client = new Client("MY_API_KEY");
+
+client.Suppressions.Retrieve("testing@testing.com");
+```
+
 
 ### Contribute
 

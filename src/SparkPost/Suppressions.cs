@@ -11,11 +11,13 @@ namespace SparkPost
     {
         private readonly IClient client;
         private readonly IRequestSender requestSender;
+        private readonly IDataMapper dataMapper;
 
-        public Suppressions(IClient client, IRequestSender requestSender)
+        public Suppressions(IClient client, IRequestSender requestSender, IDataMapper dataMapper)
         {
             this.client = client;
             this.requestSender = requestSender;
+            this.dataMapper = dataMapper;
         }
 
         public async Task<Response> List(SuppressionsQuery supppressionsQuery)
@@ -81,15 +83,7 @@ namespace SparkPost
                 Method = "PUT JSON",
                 Data = new
                 {
-                    recipients = suppressions
-                        .Select(x => new
-                        {
-                            email = x.Email,
-                            transactional = x.Transactional,
-                            non_transactional = x.NonTransactional,
-                            description = x.Description
-                        })
-                        .ToList()
+                    recipients = suppressions.Select(x => dataMapper.ToDictionary(x)).ToList()
                 }
             };
 

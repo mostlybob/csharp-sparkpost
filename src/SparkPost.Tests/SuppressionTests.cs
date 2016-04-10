@@ -165,6 +165,24 @@ namespace SparkPost.Tests
 
                 await Subject.CreateOrUpdate(suppressions);
             }
+
+            [Test]
+            public async void It_should_throw_if_the_http_status_code_is_not_ok()
+            {
+                response.StatusCode = HttpStatusCode.Accepted;
+
+                Exception exception = null;
+                try
+                {
+                    await Subject.CreateOrUpdate(suppressions);
+                }
+                catch(ResponseException ex)
+                {
+                    exception = ex;
+                }
+
+                exception.ShouldNotBeNull();
+            }
         }
     }
 }

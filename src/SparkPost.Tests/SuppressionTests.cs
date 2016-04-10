@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using System.Xml.XPath;
 using AutoMoq.Helpers;
 using Moq;
+using Newtonsoft.Json;
 using NUnit.Framework;
 using Should;
 
@@ -93,6 +95,75 @@ namespace SparkPost.Tests
                     .Returns(Task.FromResult(response));
 
                 await Subject.Delete(email);
+            }
+        }
+
+        [TestFixture]
+        public class CreateOrUpdateTests : AutoMoqTestFixture<Suppressions>
+        {
+            private Response response;
+            private List<Suppression> suppressions;
+
+            [SetUp]
+            public void Setup()
+            {
+                ResetSubject();
+
+                response = new Response
+                {
+                    StatusCode = HttpStatusCode.OK
+                };
+
+                Mocked<IRequestSender>()
+                    .Setup(x => x.Send(It.IsAny<Request>()))
+                    .Returns(Task.FromResult(response));
+
+                suppressions = new List<Suppression>
+                {
+                    new Suppression(),
+                    new Suppression()
+                };
+            }
+
+            [Test]
+            public async void It_should_return_a_response_when_the_web_request_is_ok()
+            {
+                var result = await Subject.CreateOrUpdate(suppressions);
+
+                result.ShouldNotBeNull();
+            }
+
+            [Test]
+            public async void It_should_return_the_reason_phrase()
+            {
+                response.ReasonPhrase = Guid.NewGuid().ToString();
+                var result = await Subject.CreateOrUpdate(suppressions);
+                result.ReasonPhrase.ShouldEqual(response.ReasonPhrase);
+            }
+
+            [Test]
+            public async void It_should_return_the_content()
+            {
+                response.Content = Guid.NewGuid().ToString();
+                var result = await Subject.CreateOrUpdate(suppressions);
+                result.Content.ShouldEqual(response.Content);
+            }
+
+            [Test]
+            public async void It_should_make_a_properly_formed_request()
+            {
+                var client = Mocked<IClient>().Object;
+                Mocked<IClient>().Setup(x => x.Version).Returns(Guid.NewGuid().ToString());
+                Mocked<IRequestSender>()
+                    .Setup(x => x.Send(It.IsAny<Request>()))
+                    .Callback((Request r) =>
+                    {
+                        r.Url.ShouldEqual($"api/{client.Version}/suppression-list");
+                        r.Method.ShouldEqual("PUT JSON");
+                    })
+                    .Returns(Task.FromResult(response));
+
+                await Subject.CreateOrUpdate(suppressions);
             }
         }
     }

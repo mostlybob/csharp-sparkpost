@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -51,9 +52,10 @@ namespace SparkPost
             };
 
             var response = await requestSender.Send(request);
-            if (response.StatusCode != HttpStatusCode.OK) throw new ResponseException(response);
 
-            var results = JsonConvert.DeserializeObject<dynamic>(response.Content).results;
+            if (new[] {HttpStatusCode.OK, HttpStatusCode.NotFound}.Contains(response.StatusCode) == false)
+                throw new ResponseException(response);
+
             var transmissionResponse = new RetrieveTransmissionResponse()
             {
                 ReasonPhrase = response.ReasonPhrase,
@@ -61,15 +63,23 @@ namespace SparkPost
                 Content = response.Content,
             };
 
-            if (results.transmission == null) return transmissionResponse;
+            try
+            {
+                var results = JsonConvert.DeserializeObject<dynamic>(response.Content).results;
+                if (results.transmission == null) return transmissionResponse;
 
-            transmissionResponse.Id = results.transmission.id;
-            transmissionResponse.Description = results.transmission.description;
-            transmissionResponse.GenerationEndTime = results.transmission.generation_end_time;
-            transmissionResponse.RecipientListTotalChunks = results.transmission.rcpt_list_total_chunks ?? 0;
-            transmissionResponse.RecipientListTotalSize = results.transmission.rcpt_list_chunk_size ?? 0;
-            transmissionResponse.NumberRecipients = results.transmission.num_rcpts ?? 0;
-            transmissionResponse.NumberGenerated = results.transmission.num_generated ?? 0;
+                transmissionResponse.Id = results.transmission.id;
+                transmissionResponse.Description = results.transmission.description;
+                transmissionResponse.GenerationEndTime = results.transmission.generation_end_time;
+                transmissionResponse.RecipientListTotalChunks = results.transmission.rcpt_list_total_chunks ?? 0;
+                transmissionResponse.RecipientListTotalSize = results.transmission.rcpt_list_chunk_size ?? 0;
+                transmissionResponse.NumberRecipients = results.transmission.num_rcpts ?? 0;
+                transmissionResponse.NumberGenerated = results.transmission.num_generated ?? 0;
+            }
+            catch
+            {
+                // ignored
+            }
 
             return transmissionResponse;
         }

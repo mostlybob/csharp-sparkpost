@@ -10,5 +10,6 @@ namespace SparkPost
         public bool? Transactional { get; set; }
         public bool? Sandbox { get; set; }
         public bool? SkipSuppression { get; set; }
+        public bool? InlineCss { get; set; }
     }
 }

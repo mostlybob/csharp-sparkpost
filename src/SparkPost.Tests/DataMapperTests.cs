@@ -282,6 +282,11 @@ namespace SparkPost.Tests
                 mapper.ToDictionary(transmission)["options"]
                     .CastAs<IDictionary<string, object>>()
                     ["click_tracking"].ShouldEqual(false);
+
+                transmission.Options.InlineCss = true;
+                mapper.ToDictionary(transmission)["options"]
+                    .CastAs<IDictionary<string, object>>()
+                    ["inline_css"].ShouldEqual(true);
             }
         }
 
@@ -636,6 +641,18 @@ namespace SparkPost.Tests
                 mapper.ToDictionary(options)
                     .CastAs<IDictionary<string, object>>()
                     .Keys.ShouldNotContain("start_time");
+            }
+
+            [Test]
+            public void inline_css()
+            {
+                options.InlineCss = true;
+                mapper.ToDictionary(options).CastAs<IDictionary<string, object>>()
+                    ["inline_css"].ShouldEqual(true);
+
+                options.InlineCss = false;
+                mapper.ToDictionary(options).CastAs<IDictionary<string, object>>()
+                    ["inline_css"].ShouldEqual(false);
             }
         }
 

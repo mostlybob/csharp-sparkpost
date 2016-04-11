@@ -8,7 +8,20 @@ using System.Text.RegularExpressions;
 
 namespace SparkPost
 {
-    public class DataMapper
+    public interface IDataMapper
+    {
+        IDictionary<string, object> ToDictionary(Transmission transmission);
+        IDictionary<string, object> ToDictionary(Recipient recipient);
+        IDictionary<string, object> ToDictionary(Address address);
+        IDictionary<string, object> ToDictionary(Options options);
+        IDictionary<string, object> ToDictionary(Content content);
+        IDictionary<string, object> ToDictionary(Attachment attachment);
+        IDictionary<string, object> ToDictionary(InlineImage inlineImage);
+        IDictionary<string, object> ToDictionary(File file);
+        IDictionary<string, object> ToDictionary(Suppression suppression);
+    }
+
+    public class DataMapper : IDataMapper
     {
         private readonly Dictionary<Type, MethodInfo> converters;
 
@@ -37,6 +50,11 @@ namespace SparkPost
             {
                 ["type"] = null,
             });
+        }
+
+        public virtual IDictionary<string, object> ToDictionary(Suppression suppression)
+        {
+            return WithCommonConventions(suppression);
         }
 
         public virtual IDictionary<string, object> ToDictionary(Address address)
@@ -140,7 +158,7 @@ namespace SparkPost
             return value;
         }
 
-        private static string ToSnakeCase(string input)
+        public static string ToSnakeCase(string input)
         {
             var regex = new Regex("[A-Z]");
 

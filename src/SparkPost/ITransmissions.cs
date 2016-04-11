@@ -13,5 +13,12 @@ namespace SparkPost
         /// <param name="transmission">The properties of the transmission to send.</param>
         /// <returns>The response from the API.</returns>
         Task<SendTransmissionResponse> Send(Transmission transmission);
+
+        /// <summary>
+        /// Retrieves an email transmission.
+        /// </summary>
+        /// <param name="transmissionId">The id of the transmission to retrieve.</param>
+        /// <returns>The response from the API.</returns>
+        Task<RetrieveTransmissionResponse> Retrieve(string transmissionId);
     }
 }

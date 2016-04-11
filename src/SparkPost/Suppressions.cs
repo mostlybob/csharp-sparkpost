@@ -75,6 +75,19 @@ namespace SparkPost
             };
         }
 
+        public async Task<Response> CreateOrUpdate(IEnumerable<string> emails)
+        {
+            var suppressions = emails.Select(email =>
+                new Suppression
+                {
+                    Email = email,
+                    Transactional = true,
+                    NonTransactional = true
+                });
+
+            return await CreateOrUpdate(suppressions);
+        }
+
         public async Task<Response> CreateOrUpdate(IEnumerable<Suppression> suppressions)
         {
             var request = new Request

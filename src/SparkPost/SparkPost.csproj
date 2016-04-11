@@ -75,6 +75,7 @@
     <Compile Include="SuppressionsQuery.cs" />
     <Compile Include="Transmission.cs" />
     <Compile Include="Transmissions.cs" />
+    <Compile Include="UpdateSuppressionResponse.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

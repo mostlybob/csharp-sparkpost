@@ -75,7 +75,7 @@ namespace SparkPost
             };
         }
 
-        public async Task<Response> CreateOrUpdate(IEnumerable<string> emails)
+        public async Task<UpdateSuppressionResponse> CreateOrUpdate(IEnumerable<string> emails)
         {
             var suppressions = emails.Select(email =>
                 new Suppression
@@ -88,7 +88,7 @@ namespace SparkPost
             return await CreateOrUpdate(suppressions);
         }
 
-        public async Task<Response> CreateOrUpdate(IEnumerable<Suppression> suppressions)
+        public async Task<UpdateSuppressionResponse> CreateOrUpdate(IEnumerable<Suppression> suppressions)
         {
             var request = new Request
             {
@@ -103,7 +103,7 @@ namespace SparkPost
             var response = await requestSender.Send(request);
             if (response.StatusCode != HttpStatusCode.OK) throw new ResponseException(response);
 
-            return new Response
+            return new UpdateSuppressionResponse
             {
                 ReasonPhrase = response.ReasonPhrase,
                 StatusCode = response.StatusCode,

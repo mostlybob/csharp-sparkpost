@@ -136,7 +136,10 @@ namespace SparkPost
                     Description = result.description,
                     Transactional = result.transactional,
                     NonTransactional = result.non_transactional,
-                    Email = result.recipient
+                    Email = result.recipient,
+                    Source = result.source,
+                    Created = result.created,
+                    Updated = result.updated
                 });
             }
             return suppressions;

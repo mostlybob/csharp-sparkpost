@@ -20,6 +20,16 @@ Alternatively, you can get the latest dll from the releases tab.  You can also d
 
 ## Usage
 
+#### Special Note about ```Async```
+
+This library uses .Net 4.5's ```Async``` functionality for better performance  ([read more here](https://msdn.microsoft.com/en-us/library/hh191443.aspx)).  This means that if you do not intend to support this ```async``` feature, you'll need to make one slight change to your calls:  Tack on ```.Wait()``` like so:
+
+```c#
+client.Transmissions.Send(transmission).Wait();
+```
+
+This will force the thread to wait until the web request has completed.  If you are calling this from an ```async``` method or if you use ```await```, no changes will be needed.
+
 ### Transmissions
 
 To send an email:
@@ -39,6 +49,7 @@ transmission.Recipients.Add(recipient);
 
 var client = new Client("<YOUR API KEY>");
 client.Transmissions.Send(transmission);
+// or client.Transmissions.Send(transmission).Wait();
 
 ```
 
@@ -70,6 +81,7 @@ transmission.Recipients.Add(recipient);
 
 var client = new Client("MY_API_KEY");
 client.Transmissions.Send(transmission);
+// or client.Transmissions.Send(transmission).Wait();
 
 ```
 

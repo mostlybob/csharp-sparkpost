@@ -791,7 +791,7 @@ namespace SparkPost.Tests
 
                 var dictionary = dataMapper.ToDictionary(webhook);
                 //var authRequestDetails = dictionary["auth_credentials"] as Dictionary<string, object>;
-                throw new Exception(string.Join(",", dictionary.Keys));
+                throw new Exception(string.Join(",", dictionary.Values.Select(x=>x.GetType().Name.ToString())));
                 //authRequestDetails["access_token"].ShouldEqual("<oauth token>");
                 //authRequestDetails["expires_in"].ShouldEqual(3600);
             }

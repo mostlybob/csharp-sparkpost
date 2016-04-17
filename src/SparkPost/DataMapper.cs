@@ -164,7 +164,7 @@ namespace SparkPost
                     select GetTheValue(thing.GetType(), thing)).ToList();
                 value = things.Count > 0 ? things : null;
             }
-            else if (value != null && (value.GetType().Name.Contains("AnonymousType") || value.GetType().Name.Contains("AnonType")))
+            else if (ThisIsAnAnonymousType(value))
             {
                 var newValue = new Dictionary<string, object>();
                 foreach (var property in value.GetType().GetProperties())
@@ -172,6 +172,11 @@ namespace SparkPost
                 value = GetTheValue(newValue.GetType(), newValue);
             }
             return value;
+        }
+
+        private static bool ThisIsAnAnonymousType(object value)
+        {
+            return value != null && (value.GetType().Name.Contains("AnonymousType") || value.GetType().Name.Contains("AnonType"));
         }
 
         public static string ToSnakeCase(string input)

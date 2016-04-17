@@ -1,3 +1,4 @@
+using System;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -6,6 +7,7 @@ namespace SparkPost
     public interface IWebhooks
     {
         Task<Response> List(object query = null);
+        Task<Response> Create(Webhook webhook);
     }
 
     public class Webhooks : IWebhooks
@@ -37,6 +39,23 @@ namespace SparkPost
             var response = new Response();
             LeftRight.SetValuesToMatch(response, result);
             return response;
+        }
+
+        public async Task<Response> Create(Webhook webhook)
+        {
+            var request = new Request
+            {
+                Url = $"api/{client.Version}/webhooks",
+                Method = "POST",
+                Data = dataMapper.ToDictionary(webhook)
+            };
+
+            var response = await requestSender.Send(request);
+            if (response.StatusCode != HttpStatusCode.OK) throw new ResponseException(response);
+
+            var updateSuppressionResponse = new Response();
+            LeftRight.SetValuesToMatch(updateSuppressionResponse, response);
+            return updateSuppressionResponse;
         }
     }
 }

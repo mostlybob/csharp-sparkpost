@@ -19,6 +19,7 @@ namespace SparkPost
         IDictionary<string, object> ToDictionary(InlineImage inlineImage);
         IDictionary<string, object> ToDictionary(File file);
         IDictionary<string, object> ToDictionary(Suppression suppression);
+        IDictionary<string, object> ToDictionary(Webhook webhook);
     }
 
     public class DataMapper : IDataMapper

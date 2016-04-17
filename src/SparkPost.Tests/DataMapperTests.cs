@@ -775,9 +775,25 @@ namespace SparkPost.Tests
                     .CastAs<IDictionary<string, object>>()
                     ["client_secret"]
                     .ShouldEqual("<oauth client secret>");
-
             }
 
+            [Test]
+            public void AuthCredentials()
+            {
+                var webhook = new Webhook
+                {
+                    AuthCredentials = new
+                    {
+                        access_token = "<oauth token>",
+                        ExpiresIn = 3600
+                    }
+                };
+
+                var dictionary = dataMapper.ToDictionary(webhook);
+                var authRequestDetails = dictionary["auth_credentials"].CastAs<IDictionary<string, object>>();
+                authRequestDetails["access_token"].ShouldEqual("<oauth token>");
+                authRequestDetails["expires_in"].ShouldEqual(3600);
+            }
         }
     }
 }

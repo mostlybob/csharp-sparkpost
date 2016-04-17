@@ -57,6 +57,11 @@ namespace SparkPost
             return WithCommonConventions(suppression);
         }
 
+        public virtual IDictionary<string, object> ToDictionary(Webhook webhook)
+        {
+            return WithCommonConventions(webhook);
+        }
+
         public virtual IDictionary<string, object> ToDictionary(Address address)
         {
             return WithCommonConventions(address);

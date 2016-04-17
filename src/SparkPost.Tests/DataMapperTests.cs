@@ -693,5 +693,24 @@ namespace SparkPost.Tests
                 mapper.ToDictionary(file)["data"].ShouldEqual(value);
             }
         }
+
+        [TestFixture]
+        public class WebhookTests
+        {
+            private DataMapper dataMapper;
+
+            [SetUp]
+            public void Setup()
+            {
+                dataMapper = new DataMapper();
+            }
+
+            [Test]
+            public void Name()
+            {
+                var webhook = new Webhook {Name = Guid.NewGuid().ToString()};
+                dataMapper.ToDictionary(webhook)["name"].ShouldEqual(webhook.Name);
+            }
+        }
     }
 }

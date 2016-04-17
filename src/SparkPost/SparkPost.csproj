@@ -76,6 +76,7 @@
     <Compile Include="Transmission.cs" />
     <Compile Include="Transmissions.cs" />
     <Compile Include="UpdateSuppressionResponse.cs" />
+    <Compile Include="Webhook.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

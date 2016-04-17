@@ -164,7 +164,7 @@ namespace SparkPost
                     select GetTheValue(thing.GetType(), thing)).ToList();
                 value = things.Count > 0 ? things : null;
             }
-            else if (value != null && value.GetType().Name.Contains("AnonymousType"))
+            else if (value != null && (value.GetType().Name.Contains("AnonymousType") || value.GetType().Name.Contains("AnonType")))
             {
                 var newValue = new Dictionary<string, object>();
                 foreach (var property in value.GetType().GetProperties())

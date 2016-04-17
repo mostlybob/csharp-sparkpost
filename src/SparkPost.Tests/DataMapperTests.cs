@@ -711,6 +711,13 @@ namespace SparkPost.Tests
                 var webhook = new Webhook {Name = Guid.NewGuid().ToString()};
                 dataMapper.ToDictionary(webhook)["name"].ShouldEqual(webhook.Name);
             }
+
+            [Test]
+            public void Target()
+            {
+                var webhook = new Webhook {Target = Guid.NewGuid().ToString()};
+                dataMapper.ToDictionary(webhook)["target"].ShouldEqual(webhook.Target);
+            }
         }
     }
 }

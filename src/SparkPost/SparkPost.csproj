@@ -57,6 +57,7 @@
     <Compile Include="IClient.cs" />
     <Compile Include="InlineImage.cs" />
     <Compile Include="ISuppressions.cs" />
+    <Compile Include="LeftRight.cs" />
     <Compile Include="ListSuppressionResponse.cs" />
     <Compile Include="ITransmissions.cs" />
     <Compile Include="ListTransmissionResponse.cs" />

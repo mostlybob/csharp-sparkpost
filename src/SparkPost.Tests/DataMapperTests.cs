@@ -720,6 +720,20 @@ namespace SparkPost.Tests
             }
 
             [Test]
+            public void AuthType()
+            {
+                var webhook = new Webhook {AuthType = Guid.NewGuid().ToString()};
+                dataMapper.ToDictionary(webhook)["auth_type"].ShouldEqual(webhook.AuthType);
+            }
+
+            [Test]
+            public void AuthToken()
+            {
+                var webhook = new Webhook {AuthToken = Guid.NewGuid().ToString()};
+                dataMapper.ToDictionary(webhook)["auth_token"].ShouldEqual(webhook.AuthToken);
+            }
+
+            [Test]
             public void Events()
             {
                 var first = Guid.NewGuid().ToString();

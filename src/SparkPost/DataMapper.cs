@@ -149,7 +149,8 @@ namespace SparkPost
                 var dictionary = (IDictionary<string, object>) value;
                 var newDictionary = new Dictionary<string, object>();
                 foreach (var item in dictionary)
-                    newDictionary[DataMapper.ToSnakeCase(item.Key)] = GetTheValue(item.Value.GetType(), item.Value);
+                    if (item.Value != null)
+                        newDictionary[DataMapper.ToSnakeCase(item.Key)] = GetTheValue(item.Value.GetType(), item.Value);
                 dictionary = newDictionary;
                 value = dictionary.Count > 0 ? dictionary : null;
             }

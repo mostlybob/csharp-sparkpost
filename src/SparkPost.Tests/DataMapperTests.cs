@@ -749,6 +749,35 @@ namespace SparkPost.Tests
                 events.ShouldContain(first);
                 events.ShouldContain(second);
             }
+
+            [Test]
+            public void AuthRequestDetails()
+            {
+                var webhook = new Webhook
+                {
+                    AuthRequestDetails = new
+                    {
+                        Url = "https://oauth.myurl.com/tokens",
+                        Body = new {ClientId = "<oauth client id>", ClientSecret = "<oauth client secret>"}
+                    }
+                };
+
+                var dictionary = dataMapper.ToDictionary(webhook);
+                var authRequestDetails = dictionary["auth_request_details"].CastAs<IDictionary<string, object>>();
+                authRequestDetails["url"].ShouldEqual("https://oauth.myurl.com/tokens");
+
+                authRequestDetails["body"]
+                    .CastAs<IDictionary<string, object>>()
+                    ["client_id"]
+                    .ShouldEqual("<oauth client id>");
+
+                authRequestDetails["body"]
+                    .CastAs<IDictionary<string, object>>()
+                    ["client_secret"]
+                    .ShouldEqual("<oauth client secret>");
+
+            }
+
         }
     }
 }

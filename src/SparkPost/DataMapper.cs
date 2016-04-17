@@ -147,6 +147,10 @@ namespace SparkPost
             else if (value is IDictionary<string, object>)
             {
                 var dictionary = (IDictionary<string, object>) value;
+                var newDictionary = new Dictionary<string, object>();
+                foreach (var item in dictionary)
+                    newDictionary[DataMapper.ToSnakeCase(item.Key)] = GetTheValue(item.Value.GetType(), item.Value);
+                dictionary = newDictionary;
                 value = dictionary.Count > 0 ? dictionary : null;
             }
             else if (value is IDictionary<string, string>)
@@ -159,6 +163,13 @@ namespace SparkPost
                 var things = (from object thing in (IEnumerable) value
                     select GetTheValue(thing.GetType(), thing)).ToList();
                 value = things.Count > 0 ? things : null;
+            }
+            else if (value != null && value.GetType().Name.Contains("AnonymousType"))
+            {
+                var newValue = new Dictionary<string, object>();
+                foreach (var property in value.GetType().GetProperties())
+                    newValue[property.Name] = property.GetValue(value);
+                value = GetTheValue(newValue.GetType(), newValue);
             }
             return value;
         }

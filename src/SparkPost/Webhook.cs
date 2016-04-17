@@ -15,5 +15,6 @@ namespace SparkPost
 
         public string AuthType { get; set; }
         public string AuthToken { get; set; }
+        public object AuthRequestDetails { get; set; }
     }
 }

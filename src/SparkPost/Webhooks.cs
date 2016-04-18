@@ -1,10 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 
 namespace SparkPost
 {
@@ -18,8 +13,8 @@ namespace SparkPost
     public class Webhooks : IWebhooks
     {
         private readonly IClient client;
-        private readonly IRequestSender requestSender;
         private readonly IDataMapper dataMapper;
+        private readonly IRequestSender requestSender;
 
         public Webhooks(IClient client, IRequestSender requestSender, IDataMapper dataMapper)
         {

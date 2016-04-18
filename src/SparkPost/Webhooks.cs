@@ -12,6 +12,7 @@ namespace SparkPost
     {
         Task<ListWebhookResponse> List(object query = null);
         Task<Response> Create(Webhook webhook);
+        Task<bool> Delete(string id);
     }
 
     public class Webhooks : IWebhooks
@@ -58,6 +59,18 @@ namespace SparkPost
             var updateSuppressionResponse = new Response();
             LeftRight.SetValuesToMatch(updateSuppressionResponse, response);
             return updateSuppressionResponse;
+        }
+
+        public async Task<bool> Delete(string id)
+        {
+            var request = new Request
+            {
+                Url = $"/api/{client.Version}/webhooks/{id}",
+                Method = "DELETE"
+            };
+
+            var response = await requestSender.Send(request);
+            return response.StatusCode == HttpStatusCode.NoContent;
         }
     }
 }

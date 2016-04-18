@@ -1,12 +1,16 @@
 using System;
+using System.Collections.Generic;
+using System.Dynamic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace SparkPost
 {
     public interface IWebhooks
     {
-        Task<Response> List(object query = null);
+        Task<ListWebhookResponse> List(object query = null);
         Task<Response> Create(Webhook webhook);
     }
 
@@ -23,7 +27,7 @@ namespace SparkPost
             this.dataMapper = dataMapper;
         }
 
-        public async Task<Response> List(object query = null)
+        public async Task<ListWebhookResponse> List(object query = null)
         {
             if (query == null) query = new {};
             var request = new Request
@@ -36,8 +40,20 @@ namespace SparkPost
             var result = await requestSender.Send(request);
             if (result.StatusCode != HttpStatusCode.OK) throw new ResponseException(result);
 
-            var response = new Response();
+            var response = new ListWebhookResponse();
             LeftRight.SetValuesToMatch(response, result);
+
+            var results = JsonConvert.DeserializeObject<dynamic>(response.Content).results;
+            var webhooks = new List<Webhook>();
+            foreach(var r in results)
+            {
+                var webhook = new Webhook();
+                var ugh = JsonConvert.DeserializeObject<Dictionary<string, object>>(JsonConvert.SerializeObject(r));
+                LeftRight.SetValuesToMatch(webhook, ugh);
+                webhooks.Add(webhook);
+            }
+            response.Webhooks = webhooks;
+
             return response;
         }
 

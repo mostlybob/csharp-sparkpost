@@ -7,6 +7,7 @@ namespace SparkPost
     {
         Task<ListWebhookResponse> List(object query = null);
         Task<Response> Create(Webhook webhook);
+        Task<RetrieveWebhookResponse> Retrieve(string id);
         Task<bool> Delete(string id);
     }
 
@@ -37,6 +38,20 @@ namespace SparkPost
             if (response.StatusCode != HttpStatusCode.OK) throw new ResponseException(response);
 
             return ListWebhookResponse.CreateFromResponse(response);
+        }
+
+        public async Task<RetrieveWebhookResponse> Retrieve(string id)
+        {
+            var request = new Request
+            {
+                Url = $"/api/{client.Version}/webhooks/{id}",
+                Method = "GET"
+            };
+
+            var response = await requestSender.Send(request);
+            if (response.StatusCode != HttpStatusCode.OK) throw new ResponseException(response);
+
+            return RetrieveWebhookResponse.CreateFromResponse(response);
         }
 
         public async Task<Response> Create(Webhook webhook)

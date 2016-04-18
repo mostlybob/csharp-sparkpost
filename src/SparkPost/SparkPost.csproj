@@ -71,6 +71,7 @@
     <Compile Include="Response.cs" />
     <Compile Include="ResponseException.cs" />
     <Compile Include="RetrieveTransmissionResponse.cs" />
+    <Compile Include="RetrieveWebhookResponse.cs" />
     <Compile Include="SendTransmissionResponse.cs" />
     <Compile Include="Suppression.cs" />
     <Compile Include="Suppressions.cs" />

@@ -37,10 +37,10 @@ namespace SparkPost
                 Data = query
             };
 
-            var result = await requestSender.Send(request);
-            if (result.StatusCode != HttpStatusCode.OK) throw new ResponseException(result);
+            var response = await requestSender.Send(request);
+            if (response.StatusCode != HttpStatusCode.OK) throw new ResponseException(response);
 
-            return ListWebhookResponse.CreateFromResponse(result);
+            return ListWebhookResponse.CreateFromResponse(response);
         }
 
         public async Task<Response> Create(Webhook webhook)

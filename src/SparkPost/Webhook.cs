@@ -9,6 +9,7 @@ namespace SparkPost
             Events = new List<string>();
         }
 
+        public string Id { get; set; }
         public string Name { get; set; }
         public string Target { get; set; }
         public IList<string> Events { get; set; }

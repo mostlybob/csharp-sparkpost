@@ -47,9 +47,20 @@ namespace SparkPost
             var webhooks = new List<Webhook>();
             foreach(var r in results)
             {
-                var webhook = new Webhook();
-                var ugh = JsonConvert.DeserializeObject<Dictionary<string, object>>(JsonConvert.SerializeObject(r));
-                LeftRight.SetValuesToMatch(webhook, ugh);
+                var events = new List<string>();
+                foreach(var i in r.events)
+                    events.Add(i.ToString());
+                var webhook = new Webhook
+                {
+                    Id = r.id,
+                    Name = r.name,
+                    Target = r.target,
+                    Events = events,
+                    AuthType = r.auth_type,
+                    AuthRequestDetails = r.auth_request_details,
+                    AuthCredentials = r.auth_credentials,
+                    AuthToken = r.auth_token,
+                };
                 webhooks.Add(webhook);
             }
             response.Webhooks = webhooks;

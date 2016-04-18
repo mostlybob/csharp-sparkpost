@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace SparkPost
 {
@@ -13,6 +14,9 @@ namespace SparkPost
         public string Name { get; set; }
         public string Target { get; set; }
         public IList<string> Events { get; set; }
+
+        public DateTime? LastSuccessful { get; set; }
+        public DateTime? LastFailure { get; set; }
 
         public string AuthType { get; set; }
         public string AuthToken { get; set; }

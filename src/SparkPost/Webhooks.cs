@@ -60,6 +60,8 @@ namespace SparkPost
                     AuthRequestDetails = r.auth_request_details,
                     AuthCredentials = r.auth_credentials,
                     AuthToken = r.auth_token,
+                    LastSuccessful = r.last_successful,
+                    LastFailure = r.last_failure
                 };
                 webhooks.Add(webhook);
             }

@@ -7,18 +7,18 @@ namespace SparkPost
     {
         public IEnumerable<Webhook> Webhooks { get; set; }
 
-        public static ListWebhookResponse CreateFromResponse(Response result)
+        public static ListWebhookResponse CreateFromResponse(Response response)
         {
-            var response = new ListWebhookResponse();
-            LeftRight.SetValuesToMatch(response, result);
+            var result = new ListWebhookResponse();
+            LeftRight.SetValuesToMatch(result, response);
 
-            var results = JsonConvert.DeserializeObject<dynamic>(response.Content).results;
+            var results = JsonConvert.DeserializeObject<dynamic>(result.Content).results;
             var webhooks = new List<Webhook>();
             foreach(var r in results)
                 webhooks.Add(ConvertToAWebhook(r));
 
-            response.Webhooks = webhooks;
-            return response;
+            result.Webhooks = webhooks;
+            return result;
         }
 
         internal static Webhook ConvertToAWebhook(dynamic r)

@@ -1,8 +1,6 @@
 # Change Log
-All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [Unreleased][unreleased]
-- No notable updates
+All releases with documentation are posted to the Github Releases page:
 
-[unreleased]: https://github.com/sparkpost/csharp-sparkpost/compare/530761f...HEAD
+https://github.com/SparkPost/csharp-sparkpost/releases

@@ -5,8 +5,6 @@ namespace SparkPost
 {
     public class Client : IClient
     {
-        private Func<HttpClient> httpClientBuilder;
-
         public Client(string apiKey, string apiHost = "https://api.sparkpost.com")
         {
             ApiKey = apiKey;
@@ -14,7 +12,7 @@ namespace SparkPost
             Transmissions = new Transmissions(this, new RequestSender(this), new DataMapper(Version));
             Suppressions = new Suppressions(this, new RequestSender(this), new DataMapper());
 
-            httpClientBuilder = () => new HttpClient();
+            Settings = new CustomSettings();
         }
 
         public string ApiKey { get; set; }
@@ -24,14 +22,26 @@ namespace SparkPost
         public ISuppressions Suppressions { get; }
         public string Version => "v1";
 
-        internal HttpClient CreateANewHttpClient()
-        {
-            return httpClientBuilder();
-        }
+        public CustomSettings Settings { get; }
 
-        public void BuildHttpClientsUsing(Func<HttpClient> httpClient)
+        public class CustomSettings
         {
-            this.httpClientBuilder = httpClient;
+            private Func<HttpClient> httpClientBuilder;
+
+            public CustomSettings()
+            {
+                httpClientBuilder = () => new HttpClient();
+            }
+
+            internal HttpClient CreateANewHttpClient()
+            {
+                return httpClientBuilder();
+            }
+
+            public void BuildHttpClientsUsing(Func<HttpClient> httpClient)
+            {
+                httpClientBuilder = httpClient;
+            }
         }
     }
 }

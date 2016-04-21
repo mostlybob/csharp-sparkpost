@@ -654,6 +654,15 @@ namespace SparkPost.Tests
                 mapper.ToDictionary(options).CastAs<IDictionary<string, object>>()
                     ["inline_css"].ShouldEqual(false);
             }
+
+            [Test]
+            public void ip_pool()
+            {
+                var ipPool = Guid.NewGuid().ToString();
+                options.IpPool = ipPool;
+                mapper.ToDictionary(options).CastAs<IDictionary<string, object>>()
+                    ["ip_pool"].ShouldEqual(ipPool);
+            }
         }
 
         [TestFixture]

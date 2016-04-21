@@ -25,7 +25,7 @@ namespace SparkPost
 
         public async Task<Response> Send(Request request)
         {
-            using (var c = client.Settings.CreateANewHttpClient())
+            using (var c = client.CustomSettings.CreateANewHttpClient())
             {
                 c.BaseAddress = new Uri(client.ApiHost);
                 c.DefaultRequestHeaders.Accept.Clear();

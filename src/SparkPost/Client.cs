@@ -12,7 +12,7 @@ namespace SparkPost
             Transmissions = new Transmissions(this, new RequestSender(this), new DataMapper(Version));
             Suppressions = new Suppressions(this, new RequestSender(this), new DataMapper());
 
-            Settings = new CustomSettings();
+            CustomSettings = new Settings();
         }
 
         public string ApiKey { get; set; }
@@ -22,13 +22,13 @@ namespace SparkPost
         public ISuppressions Suppressions { get; }
         public string Version => "v1";
 
-        public CustomSettings Settings { get; }
+        public Settings CustomSettings { get; }
 
-        public class CustomSettings
+        public class Settings
         {
             private Func<HttpClient> httpClientBuilder;
 
-            public CustomSettings()
+            public Settings()
             {
                 httpClientBuilder = () => new HttpClient();
             }

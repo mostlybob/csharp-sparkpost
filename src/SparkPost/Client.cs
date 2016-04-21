@@ -33,7 +33,7 @@ namespace SparkPost
                 httpClientBuilder = () => new HttpClient();
             }
 
-            internal HttpClient CreateANewHttpClient()
+            public HttpClient CreateANewHttpClient()
             {
                 return httpClientBuilder();
             }

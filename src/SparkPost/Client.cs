@@ -1,4 +1,6 @@
-﻿namespace SparkPost
+﻿using System.Net.Http;
+
+namespace SparkPost
 {
     public class Client : IClient
     {
@@ -16,5 +18,10 @@
         public ITransmissions Transmissions { get; }
         public ISuppressions Suppressions { get; }
         public string Version => "v1";
+
+        public HttpClient CreateANewHttpClient()
+        {
+            return new HttpClient();
+        }
     }
 }

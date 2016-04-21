@@ -19,7 +19,7 @@ namespace SparkPost
         public ISuppressions Suppressions { get; }
         public string Version => "v1";
 
-        public HttpClient CreateANewHttpClient()
+        internal HttpClient CreateANewHttpClient()
         {
             return new HttpClient();
         }

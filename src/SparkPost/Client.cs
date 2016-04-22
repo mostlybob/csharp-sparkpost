@@ -42,6 +42,9 @@ namespace SparkPost
             RelayWebhooks = new RelayWebhooks(this, requestSender, dataMapper);
 
             CustomSettings = new Settings();
+            Transmissions = new Transmissions(this, new RequestSender(this), new DataMapper(Version));
+            Suppressions = new Suppressions(this, new RequestSender(this), new DataMapper());
+            Templates = new Templates(this, new RequestSender(this), new DataMapper(Version));
         }
 
         public string ApiKey { get; set; }
@@ -55,6 +58,7 @@ namespace SparkPost
         public IMessageEvents MessageEvents { get; }
         public IInboundDomains InboundDomains { get; }
         public IRelayWebhooks RelayWebhooks { get; }
+        public ITemplates Templates { get; }
         public string Version => "v1";
 
         public Settings CustomSettings { get; }

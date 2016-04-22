@@ -28,6 +28,9 @@ namespace SparkPost
         IDictionary<string, object> CatchAll(object anything);
         object GetTheValue(Type propertyType, object value);
         IDictionary<Type, MethodInfo> ToDictionaryMethods();
+        IDictionary<string, object> ToDictionary(Template template);
+        IDictionary<string, object> ToDictionary(TemplateContent templateContent);
+        IDictionary<string, object> ToDictionary(TemplateOptions templateOptions);
     }
 
     public class DataMapper : IDataMapper
@@ -180,6 +183,19 @@ namespace SparkPost
                     TheMethod = x
                 }).ToList()
                 .ToDictionary(x => x.TheType, x => x.TheMethod);
+        public virtual IDictionary<string, object> ToDictionary(Template template)
+        {
+            return WithCommonConventions(template);
+        }
+ 
+        public virtual IDictionary<string, object> ToDictionary(TemplateContent templateContent)
+        {
+            return WithCommonConventions(templateContent);
+        }
+ 
+        public virtual IDictionary<string, object> ToDictionary(TemplateOptions templateOptions)
+        {
+            return WithCommonConventions(templateOptions);
         }
 
         private static bool AnyValuesWereSetOn(object target)

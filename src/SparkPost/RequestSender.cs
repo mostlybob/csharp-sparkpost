@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using Newtonsoft.Json;
+using SparkPost.RequestMethods;
 
 namespace SparkPost
 {
@@ -35,7 +36,7 @@ namespace SparkPost
                 switch (request.Method)
                 {
                     case "DELETE":
-                        result = await c.DeleteAsync(request.Url);
+                        result = await new Delete(c).Execute(request);
                         break;
                     case "POST":
                         var postContent = new StringContent(SerializeObject(request.Data), Encoding.UTF8, "application/json");

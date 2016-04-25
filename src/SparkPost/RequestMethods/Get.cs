@@ -18,7 +18,7 @@ namespace SparkPost.RequestMethods
 
         public bool CanExecute(Request request)
         {
-            throw new System.NotImplementedException();
+            return request.Method == "GET";
         }
 
         public Task<HttpResponseMessage> Execute(Request request)

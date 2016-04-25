@@ -1,34 +1,23 @@
-﻿using System.Net.Http;
-using System.Text;
+﻿using System;
+using System.Net.Http;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 
 namespace SparkPost.RequestMethods
 {
-    public class Post : IRequestMethod
+    public class Post : PutAndPostAreTheSame
     {
-        private readonly HttpClient client;
-
-        public Post(HttpClient client)
+        public Post(HttpClient client) : base(client)
         {
-            this.client = client;
         }
 
-        public bool CanExecute(Request request)
+        public override bool CanExecute(Request request)
         {
-            throw new System.NotImplementedException();
+            return request.Method == "POST";
         }
 
-        public Task<HttpResponseMessage> Execute(Request request)
+        public override Task<HttpResponseMessage> Execute(string url, StringContent stringContent)
         {
-            var content = new StringContent(SerializeObject(request.Data), Encoding.UTF8, "application/json");
-            return client.PostAsync(request.Url, content);
-        }
-
-        private static string SerializeObject(object data)
-        {
-            return JsonConvert.SerializeObject(data,
-                new JsonSerializerSettings {TypeNameHandling = TypeNameHandling.None});
+            return Client.PostAsync(url, stringContent);
         }
     }
 }

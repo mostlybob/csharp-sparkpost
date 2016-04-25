@@ -11,5 +11,6 @@ namespace SparkPost
         public bool? Sandbox { get; set; }
         public bool? SkipSuppression { get; set; }
         public bool? InlineCss { get; set; }
+        public string IpPool { get; set; }
     }
 }

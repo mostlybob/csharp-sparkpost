@@ -68,6 +68,7 @@
     <Compile Include="Recipient.cs" />
     <Compile Include="RecipientType.cs" />
     <Compile Include="Request.cs" />
+    <Compile Include="RequestMethodFinder.cs" />
     <Compile Include="RequestMethods\Delete.cs" />
     <Compile Include="RequestMethods\Get.cs" />
     <Compile Include="RequestMethods\Post.cs" />

@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Net.Http;
 using System.Threading.Tasks;
-using SparkPost.RequestMethods;
 
 namespace SparkPost
 {
@@ -13,10 +11,12 @@ namespace SparkPost
     public class RequestSender : IRequestSender
     {
         private readonly Client client;
+        private readonly RequestMethodFinder requestMethodFinder;
 
         public RequestSender(Client client)
         {
             this.client = client;
+            requestMethodFinder = new RequestMethodFinder();
         }
 
         public async Task<Response> Send(Request request)
@@ -27,22 +27,9 @@ namespace SparkPost
                 c.DefaultRequestHeaders.Accept.Clear();
                 c.DefaultRequestHeaders.Add("Authorization", client.ApiKey);
 
-                HttpResponseMessage result;
-                switch (request.Method)
-                {
-                    case "DELETE":
-                        result = await new Delete(c).Execute(request);
-                        break;
-                    case "POST":
-                        result = await new Post(c).Execute(request);
-                        break;
-                    case "PUT JSON":
-                        result = await new Put(c).Execute(request);
-                        break;
-                    default:
-                        result = await new Get(c).Execute(request);
-                        break;
-                }
+                var result = await requestMethodFinder
+                    .FindFor(c, request)
+                    .Execute(request);
 
                 return new Response
                 {

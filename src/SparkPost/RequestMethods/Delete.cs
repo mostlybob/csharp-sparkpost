@@ -12,6 +12,11 @@ namespace SparkPost.RequestMethods
             this.client = client;
         }
 
+        public bool CanExecute(Request request)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public Task<HttpResponseMessage> Execute(Request request)
         {
             return client.DeleteAsync(request.Url);

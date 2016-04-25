@@ -5,6 +5,7 @@ namespace SparkPost
 {
     public interface IRequestMethod
     {
+        bool CanExecute(Request request);
         Task<HttpResponseMessage> Execute(Request request);
     }
 }

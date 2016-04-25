@@ -14,6 +14,11 @@ namespace SparkPost.RequestMethods
             this.client = client;
         }
 
+        public bool CanExecute(Request request)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public Task<HttpResponseMessage> Execute(Request request)
         {
             var content = new StringContent(SerializeObject(request.Data), Encoding.UTF8, "application/json");

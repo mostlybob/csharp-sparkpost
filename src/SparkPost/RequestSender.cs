@@ -19,13 +19,13 @@ namespace SparkPost
 
         public async Task<Response> Send(Request request)
         {
-            using (var c = client.CustomSettings.CreateANewHttpClient())
+            using (var httpClient = client.CustomSettings.CreateANewHttpClient())
             {
-                c.BaseAddress = new Uri(client.ApiHost);
-                c.DefaultRequestHeaders.Accept.Clear();
-                c.DefaultRequestHeaders.Add("Authorization", client.ApiKey);
+                httpClient.BaseAddress = new Uri(client.ApiHost);
+                httpClient.DefaultRequestHeaders.Accept.Clear();
+                httpClient.DefaultRequestHeaders.Add("Authorization", client.ApiKey);
 
-                var result = await new RequestMethodFinder(c)
+                var result = await new RequestMethodFinder(httpClient)
                     .FindFor(request)
                     .Execute(request);
 

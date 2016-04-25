@@ -21,8 +21,8 @@ namespace SparkPost.RequestMethods
 
         public Task<HttpResponseMessage> Execute(Request request)
         {
-            var postContent = new StringContent(SerializeObject(request.Data), Encoding.UTF8, "application/json");
-            return client.PostAsync(request.Url, postContent);
+            var content = new StringContent(SerializeObject(request.Data), Encoding.UTF8, "application/json");
+            return client.PostAsync(request.Url, content);
         }
 
         private static string SerializeObject(object data)

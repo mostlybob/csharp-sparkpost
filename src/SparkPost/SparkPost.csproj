@@ -69,6 +69,7 @@
     <Compile Include="RecipientType.cs" />
     <Compile Include="Request.cs" />
     <Compile Include="RequestMethods\Delete.cs" />
+    <Compile Include="RequestMethods\Post.cs" />
     <Compile Include="RequestSender.cs" />
     <Compile Include="Response.cs" />
     <Compile Include="ResponseException.cs" />

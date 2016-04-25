@@ -39,8 +39,7 @@ namespace SparkPost
                         result = await new Delete(c).Execute(request);
                         break;
                     case "POST":
-                        var postContent = new StringContent(SerializeObject(request.Data), Encoding.UTF8, "application/json");
-                        result = await c.PostAsync(request.Url, postContent);
+                        result = await new Post(c).Execute(request);
                         break;
                     case "PUT JSON":
                         var content = new StringContent(SerializeObject(request.Data), Encoding.UTF8, "application/json");

@@ -11,12 +11,10 @@ namespace SparkPost
     public class RequestSender : IRequestSender
     {
         private readonly Client client;
-        private readonly RequestMethodFinder requestMethodFinder;
 
         public RequestSender(Client client)
         {
             this.client = client;
-            requestMethodFinder = new RequestMethodFinder();
         }
 
         public async Task<Response> Send(Request request)
@@ -27,8 +25,8 @@ namespace SparkPost
                 c.DefaultRequestHeaders.Accept.Clear();
                 c.DefaultRequestHeaders.Add("Authorization", client.ApiKey);
 
-                var result = await requestMethodFinder
-                    .FindFor(c, request)
+                var result = await new RequestMethodFinder(c)
+                    .FindFor(request)
                     .Execute(request);
 
                 return new Response

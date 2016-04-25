@@ -5,12 +5,19 @@ namespace SparkPost
 {
     public interface IRequestMethodFinder
     {
-        IRequestMethod FindFor(HttpClient client, Request request);
+        IRequestMethod FindFor(Request request);
     }
 
     public class RequestMethodFinder : IRequestMethodFinder
     {
-        public IRequestMethod FindFor(HttpClient client, Request request)
+        private readonly HttpClient client;
+
+        public RequestMethodFinder(HttpClient client)
+        {
+            this.client = client;
+        }
+
+        public IRequestMethod FindFor(Request request)
         {
             switch (request.Method)
             {

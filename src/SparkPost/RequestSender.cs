@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using SparkPost.RequestMethods;
 
 namespace SparkPost
@@ -45,9 +46,7 @@ namespace SparkPost
                         result = await new Put(c).Execute(request);
                         break;
                     default:
-                        result = await c.GetAsync(string.Join("?",
-                            new[] {request.Url, ConvertToQueryString(request.Data)}
-                                .Where(x => string.IsNullOrEmpty(x) == false)));
+                        result = await new Get(c).Execute(request);
                         break;
                 }
 

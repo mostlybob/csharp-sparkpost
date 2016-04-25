@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
-using System.Web;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using SparkPost.RequestMethods;
 
 namespace SparkPost
@@ -54,31 +48,9 @@ namespace SparkPost
                 {
                     StatusCode = result.StatusCode,
                     ReasonPhrase = result.ReasonPhrase,
-                    Content = await result.Content.ReadAsStringAsync(),
+                    Content = await result.Content.ReadAsStringAsync()
                 };
             }
-        }
-
-        private static string ConvertToQueryString(object data)
-        {
-            if (data == null) return null;
-            var dictionary = JsonConvert.DeserializeObject<IDictionary<string, string>>(JsonConvert.SerializeObject(data));
-
-            var values = dictionary
-                .Where(x => string.IsNullOrEmpty(x.Value) == false)
-                .Select(x => HttpUtility.UrlEncode(DataMapper.ToSnakeCase(x.Key)) + "=" + HttpUtility.UrlEncode(x.Value));
-
-            return string.Join("&", values);
-        }
-
-        private static StringContent BuildContent(object data)
-        {
-            return new StringContent(SerializeObject(data));
-        }
-
-        private static string SerializeObject(object data)
-        {
-            return JsonConvert.SerializeObject(data, new JsonSerializerSettings {TypeNameHandling = TypeNameHandling.None});
         }
     }
 }

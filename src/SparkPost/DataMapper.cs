@@ -19,6 +19,7 @@ namespace SparkPost
         IDictionary<string, object> ToDictionary(InlineImage inlineImage);
         IDictionary<string, object> ToDictionary(File file);
         IDictionary<string, object> ToDictionary(Suppression suppression);
+        IDictionary<string, object> ToDictionary(Webhook webhook);
     }
 
     public class DataMapper : IDataMapper
@@ -55,6 +56,11 @@ namespace SparkPost
         public virtual IDictionary<string, object> ToDictionary(Suppression suppression)
         {
             return WithCommonConventions(suppression);
+        }
+
+        public virtual IDictionary<string, object> ToDictionary(Webhook webhook)
+        {
+            return WithCommonConventions(webhook);
         }
 
         public virtual IDictionary<string, object> ToDictionary(Address address)
@@ -142,6 +148,10 @@ namespace SparkPost
             else if (value is IDictionary<string, object>)
             {
                 var dictionary = (IDictionary<string, object>) value;
+                var newDictionary = new Dictionary<string, object>();
+                foreach (var item in dictionary.Where(i => i.Value != null))
+                    newDictionary[ToSnakeCase(item.Key)] = GetTheValue(item.Value.GetType(), item.Value);
+                dictionary = newDictionary;
                 value = dictionary.Count > 0 ? dictionary : null;
             }
             else if (value is IDictionary<string, string>)
@@ -155,7 +165,19 @@ namespace SparkPost
                     select GetTheValue(thing.GetType(), thing)).ToList();
                 value = things.Count > 0 ? things : null;
             }
+            else if (ThisIsAnAnonymousType(value))
+            {
+                var newValue = new Dictionary<string, object>();
+                foreach (var property in value.GetType().GetProperties())
+                    newValue[property.Name] = property.GetValue(value);
+                value = GetTheValue(newValue.GetType(), newValue);
+            }
             return value;
+        }
+
+        private static bool ThisIsAnAnonymousType(object value)
+        {
+            return value != null && (value.GetType().Name.Contains("AnonymousType") || value.GetType().Name.Contains("AnonType"));
         }
 
         public static string ToSnakeCase(string input)

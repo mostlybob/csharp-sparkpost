@@ -90,6 +90,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SuppressionTests.cs" />
     <Compile Include="TransmissionTests.cs" />
+    <Compile Include="WebhookTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SparkPost\SparkPost.csproj">

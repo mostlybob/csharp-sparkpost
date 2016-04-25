@@ -702,5 +702,107 @@ namespace SparkPost.Tests
                 mapper.ToDictionary(file)["data"].ShouldEqual(value);
             }
         }
+
+        [TestFixture]
+        public class WebhookTests
+        {
+            private DataMapper dataMapper;
+
+            [SetUp]
+            public void Setup()
+            {
+                dataMapper = new DataMapper();
+            }
+
+            [Test]
+            public void Name()
+            {
+                var webhook = new Webhook {Name = Guid.NewGuid().ToString()};
+                dataMapper.ToDictionary(webhook)["name"].ShouldEqual(webhook.Name);
+            }
+
+            [Test]
+            public void Target()
+            {
+                var webhook = new Webhook {Target = Guid.NewGuid().ToString()};
+                dataMapper.ToDictionary(webhook)["target"].ShouldEqual(webhook.Target);
+            }
+
+            [Test]
+            public void AuthType()
+            {
+                var webhook = new Webhook {AuthType = Guid.NewGuid().ToString()};
+                dataMapper.ToDictionary(webhook)["auth_type"].ShouldEqual(webhook.AuthType);
+            }
+
+            [Test]
+            public void AuthToken()
+            {
+                var webhook = new Webhook {AuthToken = Guid.NewGuid().ToString()};
+                dataMapper.ToDictionary(webhook)["auth_token"].ShouldEqual(webhook.AuthToken);
+            }
+
+            [Test]
+            public void Events()
+            {
+                var first = Guid.NewGuid().ToString();
+                var second = Guid.NewGuid().ToString();
+
+                var webhook = new Webhook();
+                webhook.Events.Add(first);
+                webhook.Events.Add(second);
+
+                var dictionary = dataMapper.ToDictionary(webhook);
+                var events = dictionary["events"] as IEnumerable<object>;
+                events.Count().ShouldEqual(2);
+                events.ShouldContain(first);
+                events.ShouldContain(second);
+            }
+
+            [Test]
+            public void AuthRequestDetails()
+            {
+                var webhook = new Webhook
+                {
+                    AuthRequestDetails = new
+                    {
+                        Url = "https://oauth.myurl.com/tokens",
+                        Body = new {ClientId = "<oauth client id>", ClientSecret = "<oauth client secret>"}
+                    }
+                };
+
+                var dictionary = dataMapper.ToDictionary(webhook);
+                var authRequestDetails = dictionary["auth_request_details"].CastAs<IDictionary<string, object>>();
+                authRequestDetails["url"].ShouldEqual("https://oauth.myurl.com/tokens");
+
+                authRequestDetails["body"]
+                    .CastAs<IDictionary<string, object>>()
+                    ["client_id"]
+                    .ShouldEqual("<oauth client id>");
+
+                authRequestDetails["body"]
+                    .CastAs<IDictionary<string, object>>()
+                    ["client_secret"]
+                    .ShouldEqual("<oauth client secret>");
+            }
+
+            [Test]
+            public void AuthCredentials()
+            {
+                var webhook = new Webhook
+                {
+                    AuthCredentials = new
+                    {
+                        access_token = "<oauth token>",
+                        ExpiresIn = 3600
+                    }
+                };
+
+                var dictionary = dataMapper.ToDictionary(webhook);
+                var authRequestDetails = dictionary["auth_credentials"] as Dictionary<string, object>;
+                authRequestDetails["access_token"].ShouldEqual("<oauth token>");
+                authRequestDetails["expires_in"].ShouldEqual(3600);
+            }
+        }
     }
 }

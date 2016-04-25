@@ -103,12 +103,9 @@ namespace SparkPost
             var response = await requestSender.Send(request);
             if (response.StatusCode != HttpStatusCode.OK) throw new ResponseException(response);
 
-            return new UpdateSuppressionResponse
-            {
-                ReasonPhrase = response.ReasonPhrase,
-                StatusCode = response.StatusCode,
-                Content = response.Content
-            };
+            var updateSuppressionResponse = new UpdateSuppressionResponse();
+            LeftRight.SetValuesToMatch(updateSuppressionResponse, response);
+            return updateSuppressionResponse;
         }
 
         public async Task<bool> Delete(string email)

@@ -11,7 +11,7 @@ namespace SparkPost
             ApiHost = apiHost;
             Transmissions = new Transmissions(this, new RequestSender(this), new DataMapper(Version));
             Suppressions = new Suppressions(this, new RequestSender(this), new DataMapper());
-
+            Webhooks = new Webhooks(this, new RequestSender(this), new DataMapper());
             CustomSettings = new Settings();
         }
 
@@ -20,6 +20,7 @@ namespace SparkPost
 
         public ITransmissions Transmissions { get; }
         public ISuppressions Suppressions { get; }
+        public IWebhooks Webhooks { get; }
         public string Version => "v1";
 
         public Settings CustomSettings { get; }

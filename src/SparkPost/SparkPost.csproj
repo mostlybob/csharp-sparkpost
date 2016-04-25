@@ -57,9 +57,11 @@
     <Compile Include="IClient.cs" />
     <Compile Include="InlineImage.cs" />
     <Compile Include="ISuppressions.cs" />
+    <Compile Include="LeftRight.cs" />
     <Compile Include="ListSuppressionResponse.cs" />
     <Compile Include="ITransmissions.cs" />
     <Compile Include="ListTransmissionResponse.cs" />
+    <Compile Include="ListWebhookResponse.cs" />
     <Compile Include="Options.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Recipient.cs" />
@@ -69,6 +71,7 @@
     <Compile Include="Response.cs" />
     <Compile Include="ResponseException.cs" />
     <Compile Include="RetrieveTransmissionResponse.cs" />
+    <Compile Include="RetrieveWebhookResponse.cs" />
     <Compile Include="SendTransmissionResponse.cs" />
     <Compile Include="Suppression.cs" />
     <Compile Include="Suppressions.cs" />
@@ -76,6 +79,8 @@
     <Compile Include="Transmission.cs" />
     <Compile Include="Transmissions.cs" />
     <Compile Include="UpdateSuppressionResponse.cs" />
+    <Compile Include="Webhook.cs" />
+    <Compile Include="Webhooks.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

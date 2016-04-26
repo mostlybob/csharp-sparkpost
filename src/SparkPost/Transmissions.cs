@@ -9,10 +9,10 @@ namespace SparkPost
     public class Transmissions : ITransmissions
     {
         private readonly Client client;
-        private readonly RequestSender requestSender;
+        private readonly IRequestSender requestSender;
         private readonly DataMapper dataMapper;
 
-        public Transmissions(Client client, RequestSender requestSender, DataMapper dataMapper)
+        public Transmissions(Client client, IRequestSender requestSender, DataMapper dataMapper)
         {
             this.client = client;
             this.requestSender = requestSender;

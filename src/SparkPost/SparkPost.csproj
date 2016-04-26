@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Address.cs" />
+    <Compile Include="AsyncRequestSender.cs" />
     <Compile Include="Attachment.cs" />
     <Compile Include="CcHandling.cs" />
     <Compile Include="Client.cs" />

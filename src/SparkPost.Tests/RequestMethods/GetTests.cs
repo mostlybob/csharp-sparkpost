@@ -19,9 +19,30 @@ namespace SparkPost.Tests.RequestMethods
             }
 
             [Test]
+            public void It_should_return_true_for_get_lower()
+            {
+                var request = new Request {Method = "get"};
+                Subject.CanExecute(request).ShouldBeTrue();
+            }
+
+            [Test]
+            public void It_should_return_true_for_get_spacing()
+            {
+                var request = new Request {Method = "get "};
+                Subject.CanExecute(request).ShouldBeTrue();
+            }
+
+            [Test]
             public void It_should_return_false_for_others()
             {
                 var request = new Request {Method = Guid.NewGuid().ToString()};
+                Subject.CanExecute(request).ShouldBeFalse();
+            }
+
+            [Test]
+            public void It_should_return_false_for_null()
+            {
+                var request = new Request {Method = null};
                 Subject.CanExecute(request).ShouldBeFalse();
             }
         }

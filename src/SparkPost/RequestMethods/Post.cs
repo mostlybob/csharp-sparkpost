@@ -12,7 +12,7 @@ namespace SparkPost.RequestMethods
 
         public override bool CanExecute(Request request)
         {
-            return request.Method == "POST";
+            return (request.Method ?? "").ToLower().StartsWith("post");
         }
 
         public override Task<HttpResponseMessage> Execute(string url, StringContent stringContent)

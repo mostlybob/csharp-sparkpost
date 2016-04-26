@@ -14,7 +14,7 @@ namespace SparkPost.RequestMethods
 
         public bool CanExecute(Request request)
         {
-            return request.Method == "DELETE";
+            return (request.Method ?? "").ToLower().StartsWith("delete");
         }
 
         public Task<HttpResponseMessage> Execute(Request request)

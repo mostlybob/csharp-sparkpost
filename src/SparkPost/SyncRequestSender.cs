@@ -11,7 +11,7 @@ namespace SparkPost
             this.requestSender = requestSender;
         }
 
-        public Task<Response> Send(Request request)
+        public virtual Task<Response> Send(Request request)
         {
             Response response = null;
 

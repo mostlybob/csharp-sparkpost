@@ -12,7 +12,7 @@ namespace SparkPost
             this.client = client;
         }
 
-        public async Task<Response> Send(Request request)
+        public async virtual Task<Response> Send(Request request)
         {
             using (var httpClient = client.CustomSettings.CreateANewHttpClient())
             {

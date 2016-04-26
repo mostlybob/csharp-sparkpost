@@ -93,6 +93,7 @@
     <Compile Include="RequestMethods\DeleteTests.cs" />
     <Compile Include="RequestMethods\PutTests.cs" />
     <Compile Include="RequestMethods\PostTests.cs" />
+    <Compile Include="RequestSenderTests.cs" />
     <Compile Include="SuppressionTests.cs" />
     <Compile Include="TransmissionTests.cs" />
     <Compile Include="WebhookTests.cs" />

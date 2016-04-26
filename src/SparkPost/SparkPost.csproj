@@ -84,6 +84,7 @@
     <Compile Include="Suppression.cs" />
     <Compile Include="Suppressions.cs" />
     <Compile Include="SuppressionsQuery.cs" />
+    <Compile Include="SyncRequestSender.cs" />
     <Compile Include="Transmission.cs" />
     <Compile Include="Transmissions.cs" />
     <Compile Include="UpdateSuppressionResponse.cs" />

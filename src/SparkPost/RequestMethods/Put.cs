@@ -1,5 +1,4 @@
-﻿using System;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace SparkPost.RequestMethods
@@ -12,7 +11,7 @@ namespace SparkPost.RequestMethods
 
         public override bool CanExecute(Request request)
         {
-            return request.Method == "PUT";
+            return (request.Method ?? "").ToLower().StartsWith("put");
         }
 
         public override Task<HttpResponseMessage> Execute(string url, StringContent stringContent)

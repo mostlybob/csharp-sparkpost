@@ -10,8 +10,8 @@ namespace SparkPost
     public class RequestSender : IRequestSender
     {
         private readonly AsyncRequestSender asyncRequestSender;
-        private readonly SyncRequestSender syncRequestSender;
         private readonly IClient client;
+        private readonly SyncRequestSender syncRequestSender;
 
         public RequestSender(AsyncRequestSender asyncRequestSender, SyncRequestSender syncRequestSender, IClient client)
         {
@@ -22,8 +22,14 @@ namespace SparkPost
 
         public Task<Response> Send(Request request)
         {
-            var requestSender = client.CustomSettings.SendingMode == "sync" ? syncRequestSender : asyncRequestSender as IRequestSender;
-            return requestSender.Send(request);
+            return PickTheRequestSender().Send(request);
+        }
+
+        private IRequestSender PickTheRequestSender()
+        {
+            return client.CustomSettings.SendingMode == "sync"
+                ? syncRequestSender
+                : asyncRequestSender as IRequestSender;
         }
     }
 }

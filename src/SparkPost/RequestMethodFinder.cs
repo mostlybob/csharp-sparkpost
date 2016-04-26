@@ -1,4 +1,6 @@
-﻿using System.Net.Http;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
 using SparkPost.RequestMethods;
 
 namespace SparkPost
@@ -19,17 +21,13 @@ namespace SparkPost
 
         public IRequestMethod FindFor(Request request)
         {
-            switch (request.Method)
+            return new List<IRequestMethod>
             {
-                case "DELETE":
-                    return new Delete(client);
-                case "POST":
-                    return new Post(client);
-                case "PUT JSON":
-                    return new Put(client);
-                default:
-                    return new Get(client);
-            }
+                new Delete(client),
+                new Post(client),
+                new Put(client),
+                new Get(client)
+            }.First(x => x.CanExecute(request));
         }
     }
 }

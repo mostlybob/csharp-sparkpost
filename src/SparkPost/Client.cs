@@ -9,9 +9,9 @@ namespace SparkPost
         {
             ApiKey = apiKey;
             ApiHost = apiHost;
-            Transmissions = new Transmissions(this, new RequestSender(this), new DataMapper(Version));
-            Suppressions = new Suppressions(this, new RequestSender(this), new DataMapper());
-            Webhooks = new Webhooks(this, new RequestSender(this), new DataMapper());
+            Transmissions = new Transmissions(this, new AsyncRequestSender(this), new DataMapper(Version));
+            Suppressions = new Suppressions(this, new AsyncRequestSender(this), new DataMapper());
+            Webhooks = new Webhooks(this, new AsyncRequestSender(this), new DataMapper());
             CustomSettings = new Settings();
         }
 
@@ -33,6 +33,8 @@ namespace SparkPost
             {
                 httpClientBuilder = () => new HttpClient();
             }
+
+            public string SendingMode { get; set; }
 
             public HttpClient CreateANewHttpClient()
             {

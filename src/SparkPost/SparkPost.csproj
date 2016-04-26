@@ -56,6 +56,7 @@
     <Compile Include="File.cs" />
     <Compile Include="IClient.cs" />
     <Compile Include="InlineImage.cs" />
+    <Compile Include="IRequestMethod.cs" />
     <Compile Include="ISuppressions.cs" />
     <Compile Include="LeftRight.cs" />
     <Compile Include="ListSuppressionResponse.cs" />
@@ -67,6 +68,13 @@
     <Compile Include="Recipient.cs" />
     <Compile Include="RecipientType.cs" />
     <Compile Include="Request.cs" />
+    <Compile Include="RequestMethodFinder.cs" />
+    <Compile Include="RequestMethods\Delete.cs" />
+    <Compile Include="RequestMethods\Get.cs" />
+    <Compile Include="RequestMethods\Post.cs" />
+    <Compile Include="RequestMethods\Put.cs" />
+    <Compile Include="RequestMethods\PutAndPostAreTheSame.cs" />
+    <Compile Include="RequestMethods\RequestMethod.cs" />
     <Compile Include="RequestSender.cs" />
     <Compile Include="Response.cs" />
     <Compile Include="ResponseException.cs" />

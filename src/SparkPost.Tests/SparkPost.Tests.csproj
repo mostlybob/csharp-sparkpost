@@ -95,6 +95,7 @@
     <Compile Include="RequestMethods\PostTests.cs" />
     <Compile Include="RequestSenderTests.cs" />
     <Compile Include="SuppressionTests.cs" />
+    <Compile Include="SyncRequestSenderTests.cs" />
     <Compile Include="TransmissionTests.cs" />
     <Compile Include="WebhookTests.cs" />
   </ItemGroup>

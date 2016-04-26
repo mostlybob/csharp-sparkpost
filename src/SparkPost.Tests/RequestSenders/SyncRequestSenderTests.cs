@@ -2,8 +2,9 @@
 using AutoMoq.Helpers;
 using NUnit.Framework;
 using Should;
+using SparkPost.RequestSenders;
 
-namespace SparkPost.Tests
+namespace SparkPost.Tests.RequestSenders
 {
     public class SyncRequestSenderTests
     {

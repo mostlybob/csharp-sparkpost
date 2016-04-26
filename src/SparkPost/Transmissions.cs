@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using SparkPost.RequestSenders;
 
 namespace SparkPost
 {

@@ -93,9 +93,9 @@
     <Compile Include="RequestMethods\DeleteTests.cs" />
     <Compile Include="RequestMethods\PutTests.cs" />
     <Compile Include="RequestMethods\PostTests.cs" />
-    <Compile Include="RequestSenderTests.cs" />
+    <Compile Include="RequestSenders\RequestSenderTests.cs" />
     <Compile Include="SuppressionTests.cs" />
-    <Compile Include="SyncRequestSenderTests.cs" />
+    <Compile Include="RequestSenders\SyncRequestSenderTests.cs" />
     <Compile Include="TransmissionTests.cs" />
     <Compile Include="WebhookTests.cs" />
   </ItemGroup>
@@ -112,6 +112,7 @@
   <ItemGroup>
     <Content Include="License.txt" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

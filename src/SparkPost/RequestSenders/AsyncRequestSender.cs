@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace SparkPost
+namespace SparkPost.RequestSenders
 {
     public class AsyncRequestSender : IRequestSender
     {

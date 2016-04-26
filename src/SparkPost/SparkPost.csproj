@@ -48,7 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Address.cs" />
-    <Compile Include="AsyncRequestSender.cs" />
+    <Compile Include="RequestSenders\AsyncRequestSender.cs" />
     <Compile Include="Attachment.cs" />
     <Compile Include="CcHandling.cs" />
     <Compile Include="Client.cs" />
@@ -76,7 +76,7 @@
     <Compile Include="RequestMethods\Put.cs" />
     <Compile Include="RequestMethods\PutAndPostAreTheSame.cs" />
     <Compile Include="RequestMethods\RequestMethod.cs" />
-    <Compile Include="RequestSender.cs" />
+    <Compile Include="RequestSenders\RequestSender.cs" />
     <Compile Include="Response.cs" />
     <Compile Include="ResponseException.cs" />
     <Compile Include="RetrieveTransmissionResponse.cs" />
@@ -85,7 +85,7 @@
     <Compile Include="Suppression.cs" />
     <Compile Include="Suppressions.cs" />
     <Compile Include="SuppressionsQuery.cs" />
-    <Compile Include="SyncRequestSender.cs" />
+    <Compile Include="RequestSenders\SyncRequestSender.cs" />
     <Compile Include="Transmission.cs" />
     <Compile Include="Transmissions.cs" />
     <Compile Include="UpdateSuppressionResponse.cs" />

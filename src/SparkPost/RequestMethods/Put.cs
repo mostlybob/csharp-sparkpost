@@ -9,11 +9,6 @@ namespace SparkPost.RequestMethods
         {
         }
 
-        public override bool CanExecute(Request request)
-        {
-            return (request.Method ?? "").ToLower().StartsWith("put");
-        }
-
         public override Task<HttpResponseMessage> Execute(string url, StringContent stringContent)
         {
             return Client.PutAsync(url, stringContent);

@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace SparkPost.RequestMethods
 {
-    public class Delete : IRequestMethod
+    public class Delete : RequestMethod
     {
         private readonly HttpClient client;
 
@@ -12,12 +12,7 @@ namespace SparkPost.RequestMethods
             this.client = client;
         }
 
-        public bool CanExecute(Request request)
-        {
-            return (request.Method ?? "").ToLower().StartsWith("delete");
-        }
-
-        public Task<HttpResponseMessage> Execute(Request request)
+        public override Task<HttpResponseMessage> Execute(Request request)
         {
             return client.DeleteAsync(request.Url);
         }

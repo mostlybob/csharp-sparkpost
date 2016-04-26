@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace SparkPost.RequestMethods
 {
-    public abstract class PutAndPostAreTheSame : IRequestMethod
+    public abstract class PutAndPostAreTheSame : RequestMethod
     {
         protected readonly HttpClient Client;
 
@@ -14,9 +14,7 @@ namespace SparkPost.RequestMethods
             Client = client;
         }
 
-        public abstract bool CanExecute(Request request);
-
-        public Task<HttpResponseMessage> Execute(Request request)
+        public override Task<HttpResponseMessage> Execute(Request request)
         {
             return Execute(request.Url, ContentFrom(request));
         }

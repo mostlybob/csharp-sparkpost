@@ -74,6 +74,7 @@
     <Compile Include="RequestMethods\Post.cs" />
     <Compile Include="RequestMethods\Put.cs" />
     <Compile Include="RequestMethods\PutAndPostAreTheSame.cs" />
+    <Compile Include="RequestMethods\RequestMethod.cs" />
     <Compile Include="RequestSender.cs" />
     <Compile Include="Response.cs" />
     <Compile Include="ResponseException.cs" />

@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace SparkPost.RequestMethods
 {
-    public class Get : IRequestMethod
+    public class Get : RequestMethod
     {
         private readonly HttpClient client;
 
@@ -16,12 +16,7 @@ namespace SparkPost.RequestMethods
             this.client = client;
         }
 
-        public bool CanExecute(Request request)
-        {
-            return (request.Method ?? "").ToLower().StartsWith("get");
-        }
-
-        public Task<HttpResponseMessage> Execute(Request request)
+        public override Task<HttpResponseMessage> Execute(Request request)
         {
             return client.GetAsync(string.Join("?",
                 new[] {request.Url, ConvertToQueryString(request.Data)}

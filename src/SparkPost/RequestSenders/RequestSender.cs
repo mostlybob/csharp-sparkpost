@@ -27,7 +27,7 @@ namespace SparkPost.RequestSenders
 
         private IRequestSender PickTheRequestSender()
         {
-            return client.CustomSettings.SendingMode == "sync"
+            return client.CustomSettings.SendingMode == Client.Settings.SendingModeOptions.Sync
                 ? syncRequestSender
                 : asyncRequestSender as IRequestSender;
         }

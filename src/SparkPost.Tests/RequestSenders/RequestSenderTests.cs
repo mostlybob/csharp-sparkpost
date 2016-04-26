@@ -38,7 +38,7 @@ namespace SparkPost.Tests.RequestSenders
             [Test]
             public void It_should_return_the_result_from_async()
             {
-                client.CustomSettings.SendingMode = "async";
+                client.CustomSettings.SendingMode = Client.Settings.SendingModeOptions.Async;
 
                 var response = Task.FromResult(new Response());
                 async.Setup(x => x.Send(request)).Returns(response);
@@ -50,7 +50,7 @@ namespace SparkPost.Tests.RequestSenders
             [Test]
             public void It_should_return_the_result_from_sync()
             {
-                client.CustomSettings.SendingMode = "sync";
+                client.CustomSettings.SendingMode = Client.Settings.SendingModeOptions.Sync;
 
                 var response = Task.FromResult(new Response());
                 sync.Setup(x => x.Send(request)).Returns(response);

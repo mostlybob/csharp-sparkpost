@@ -804,5 +804,53 @@ namespace SparkPost.Tests
                 authRequestDetails["expires_in"].ShouldEqual(3600);
             }
         }
+
+
+        [TestFixture]
+        public class SubaccountTests
+        {
+            private DataMapper dataMapper;
+
+            [SetUp]
+            public void Setup()
+            {
+                dataMapper = new DataMapper();
+            }
+
+            [Test]
+            public void Id()
+            {
+                var subaccount = new Subaccount { Id = 432 };
+                dataMapper.ToDictionary(subaccount)["id"].ShouldEqual(subaccount.Id);
+            }
+
+            [Test]
+            public void Name()
+            {
+                var subaccount = new Subaccount { Name = Guid.NewGuid().ToString() };
+                dataMapper.ToDictionary(subaccount)["name"].ShouldEqual(subaccount.Name);
+            }
+
+            [Test]
+            public void Status()
+            {
+                var subaccount = new Subaccount { Status = SubaccountStatus.Terminated };
+                dataMapper.ToDictionary(subaccount)["status"].ShouldEqual(SubaccountStatus.Terminated.ToString().ToLowerInvariant());
+            }
+
+            [Test]
+            public void IpPool()
+            {
+                var subaccount = new Subaccount { IpPool = Guid.NewGuid().ToString() };
+                dataMapper.ToDictionary(subaccount)["ip_pool"].ShouldEqual(subaccount.IpPool);
+            }
+
+            [Test]
+            public void ComplianceStatus()
+            {
+                var subaccount = new Subaccount { ComplianceStatus = Guid.NewGuid().ToString() };
+                dataMapper.ToDictionary(subaccount)["compliance_status"].ShouldEqual(subaccount.ComplianceStatus);
+            }
+        }
     }
 }

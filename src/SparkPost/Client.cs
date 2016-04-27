@@ -42,12 +42,7 @@ namespace SparkPost
                 httpClientBuilder = () => new HttpClient();
             }
 
-            public SendingModeOptions SendingMode { get; set; }
-
-            public enum SendingModeOptions
-            {
-                Async, Sync
-            }
+            public SendingModes SendingMode { get; set; }
 
             public HttpClient CreateANewHttpClient()
             {
@@ -59,5 +54,6 @@ namespace SparkPost
                 httpClientBuilder = httpClient;
             }
         }
+
     }
 }

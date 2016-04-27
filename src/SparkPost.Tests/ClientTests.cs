@@ -44,7 +44,7 @@ namespace SparkPost.Tests
             [Test]
             public void It_should_default_to_async()
             {
-                client.CustomSettings.SendingMode.ShouldEqual(Client.Settings.SendingModeOptions.Async);
+                client.CustomSettings.SendingMode.ShouldEqual(SendingModes.Async);
             }
         }
     }

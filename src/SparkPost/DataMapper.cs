@@ -33,12 +33,18 @@ namespace SparkPost
 
         public virtual IDictionary<string, object> ToDictionary(Transmission transmission)
         {
-            var result = WithCommonConventions(transmission, new Dictionary<string, object>
+            var data = new Dictionary<string, object>
             {
+                ["substitution_data"] =
+                    transmission.SubstitutionData != null && transmission.SubstitutionData.Keys.Any()
+                        ? transmission.SubstitutionData
+                        : null,
                 ["recipients"] = transmission.ListId != null
                     ? (object) new Dictionary<string, object> {["list_id"] = transmission.ListId}
                     : transmission.Recipients.Select(ToDictionary)
-            });
+            };
+
+            var result = WithCommonConventions(transmission, data);
 
             CcHandling.SetAnyCCsInTheHeader(transmission, result);
 

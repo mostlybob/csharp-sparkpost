@@ -271,6 +271,16 @@ namespace SparkPost.Tests
             }
 
             [Test]
+            public void do_not_alter_the_keys_passed_to_substitution_data()
+            {
+                var key = "TEST";
+                var value = Guid.NewGuid().ToString();
+                transmission.SubstitutionData[key] = value;
+                mapper.ToDictionary(transmission)["substitution_data"]
+                    .CastAs<IDictionary<string, object>>()[key].ShouldEqual(value);
+            }
+
+            [Test]
             public void options()
             {
                 transmission.Options.ClickTracking = true;

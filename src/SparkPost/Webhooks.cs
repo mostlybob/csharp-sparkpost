@@ -1,5 +1,6 @@
 using System.Net;
 using System.Threading.Tasks;
+using SparkPost.RequestSenders;
 
 namespace SparkPost
 {

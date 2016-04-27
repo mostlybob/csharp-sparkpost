@@ -1,23 +1,18 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace SparkPost
+namespace SparkPost.RequestSenders
 {
-    public interface IRequestSender
-    {
-        Task<Response> Send(Request request);
-    }
-
-    public class RequestSender : IRequestSender
+    public class AsyncRequestSender : IRequestSender
     {
         private readonly Client client;
 
-        public RequestSender(Client client)
+        public AsyncRequestSender(Client client)
         {
             this.client = client;
         }
 
-        public async Task<Response> Send(Request request)
+        public async virtual Task<Response> Send(Request request)
         {
             using (var httpClient = client.CustomSettings.CreateANewHttpClient())
             {

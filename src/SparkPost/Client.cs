@@ -10,9 +10,16 @@ namespace SparkPost
         {
             ApiKey = apiKey;
             ApiHost = apiHost;
-            Transmissions = new Transmissions(this, new AsyncRequestSender(this), new DataMapper(Version));
-            Suppressions = new Suppressions(this, new AsyncRequestSender(this), new DataMapper());
-            Webhooks = new Webhooks(this, new AsyncRequestSender(this), new DataMapper());
+
+            var dataMapper = new DataMapper(Version);
+            var asyncRequestSender = new AsyncRequestSender(this);
+            var syncRequestSender = new SyncRequestSender(asyncRequestSender);
+            var requestSender = new RequestSender(asyncRequestSender, syncRequestSender, this);
+
+            Transmissions = new Transmissions(this, requestSender, dataMapper);
+            Suppressions = new Suppressions(this, requestSender, dataMapper);
+            Webhooks = new Webhooks(this, requestSender, dataMapper);
+
             CustomSettings = new Settings();
         }
 

@@ -22,13 +22,19 @@ Alternatively, you can get the latest dll from the releases tab.  You can also d
 
 #### Special Note about ```Async```
 
-This library uses .Net 4.5's ```Async``` functionality for better performance  ([read more here](https://msdn.microsoft.com/en-us/library/hh191443.aspx)).  This means that if you do not intend to support this ```async``` feature, you'll need to make one slight change to your calls:  Tack on ```.Wait()``` like so:
+By defeault, this library uses .Net 4.5's ```Async``` functionality for better performance  ([read more here](https://msdn.microsoft.com/en-us/library/hh191443.aspx)).  This requires knowledge and execution
+of the async/await behavior in C#.  If you're noticing what seems to be weird behavior, or MVC action hangs,
+or anything of that nature, just switch your client to ```Sync``` and you'll get the expected (but blocking) behavior.
 
 ```c#
-client.Transmissions.Send(transmission).Wait();
+client.CustomSettings.SendingMode = SendingModes.Sync;
+client.Transmissions.Send(transmission); // now this call will be made synchronously
+
+client.CustomSettings.SendingMode = SendingModes.Async;
+client.Transmissions.Send(transmission); // now this call will be made asynchronously
 ```
 
-This will force the thread to wait until the web request has completed.  If you are calling this from an ```async``` method or if you use ```await```, no changes will be needed.
+
 
 ### Transmissions
 

@@ -24,6 +24,7 @@ namespace SparkPost
                 httpClient.BaseAddress = new Uri(client.ApiHost);
                 httpClient.DefaultRequestHeaders.Accept.Clear();
                 httpClient.DefaultRequestHeaders.Add("Authorization", client.ApiKey);
+                httpClient.DefaultRequestHeaders.Add("X-MSYS-SUBACCOUNT", client.SubaccountId.ToString(CultureInfo.InvariantCulture));
 
                 var result = await new RequestMethodFinder(httpClient)
                     .FindFor(request)

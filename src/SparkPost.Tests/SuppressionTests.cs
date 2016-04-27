@@ -8,6 +8,7 @@ using Moq;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using Should;
+using SparkPost.RequestSenders;
 
 namespace SparkPost.Tests
 {

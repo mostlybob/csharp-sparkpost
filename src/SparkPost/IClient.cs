@@ -34,5 +34,10 @@
         /// Gets the API version supported by this client.
         /// </summary>
         string Version { get; }
+
+        /// <summary>
+        /// Get the custom settings for this client.
+        /// </summary>
+        Client.Settings CustomSettings { get; }
     }
 }

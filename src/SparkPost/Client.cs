@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net.Http;
+using SparkPost.RequestSenders;
 
 namespace SparkPost
 {
@@ -26,10 +27,17 @@ namespace SparkPost
         {
             ApiKey = apiKey;
             ApiHost = apiHost;
-            Transmissions = new Transmissions(this, new RequestSender(this), new DataMapper(Version));
-            Suppressions = new Suppressions(this, new RequestSender(this), new DataMapper());
-            Webhooks = new Webhooks(this, new RequestSender(this), new DataMapper());
-            Subaccounts = new Subaccounts(this, new RequestSender(this), new DataMapper());
+
+            var dataMapper = new DataMapper(Version);
+            var asyncRequestSender = new AsyncRequestSender(this);
+            var syncRequestSender = new SyncRequestSender(asyncRequestSender);
+            var requestSender = new RequestSender(asyncRequestSender, syncRequestSender, this);
+
+            Transmissions = new Transmissions(this, requestSender, dataMapper);
+            Suppressions = new Suppressions(this, requestSender, dataMapper);
+            Webhooks = new Webhooks(this, requestSender, dataMapper);
+            Subaccounts = new Subaccounts(this, requestSender, dataMapper);
+
             CustomSettings = new Settings();
         }
 
@@ -54,6 +62,8 @@ namespace SparkPost
                 httpClientBuilder = () => new HttpClient();
             }
 
+            public SendingModes SendingMode { get; set; }
+
             public HttpClient CreateANewHttpClient()
             {
                 return httpClientBuilder();
@@ -64,5 +74,6 @@ namespace SparkPost
                 httpClientBuilder = httpClient;
             }
         }
+
     }
 }

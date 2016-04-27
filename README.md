@@ -22,7 +22,7 @@ Alternatively, you can get the latest dll from the releases tab.  You can also d
 
 #### Special Note about ```Async```
 
-By defeault, this library uses .Net 4.5's ```Async``` functionality for better performance  ([read more here](https://msdn.microsoft.com/en-us/library/hh191443.aspx)).  This requires knowledge and execution
+By default, this library uses .Net 4.5's ```Async``` functionality for better performance  ([read more here](https://msdn.microsoft.com/en-us/library/hh191443.aspx)).  This requires knowledge and execution
 of the async/await behavior in C#.  If you're noticing what seems to be weird behavior, or MVC action hangs,
 or anything of that nature, just switch your client to ```Sync``` and you'll get the expected (but blocking) behavior.
 

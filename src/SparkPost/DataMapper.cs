@@ -26,14 +26,14 @@ namespace SparkPost
 
     public class DataMapper : IDataMapper
     {
-        private readonly Dictionary<Type, MethodInfo> converters;
         private readonly IEnumerable<IValueMapper> valueMappers;
 
         public DataMapper(string version = "v1")
         {
-            converters = GetTheConverters();
             valueMappers = new List<IValueMapper>
             {
+                new MapASingleItemUsingToDictionary(this),
+                new MapASetOfItemsUsingToDictionary(this),
                 new BooleanValueMapper(),
                 new DateTimeOffsetValueMapper(),
                 new StringObjectDictionaryValueMapper(this),
@@ -146,11 +146,6 @@ namespace SparkPost
 
         public object GetTheValue(Type propertyType, object value)
         {
-            if (new MapASingleItemUsingToDictionary(this).CanMap(propertyType, value))
-                return new MapASingleItemUsingToDictionary(this).Map(propertyType, value);
-            if (new MapASetOfItemsUsingToDictionary(this).CanMap(propertyType, value))
-                return new MapASetOfItemsUsingToDictionary(this).Map(propertyType, value);
-
             var valueMapper = valueMappers.FirstOrDefault(x => x.CanMap(propertyType, value));
             return valueMapper == null ? value : valueMapper.Map(propertyType, value);
         }
@@ -168,19 +163,6 @@ namespace SparkPost
                 input = input.Substring(1, input.Length - 1);
 
             return input;
-        }
-
-        private static Dictionary<Type, MethodInfo> GetTheConverters()
-        {
-            return typeof (DataMapper).GetMethods()
-                .Where(x => x.Name == "ToDictionary")
-                .Where(x => x.GetParameters().Length == 1)
-                .Select(x => new
-                {
-                    TheType = x.GetParameters().First().ParameterType,
-                    TheMethod = x
-                }).ToList()
-                .ToDictionary(x => x.TheType, x => x.TheMethod);
         }
     }
 }

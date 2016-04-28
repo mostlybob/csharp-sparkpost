@@ -129,7 +129,6 @@ namespace SparkPost
 
         private IDictionary<string, object> WithCommonConventions(object target, IDictionary<string, object> results = null)
         {
-
             if (results == null) results = new Dictionary<string, object>();
             foreach (var property in target.GetType().GetProperties())
             {

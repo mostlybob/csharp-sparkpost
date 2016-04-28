@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using SparkPost.ValueMappers;
 
 namespace SparkPost
 {
@@ -151,8 +152,8 @@ namespace SparkPost
                 else
                     value = null;
             }
-            else if (value is bool?)
-                value = value as bool? == true;
+            else if (new BooleanValueMapper().CanMap(propertyType, value))
+                value = new BooleanValueMapper().Map(propertyType, value);
             else if (value is DateTimeOffset?)
                 value = string.Format("{0:s}{0:zzz}", (DateTimeOffset?)value);
             else if (value is IDictionary<string, object>)

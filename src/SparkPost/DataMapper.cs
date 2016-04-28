@@ -137,11 +137,11 @@ namespace SparkPost
         public object GetTheValue(Type propertyType, object value)
         {
             if (propertyType != typeof(int) && converters.ContainsKey(propertyType))
-                value = converters[propertyType].Invoke(this, BindingFlags.Default, null,
+                return converters[propertyType].Invoke(this, BindingFlags.Default, null,
                     new[] {value}, CultureInfo.CurrentCulture);
-            else if (value != null && propertyType.Name.EndsWith("List`1") &&
-                     propertyType.GetGenericArguments().Count() == 1 &&
-                     converters.ContainsKey(propertyType.GetGenericArguments().First()))
+            if (value != null && propertyType.Name.EndsWith("List`1") &&
+                propertyType.GetGenericArguments().Count() == 1 &&
+                converters.ContainsKey(propertyType.GetGenericArguments().First()))
             {
                 var converter = converters[propertyType.GetGenericArguments().First()];
 
@@ -152,8 +152,10 @@ namespace SparkPost
                         new[] {x}, CultureInfo.CurrentCulture)).ToList();
                 else
                     value = null;
+
+                return value;
             }
-            else if (new BooleanValueMapper().CanMap(propertyType, value))
+            if (new BooleanValueMapper().CanMap(propertyType, value))
                 value = new BooleanValueMapper().Map(propertyType, value);
             else if (new DateTimeOffsetValueMapper().CanMap(propertyType, value))
                 value = new DateTimeOffsetValueMapper().Map(propertyType, value);

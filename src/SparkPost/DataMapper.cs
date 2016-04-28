@@ -146,9 +146,8 @@ namespace SparkPost
 
         public object GetTheValue(Type propertyType, object value)
         {
-            if (propertyType != typeof(int) && converters.ContainsKey(propertyType))
-                return converters[propertyType].Invoke(this, BindingFlags.Default, null,
-                    new[] {value}, CultureInfo.CurrentCulture);
+            if (new MapASingleItemUsingToDictionary(this).CanMap(propertyType, value))
+                return new MapASingleItemUsingToDictionary(this).Map(propertyType, value);
             if (value != null && propertyType.Name.EndsWith("List`1") &&
                 propertyType.GetGenericArguments().Count() == 1 &&
                 converters.ContainsKey(propertyType.GetGenericArguments().First()))

@@ -104,6 +104,16 @@ namespace SparkPost.Tests
             }
 
             [Test]
+            public void do_not_alter_the_keys_passed_to_substitution_data()
+            {
+                var key = "TEST";
+                var value = Guid.NewGuid().ToString();
+                recipient.SubstitutionData[key] = value;
+                mapper.ToDictionary(recipient)["substitution_data"]
+                    .CastAs<IDictionary<string, object>>()[key].ShouldEqual(value);
+            }
+
+            [Test]
             public void The_type_should_be_ignored()
             {
                 recipient.Type = RecipientType.CC;

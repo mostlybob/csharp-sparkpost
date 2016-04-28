@@ -159,11 +159,8 @@ namespace SparkPost
                 value = new DateTimeOffsetValueMapper().Map(propertyType, value);
             else if (new StringObjectDictionaryValueMapper(this).CanMap(propertyType, value))
                 value = new StringObjectDictionaryValueMapper(this).Map(propertyType, value);
-            else if (value is IDictionary<string, string>)
-            {
-                var dictionary = (IDictionary<string, string>) value;
-                value = dictionary.Count > 0 ? dictionary : null;
-            }
+            else if (new StringStringDictionaryValueMapper().CanMap(propertyType, value))
+                value = new StringStringDictionaryValueMapper().Map(propertyType, value);
             else if (value != null && value.GetType() != typeof(string) && value is IEnumerable)
             {
                 var things = (from object thing in (IEnumerable) value

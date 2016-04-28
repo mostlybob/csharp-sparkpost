@@ -94,6 +94,7 @@
     <Compile Include="UpdateSuppressionResponse.cs" />
     <Compile Include="ValueMappers\DateTimeOffsetValueMapper.cs" />
     <Compile Include="ValueMappers\StringObjectDictionaryValueMapper.cs" />
+    <Compile Include="ValueMappers\StringStringDictionaryValueMapper.cs" />
     <Compile Include="Webhook.cs" />
     <Compile Include="Webhooks.cs" />
   </ItemGroup>

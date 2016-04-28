@@ -154,8 +154,8 @@ namespace SparkPost
             }
             else if (new BooleanValueMapper().CanMap(propertyType, value))
                 value = new BooleanValueMapper().Map(propertyType, value);
-            else if (value is DateTimeOffset?)
-                value = string.Format("{0:s}{0:zzz}", (DateTimeOffset?)value);
+            else if (new DateTimeOffsetValueMapper().CanMap(propertyType, value))
+                value = new DateTimeOffsetValueMapper().Map(propertyType, value);
             else if (value is IDictionary<string, object>)
             {
                 var dictionary = (IDictionary<string, object>) value;

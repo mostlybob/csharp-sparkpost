@@ -21,6 +21,7 @@ namespace SparkPost
         IDictionary<string, object> ToDictionary(File file);
         IDictionary<string, object> ToDictionary(Suppression suppression);
         IDictionary<string, object> ToDictionary(Webhook webhook);
+        object GetTheValue(Type propertyType, object value);
     }
 
     public class DataMapper : IDataMapper
@@ -133,7 +134,7 @@ namespace SparkPost
             return RemoveNulls(results);
         }
 
-        private object GetTheValue(Type propertyType, object value)
+        public object GetTheValue(Type propertyType, object value)
         {
             if (propertyType != typeof(int) && converters.ContainsKey(propertyType))
                 value = converters[propertyType].Invoke(this, BindingFlags.Default, null,
@@ -156,15 +157,8 @@ namespace SparkPost
                 value = new BooleanValueMapper().Map(propertyType, value);
             else if (new DateTimeOffsetValueMapper().CanMap(propertyType, value))
                 value = new DateTimeOffsetValueMapper().Map(propertyType, value);
-            else if (value is IDictionary<string, object>)
-            {
-                var dictionary = (IDictionary<string, object>) value;
-                var newDictionary = new Dictionary<string, object>();
-                foreach (var item in dictionary.Where(i => i.Value != null))
-                    newDictionary[ToSnakeCase(item.Key)] = GetTheValue(item.Value.GetType(), item.Value);
-                dictionary = newDictionary;
-                value = dictionary.Count > 0 ? dictionary : null;
-            }
+            else if (new StringObjectDictionaryValueMapper(this).CanMap(propertyType, value))
+                value = new StringObjectDictionaryValueMapper(this).Map(propertyType, value);
             else if (value is IDictionary<string, string>)
             {
                 var dictionary = (IDictionary<string, string>) value;

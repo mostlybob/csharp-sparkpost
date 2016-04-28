@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="Address.cs" />
     <Compile Include="IValueMapper.cs" />
+    <Compile Include="ValueMappers\AnonymousValueMapper.cs" />
     <Compile Include="ValueMappers\BooleanValueMapper.cs" />
     <Compile Include="RequestSenders\AsyncRequestSender.cs" />
     <Compile Include="Attachment.cs" />

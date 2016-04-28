@@ -163,19 +163,9 @@ namespace SparkPost
                 value = new StringStringDictionaryValueMapper().Map(propertyType, value);
             else if (new EnumerableValueMapper(this).CanMap(propertyType, value))
                 value = new EnumerableValueMapper(this).Map(propertyType, value);
-            else if (ThisIsAnAnonymousType(value))
-            {
-                var newValue = new Dictionary<string, object>();
-                foreach (var property in value.GetType().GetProperties())
-                    newValue[property.Name] = property.GetValue(value);
-                value = GetTheValue(newValue.GetType(), newValue);
-            }
+            else if (new AnonymousValueMapper(this).CanMap(propertyType, value))
+                value = new AnonymousValueMapper(this).Map(propertyType, value);
             return value;
-        }
-
-        private static bool ThisIsAnAnonymousType(object value)
-        {
-            return value != null && (value.GetType().Name.Contains("AnonymousType") || value.GetType().Name.Contains("AnonType"));
         }
 
         public static string ToSnakeCase(string input)

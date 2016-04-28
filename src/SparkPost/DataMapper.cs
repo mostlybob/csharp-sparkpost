@@ -161,12 +161,8 @@ namespace SparkPost
                 value = new StringObjectDictionaryValueMapper(this).Map(propertyType, value);
             else if (new StringStringDictionaryValueMapper().CanMap(propertyType, value))
                 value = new StringStringDictionaryValueMapper().Map(propertyType, value);
-            else if (value != null && value.GetType() != typeof(string) && value is IEnumerable)
-            {
-                var things = (from object thing in (IEnumerable) value
-                    select GetTheValue(thing.GetType(), thing)).ToList();
-                value = things.Count > 0 ? things : null;
-            }
+            else if (new EnumerableValueMapper(this).CanMap(propertyType, value))
+                value = new EnumerableValueMapper(this).Map(propertyType, value);
             else if (ThisIsAnAnonymousType(value))
             {
                 var newValue = new Dictionary<string, object>();

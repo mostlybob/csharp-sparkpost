@@ -97,6 +97,7 @@
     <Compile Include="SuppressionTests.cs" />
     <Compile Include="RequestSenders\SyncRequestSenderTests.cs" />
     <Compile Include="TransmissionTests.cs" />
+    <Compile Include="SubaccountTest.cs" />
     <Compile Include="WebhookTests.cs" />
   </ItemGroup>
   <ItemGroup>

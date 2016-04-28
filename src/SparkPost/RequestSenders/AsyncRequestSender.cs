@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Threading.Tasks;
 
 namespace SparkPost.RequestSenders
@@ -19,6 +20,10 @@ namespace SparkPost.RequestSenders
                 httpClient.BaseAddress = new Uri(client.ApiHost);
                 httpClient.DefaultRequestHeaders.Accept.Clear();
                 httpClient.DefaultRequestHeaders.Add("Authorization", client.ApiKey);
+                if (client.SubaccountId != 0)
+                {
+                    httpClient.DefaultRequestHeaders.Add("X-MSYS-SUBACCOUNT", client.SubaccountId.ToString(CultureInfo.InvariantCulture));
+                }
 
                 var result = await new RequestMethodFinder(httpClient)
                     .FindFor(request)

@@ -148,22 +148,8 @@ namespace SparkPost
         {
             if (new MapASingleItemUsingToDictionary(this).CanMap(propertyType, value))
                 return new MapASingleItemUsingToDictionary(this).Map(propertyType, value);
-            if (value != null && propertyType.Name.EndsWith("List`1") &&
-                propertyType.GetGenericArguments().Count() == 1 &&
-                converters.ContainsKey(propertyType.GetGenericArguments().First()))
-            {
-                var converter = converters[propertyType.GetGenericArguments().First()];
-
-                var list = (value as IEnumerable<object>).ToList();
-
-                if (list.Any())
-                    value = list.Select(x => converter.Invoke(this, BindingFlags.Default, null,
-                        new[] {x}, CultureInfo.CurrentCulture)).ToList();
-                else
-                    value = null;
-
-                return value;
-            }
+            if (new MapASetOfItemsUsingToDictionary(this).CanMap(propertyType, value))
+                return new MapASetOfItemsUsingToDictionary(this).Map(propertyType, value);
 
             var valueMapper = valueMappers.FirstOrDefault(x => x.CanMap(propertyType, value));
             return valueMapper == null ? value : valueMapper.Map(propertyType, value);

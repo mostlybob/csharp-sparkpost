@@ -112,10 +112,9 @@ namespace SparkPost
 
         private static IDictionary<string, object> RemoveNulls(IDictionary<string, object> dictionary)
         {
-            var newDictionary = new Dictionary<string, object>();
-            foreach (var key in dictionary.Keys.Where(k => dictionary[k] != null))
-                newDictionary[key] = dictionary[key];
-            return newDictionary;
+            var blanks = dictionary.Keys.Where(k => dictionary[k] == null).ToList();
+            foreach (var key in blanks) dictionary.Remove(key);
+            return dictionary;
         }
 
         private IDictionary<string, object> WithCommonConventions(object target, IDictionary<string, object> results = null)

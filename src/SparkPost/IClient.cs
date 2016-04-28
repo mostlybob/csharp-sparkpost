@@ -26,6 +26,11 @@
         ISuppressions Suppressions { get; }
 
         /// <summary>
+        /// Gets access to the subaccounts resource of the SparkPost API.
+        /// </summary>
+        ISubaccounts Subaccounts { get; }
+
+        /// <summary>
         /// Gets the API version supported by this client.
         /// </summary>
         string Version { get; }

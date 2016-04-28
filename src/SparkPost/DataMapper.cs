@@ -18,6 +18,7 @@ namespace SparkPost
         IDictionary<string, object> ToDictionary(File file);
         IDictionary<string, object> ToDictionary(Suppression suppression);
         IDictionary<string, object> ToDictionary(Webhook webhook);
+        IDictionary<string, object> ToDictionary(Subaccount subaccount);
         object GetTheValue(Type propertyType, object value);
     }
 
@@ -32,6 +33,7 @@ namespace SparkPost
                 new MapASingleItemUsingToDictionary(this),
                 new MapASetOfItemsUsingToDictionary(this),
                 new BooleanValueMapper(),
+                new EnumValueMapper(),
                 new DateTimeOffsetValueMapper(),
                 new StringObjectDictionaryValueMapper(this),
                 new StringStringDictionaryValueMapper(),
@@ -110,6 +112,11 @@ namespace SparkPost
         public virtual IDictionary<string, object> ToDictionary(File file)
         {
             return WithCommonConventions(file);
+        }
+
+        public IDictionary<string, object> ToDictionary(Subaccount subaccount)
+        {
+            return WithCommonConventions(subaccount);
         }
 
         private static bool AnyValuesWereSetOn(object target)

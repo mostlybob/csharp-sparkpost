@@ -27,10 +27,20 @@ namespace SparkPost
     public class DataMapper : IDataMapper
     {
         private readonly Dictionary<Type, MethodInfo> converters;
+        private readonly IEnumerable<IValueMapper> valueMappers;
 
         public DataMapper(string version = "v1")
         {
             converters = GetTheConverters();
+            valueMappers = new List<IValueMapper>
+            {
+                new BooleanValueMapper(),
+                new DateTimeOffsetValueMapper(),
+                new StringObjectDictionaryValueMapper(this),
+                new StringStringDictionaryValueMapper(),
+                new EnumerableValueMapper(this),
+                new AnonymousValueMapper(this)
+            };
         }
 
         public virtual IDictionary<string, object> ToDictionary(Transmission transmission)
@@ -155,19 +165,9 @@ namespace SparkPost
 
                 return value;
             }
-            if (new BooleanValueMapper().CanMap(propertyType, value))
-                value = new BooleanValueMapper().Map(propertyType, value);
-            else if (new DateTimeOffsetValueMapper().CanMap(propertyType, value))
-                value = new DateTimeOffsetValueMapper().Map(propertyType, value);
-            else if (new StringObjectDictionaryValueMapper(this).CanMap(propertyType, value))
-                value = new StringObjectDictionaryValueMapper(this).Map(propertyType, value);
-            else if (new StringStringDictionaryValueMapper().CanMap(propertyType, value))
-                value = new StringStringDictionaryValueMapper().Map(propertyType, value);
-            else if (new EnumerableValueMapper(this).CanMap(propertyType, value))
-                value = new EnumerableValueMapper(this).Map(propertyType, value);
-            else if (new AnonymousValueMapper(this).CanMap(propertyType, value))
-                value = new AnonymousValueMapper(this).Map(propertyType, value);
-            return value;
+
+            var valueMapper = valueMappers.FirstOrDefault(x => x.CanMap(propertyType, value));
+            return valueMapper == null ? value : valueMapper.Map(propertyType, value);
         }
 
         public static string ToSnakeCase(string input)

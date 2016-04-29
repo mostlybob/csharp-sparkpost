@@ -15,5 +15,11 @@ namespace SparkPost.Tests.Utilities
             SnakeCase.Convert("TEST").ShouldEqual("t_e_s_t");
             SnakeCase.Convert("JohnGalt").ShouldEqual("john_galt");
         }
+
+        [Test]
+        public void It_should_convert_null_to_null()
+        {
+            SnakeCase.Convert(null).ShouldBeNull();
+        }
     }
 }

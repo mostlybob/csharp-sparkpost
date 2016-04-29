@@ -6,6 +6,8 @@ namespace SparkPost.Utilities
     {
         public static string Convert(string input)
         {
+            if (input == null) return null;
+
             var regex = new Regex("[A-Z]");
 
             var matches = regex.Matches(input);

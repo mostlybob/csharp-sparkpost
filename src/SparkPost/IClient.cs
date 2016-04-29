@@ -31,6 +31,11 @@
         ISubaccounts Subaccounts { get; }
 
         /// <summary>
+        /// Gets access to the webhooks resource of the SparkPost API.
+        /// </summary>
+        IWebhooks Webhooks { get; }
+
+        /// <summary>
         /// Gets the API version supported by this client.
         /// </summary>
         string Version { get; }

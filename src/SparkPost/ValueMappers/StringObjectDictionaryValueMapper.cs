@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using SparkPost.Utilities;
 
 namespace SparkPost.ValueMappers
 {
@@ -24,7 +25,7 @@ namespace SparkPost.ValueMappers
             var dictionary = new Dictionary<string, object>();
             foreach (var item in original.Where(i => i.Value != null))
             {
-                var itemKey = DataMapper.ToSnakeCase(item.Key);
+                var itemKey = SnakeCase.Convert(item.Key);
                 var itemValue = item.Value;
                 dictionary[itemKey] = dataMapper.GetTheValue(itemValue.GetType(), itemValue);
             }

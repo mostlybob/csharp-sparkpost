@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using SparkPost.Utilities;
 using SparkPost.ValueMappers;
 
 namespace SparkPost
@@ -138,7 +139,7 @@ namespace SparkPost
             if (results == null) results = new Dictionary<string, object>();
             foreach (var property in target.GetType().GetProperties())
             {
-                var name = ToSnakeCase(property.Name);
+                var name = SnakeCase.Convert(property.Name);
                 if (results.ContainsKey(name)) continue;
 
                 results[name] = GetTheValue(property.PropertyType, property.GetValue(target));
@@ -150,21 +151,6 @@ namespace SparkPost
         {
             var valueMapper = valueMappers.FirstOrDefault(x => x.CanMap(propertyType, value));
             return valueMapper == null ? value : valueMapper.Map(propertyType, value);
-        }
-
-        public static string ToSnakeCase(string input)
-        {
-            var regex = new Regex("[A-Z]");
-
-            var matches = regex.Matches(input);
-
-            for (var i = 0; i < matches.Count; i++)
-                input = input.Replace(matches[i].Value, "_" + matches[i].Value.ToLower());
-
-            if (input.StartsWith("_"))
-                input = input.Substring(1, input.Length - 1);
-
-            return input;
         }
     }
 }

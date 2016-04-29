@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 using Newtonsoft.Json;
+using SparkPost.Utilities;
 
 namespace SparkPost.RequestMethods
 {
@@ -31,7 +32,7 @@ namespace SparkPost.RequestMethods
 
             var values = dictionary
                 .Where(x => string.IsNullOrEmpty(x.Value) == false)
-                .Select(x => HttpUtility.UrlEncode(DataMapper.ToSnakeCase(x.Key)) + "=" + HttpUtility.UrlEncode(x.Value));
+                .Select(x => HttpUtility.UrlEncode(SnakeCase.Convert(x.Key)) + "=" + HttpUtility.UrlEncode(x.Value));
 
             return string.Join("&", values);
         }

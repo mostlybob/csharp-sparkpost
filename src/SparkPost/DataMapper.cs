@@ -20,6 +20,7 @@ namespace SparkPost
         IDictionary<string, object> ToDictionary(File file);
         IDictionary<string, object> ToDictionary(Suppression suppression);
         IDictionary<string, object> ToDictionary(Webhook webhook);
+        IDictionary<string, object> ToDictionary(Subaccount subaccount);
     }
 
     public class DataMapper : IDataMapper
@@ -103,6 +104,11 @@ namespace SparkPost
             return WithCommonConventions(file);
         }
 
+        public IDictionary<string, object> ToDictionary(Subaccount subaccount)
+        {
+            return WithCommonConventions(subaccount);
+        }
+
         private static bool AnyValuesWereSetOn(object target)
         {
             return target.GetType()
@@ -155,6 +161,8 @@ namespace SparkPost
                 value = value as bool? == true;
             else if (value is DateTimeOffset?)
                 value = string.Format("{0:s}{0:zzz}", (DateTimeOffset?)value);
+            else if (propertyType.IsEnum)
+                value = value.ToString().ToLowerInvariant();
             else if (value is IDictionary<string, object>)
             {
                 var dictionary = (IDictionary<string, object>) value;

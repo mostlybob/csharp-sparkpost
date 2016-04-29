@@ -91,6 +91,14 @@ client.Transmissions.Send(transmission);
 
 ```
 
+### Sub Accounts
+
+You can use the client to send emails through a sub account by passing the ```subAccountId``` to your client.
+
+```c#
+client = new Client(YOUR_API_KEY, YOUR_SUB_ACCOUNT_ID);
+// now the emails will be processed through your sub account
+```
 
 ### Suppression List
 

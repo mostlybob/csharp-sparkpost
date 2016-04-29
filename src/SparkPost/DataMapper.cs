@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Reflection;
 using System.Text.RegularExpressions;
+using SparkPost.ValueMappers;
 
 namespace SparkPost
 {
@@ -21,15 +19,27 @@ namespace SparkPost
         IDictionary<string, object> ToDictionary(Suppression suppression);
         IDictionary<string, object> ToDictionary(Webhook webhook);
         IDictionary<string, object> ToDictionary(Subaccount subaccount);
+        object GetTheValue(Type propertyType, object value);
     }
 
     public class DataMapper : IDataMapper
     {
-        private readonly Dictionary<Type, MethodInfo> converters;
+        private readonly IEnumerable<IValueMapper> valueMappers;
 
         public DataMapper(string version = "v1")
         {
-            converters = GetTheConverters();
+            valueMappers = new List<IValueMapper>
+            {
+                new MapASingleItemUsingToDictionary(this),
+                new MapASetOfItemsUsingToDictionary(this),
+                new BooleanValueMapper(),
+                new EnumValueMapper(),
+                new DateTimeOffsetValueMapper(),
+                new StringObjectDictionaryValueMapper(this),
+                new StringStringDictionaryValueMapper(),
+                new EnumerableValueMapper(this),
+                new AnonymousValueMapper(this)
+            };
         }
 
         public virtual IDictionary<string, object> ToDictionary(Transmission transmission)
@@ -125,7 +135,6 @@ namespace SparkPost
 
         private IDictionary<string, object> WithCommonConventions(object target, IDictionary<string, object> results = null)
         {
-
             if (results == null) results = new Dictionary<string, object>();
             foreach (var property in target.GetType().GetProperties())
             {
@@ -137,64 +146,10 @@ namespace SparkPost
             return RemoveNulls(results);
         }
 
-        private object GetTheValue(Type propertyType, object value)
+        public object GetTheValue(Type propertyType, object value)
         {
-            if (propertyType != typeof(int) && converters.ContainsKey(propertyType))
-                value = converters[propertyType].Invoke(this, BindingFlags.Default, null,
-                    new[] {value}, CultureInfo.CurrentCulture);
-            else if (value != null && propertyType.Name.EndsWith("List`1") &&
-                     propertyType.GetGenericArguments().Count() == 1 &&
-                     converters.ContainsKey(propertyType.GetGenericArguments().First()))
-            {
-                var converter = converters[propertyType.GetGenericArguments().First()];
-
-                var list = (value as IEnumerable<object>).ToList();
-
-                if (list.Any())
-                    value = list.Select(x => converter.Invoke(this, BindingFlags.Default, null,
-                        new[] {x}, CultureInfo.CurrentCulture)).ToList();
-                else
-                    value = null;
-            }
-            else if (value is bool?)
-                value = value as bool? == true;
-            else if (value is DateTimeOffset?)
-                value = string.Format("{0:s}{0:zzz}", (DateTimeOffset?)value);
-            else if (propertyType.IsEnum)
-                value = value.ToString().ToLowerInvariant();
-            else if (value is IDictionary<string, object>)
-            {
-                var dictionary = (IDictionary<string, object>) value;
-                var newDictionary = new Dictionary<string, object>();
-                foreach (var item in dictionary.Where(i => i.Value != null))
-                    newDictionary[ToSnakeCase(item.Key)] = GetTheValue(item.Value.GetType(), item.Value);
-                dictionary = newDictionary;
-                value = dictionary.Count > 0 ? dictionary : null;
-            }
-            else if (value is IDictionary<string, string>)
-            {
-                var dictionary = (IDictionary<string, string>) value;
-                value = dictionary.Count > 0 ? dictionary : null;
-            }
-            else if (value != null && value.GetType() != typeof(string) && value is IEnumerable)
-            {
-                var things = (from object thing in (IEnumerable) value
-                    select GetTheValue(thing.GetType(), thing)).ToList();
-                value = things.Count > 0 ? things : null;
-            }
-            else if (ThisIsAnAnonymousType(value))
-            {
-                var newValue = new Dictionary<string, object>();
-                foreach (var property in value.GetType().GetProperties())
-                    newValue[property.Name] = property.GetValue(value);
-                value = GetTheValue(newValue.GetType(), newValue);
-            }
-            return value;
-        }
-
-        private static bool ThisIsAnAnonymousType(object value)
-        {
-            return value != null && (value.GetType().Name.Contains("AnonymousType") || value.GetType().Name.Contains("AnonType"));
+            var valueMapper = valueMappers.FirstOrDefault(x => x.CanMap(propertyType, value));
+            return valueMapper == null ? value : valueMapper.Map(propertyType, value);
         }
 
         public static string ToSnakeCase(string input)
@@ -210,19 +165,6 @@ namespace SparkPost
                 input = input.Substring(1, input.Length - 1);
 
             return input;
-        }
-
-        private static Dictionary<Type, MethodInfo> GetTheConverters()
-        {
-            return typeof (DataMapper).GetMethods()
-                .Where(x => x.Name == "ToDictionary")
-                .Where(x => x.GetParameters().Length == 1)
-                .Select(x => new
-                {
-                    TheType = x.GetParameters().First().ParameterType,
-                    TheMethod = x
-                }).ToList()
-                .ToDictionary(x => x.TheType, x => x.TheMethod);
         }
     }
 }

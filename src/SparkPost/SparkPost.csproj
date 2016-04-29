@@ -48,6 +48,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Address.cs" />
+    <Compile Include="IValueMapper.cs" />
+    <Compile Include="Utilities\SnakeCase.cs" />
+    <Compile Include="ValueMappers\AnonymousValueMapper.cs" />
+    <Compile Include="ValueMappers\BooleanValueMapper.cs" />
     <Compile Include="RequestSenders\AsyncRequestSender.cs" />
     <Compile Include="Attachment.cs" />
     <Compile Include="CcHandling.cs" />
@@ -99,6 +103,13 @@
     <Compile Include="Transmissions.cs" />
     <Compile Include="UpdateSubaccountResponse.cs" />
     <Compile Include="UpdateSuppressionResponse.cs" />
+    <Compile Include="ValueMappers\DateTimeOffsetValueMapper.cs" />
+    <Compile Include="ValueMappers\EnumerableValueMapper.cs" />
+    <Compile Include="ValueMappers\EnumValueMapper.cs" />
+    <Compile Include="ValueMappers\MapASetOfItemsUsingToDictionary.cs" />
+    <Compile Include="ValueMappers\MapASingleItemUsingToDictionary.cs" />
+    <Compile Include="ValueMappers\StringObjectDictionaryValueMapper.cs" />
+    <Compile Include="ValueMappers\StringStringDictionaryValueMapper.cs" />
     <Compile Include="Webhook.cs" />
     <Compile Include="Webhooks.cs" />
   </ItemGroup>

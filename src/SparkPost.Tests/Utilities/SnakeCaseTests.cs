@@ -17,6 +17,15 @@ namespace SparkPost.Tests.Utilities
         }
 
         [Test]
+        public void It_should_handle_harder_strings()
+        {
+            SnakeCase.Convert("TestTesting").ShouldEqual("test_testing");
+            SnakeCase.Convert("TestingTest").ShouldEqual("testing_test");
+            SnakeCase.Convert("ApppppAppppppp").ShouldEqual("appppp_appppppp");
+            SnakeCase.Convert("ApppppppAppppp").ShouldEqual("appppppp_appppp");
+        }
+
+        [Test]
         public void It_should_convert_null_to_null()
         {
             SnakeCase.Convert(null).ShouldBeNull();

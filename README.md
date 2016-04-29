@@ -42,7 +42,7 @@ To send an email:
 
 ```c#
 var transmission = new Transmission();
-transmission.Content.From.Email = "testing@sparkpostbox.com";;
+transmission.Content.From.Email = "testing@sparkpostbox.com";
 transmission.Content.Subject = "Oh hey!";
 transmission.Content.Text = "Testing SparkPost - the world\'s most awesomest email service!";
 transmission.Content.Html = "<html><body><p>Testing SparkPost - the world\'s most awesomest email service!</p></body></html>";
@@ -91,6 +91,14 @@ client.Transmissions.Send(transmission);
 
 ```
 
+### Sub Accounts
+
+You can use the client to send emails through a sub account by passing the ```subAccountId``` to your client.
+
+```c#
+client = new Client(YOUR_API_KEY, YOUR_SUB_ACCOUNT_ID);
+// now the emails will be processed through your sub account
+```
 
 ### Suppression List
 

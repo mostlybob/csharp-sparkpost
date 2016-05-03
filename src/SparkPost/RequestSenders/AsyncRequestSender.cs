@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Globalization;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 namespace SparkPost.RequestSenders
@@ -25,9 +27,7 @@ namespace SparkPost.RequestSenders
                     httpClient.DefaultRequestHeaders.Add("X-MSYS-SUBACCOUNT", client.SubaccountId.ToString(CultureInfo.InvariantCulture));
                 }
 
-                var result = await new RequestMethodFinder(httpClient)
-                    .FindFor(request)
-                    .Execute(request);
+                var result = await GetTheResponse(request, httpClient);
 
                 return new Response
                 {
@@ -36,6 +36,13 @@ namespace SparkPost.RequestSenders
                     Content = await result.Content.ReadAsStringAsync()
                 };
             }
+        }
+
+        protected virtual async Task<HttpResponseMessage> GetTheResponse(Request request, HttpClient httpClient)
+        {
+            return await new RequestMethodFinder(httpClient)
+                .FindFor(request)
+                .Execute(request);
         }
     }
 }

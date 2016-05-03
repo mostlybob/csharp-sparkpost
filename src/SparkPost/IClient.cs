@@ -36,6 +36,11 @@
         IWebhooks Webhooks { get; }
 
         /// <summary>
+        /// Gets access to the message events resource of the SparkPost API.
+        /// </summary>
+        IMessageEvents MessageEvents { get; }
+
+        /// <summary>
         /// Gets the API version supported by this client.
         /// </summary>
         string Version { get; }

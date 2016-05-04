@@ -59,7 +59,12 @@ namespace SparkPost
 
             public Settings()
             {
-                httpClientBuilder = () => new HttpClient();
+                httpClientBuilder = () =>
+                {
+                    var httpClient = new HttpClient();
+                    httpClient.DefaultRequestHeaders.Accept.Clear();
+                    return httpClient;
+                };
             }
 
             public SendingModes SendingMode { get; set; }

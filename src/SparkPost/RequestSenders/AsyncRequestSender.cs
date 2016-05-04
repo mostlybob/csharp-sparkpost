@@ -20,10 +20,6 @@ namespace SparkPost.RequestSenders
             using (var httpClient = client.CustomSettings.CreateANewHttpClient())
             {
                 httpClient.BaseAddress = new Uri(client.ApiHost);
-
-                // I don't think this is the right spot for this
-                //httpClient.DefaultRequestHeaders.Accept.Clear();
-
                 httpClient.DefaultRequestHeaders.Add("Authorization", client.ApiKey);
                 if (client.SubaccountId != 0)
                     httpClient.DefaultRequestHeaders.Add("X-MSYS-SUBACCOUNT", client.SubaccountId.ToString(CultureInfo.InvariantCulture));

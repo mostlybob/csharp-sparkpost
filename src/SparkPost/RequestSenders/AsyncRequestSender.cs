@@ -26,9 +26,7 @@ namespace SparkPost.RequestSenders
 
                 httpClient.DefaultRequestHeaders.Add("Authorization", client.ApiKey);
                 if (client.SubaccountId != 0)
-                {
                     httpClient.DefaultRequestHeaders.Add("X-MSYS-SUBACCOUNT", client.SubaccountId.ToString(CultureInfo.InvariantCulture));
-                }
 
                 var result = await GetTheResponse(request, httpClient);
 

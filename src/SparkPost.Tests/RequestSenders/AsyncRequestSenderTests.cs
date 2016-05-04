@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -15,6 +16,8 @@ namespace SparkPost.Tests.RequestSenders
         {
             private HttpClient httpClient;
             private Request request;
+            private string apiHost;
+            private string apiKey;
 
             [SetUp]
             public void Setup()
@@ -23,11 +26,14 @@ namespace SparkPost.Tests.RequestSenders
 
                 httpClient = new HttpClient();
 
+                apiHost = "http://test.com";
+                apiKey = Guid.NewGuid().ToString();
+
                 var settings = new Client.Settings();
                 settings.BuildHttpClientsUsing(() => httpClient);
                 Mocked<IClient>().Setup(x => x.CustomSettings).Returns(settings);
-                Mocked<IClient>().Setup(x => x.ApiHost).Returns("http://test.com");
-                Mocked<IClient>().Setup(x => x.ApiKey).Returns(Guid.NewGuid().ToString());
+                Mocked<IClient>().Setup(x => x.ApiHost).Returns(apiHost);
+                Mocked<IClient>().Setup(x => x.ApiKey).Returns(apiKey);
 
                 request = new Request();
             }
@@ -59,6 +65,21 @@ namespace SparkPost.Tests.RequestSenders
                 result.StatusCode.ShouldEqual(HttpStatusCode.NotFound);
                 result.ReasonPhrase.ShouldEqual("Not Found");
                 result.Content.ShouldEqual(content);
+            }
+
+            [Test]
+            public async void It_should_pass_the_api_key()
+            {
+                Subject.SetupTheResponseWith((r, h) =>
+                {
+                    h.DefaultRequestHeaders.Authorization.ToString().ShouldEqual(apiKey);
+                    return new HttpResponseMessage(HttpStatusCode.NotFound)
+                    {
+                        Content = new StringContent(Guid.NewGuid().ToString())
+                    };
+                });
+
+                await Subject.Send(request);
             }
 
             public class AsyncTesting : AsyncRequestSender

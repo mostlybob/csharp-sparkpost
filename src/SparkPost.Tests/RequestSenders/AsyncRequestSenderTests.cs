@@ -18,6 +18,7 @@ namespace SparkPost.Tests.RequestSenders
             private Request request;
             private string apiHost;
             private string apiKey;
+            private HttpResponseMessage defaultHttpResponseMessage;
 
             [SetUp]
             public void Setup()
@@ -36,6 +37,11 @@ namespace SparkPost.Tests.RequestSenders
                 Mocked<IClient>().Setup(x => x.ApiKey).Returns(apiKey);
 
                 request = new Request();
+
+                defaultHttpResponseMessage = new HttpResponseMessage(HttpStatusCode.Accepted)
+                {
+                    Content = new StringContent(Guid.NewGuid().ToString())
+                };
             }
 
             [Test]
@@ -73,10 +79,7 @@ namespace SparkPost.Tests.RequestSenders
                 Subject.SetupTheResponseWith((r, h) =>
                 {
                     h.DefaultRequestHeaders.Authorization.ToString().ShouldEqual(apiKey);
-                    return new HttpResponseMessage(HttpStatusCode.NotFound)
-                    {
-                        Content = new StringContent(Guid.NewGuid().ToString())
-                    };
+                    return defaultHttpResponseMessage;
                 });
 
                 await Subject.Send(request);

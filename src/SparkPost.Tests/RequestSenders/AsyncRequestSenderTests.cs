@@ -85,6 +85,18 @@ namespace SparkPost.Tests.RequestSenders
                 await Subject.Send(request);
             }
 
+            [Test]
+            public async void It_should_send_the_request_to_the_appropriate_host()
+            {
+                Subject.SetupTheResponseWith((r, h) =>
+                {
+                    h.BaseAddress.ToString().ShouldEqual(apiHost + "/");
+                    return defaultHttpResponseMessage;
+                });
+
+                await Subject.Send(request);
+            }
+
             public class AsyncTesting : AsyncRequestSender
             {
                 private Func<Request, HttpClient, HttpResponseMessage> responseBuilder;

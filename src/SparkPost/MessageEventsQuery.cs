@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using SparkPost.Utilities;
 using System;
 using System.Collections.Generic;
@@ -55,6 +56,7 @@ namespace SparkPost
         /// Example: 2014-07-20T08:00.
         /// Default: One hour ago.
         /// </summary>
+        [JsonConverter(typeof(IsoDateTimeMinuteConverter))]
         public DateTime? From { get; set; }
 
         /// <summary>
@@ -113,6 +115,7 @@ namespace SparkPost
         /// Example: 2014-07-20T09:00.
         /// Default: now.
         /// </summary>
+        [JsonConverter(typeof(IsoDateTimeMinuteConverter))]
         public DateTime? To { get; set; }
 
         /// <summary>

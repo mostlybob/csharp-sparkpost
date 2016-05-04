@@ -8,9 +8,9 @@ namespace SparkPost.RequestSenders
 {
     public class AsyncRequestSender : IRequestSender
     {
-        private readonly Client client;
+        private readonly IClient client;
 
-        public AsyncRequestSender(Client client)
+        public AsyncRequestSender(IClient client)
         {
             this.client = client;
         }

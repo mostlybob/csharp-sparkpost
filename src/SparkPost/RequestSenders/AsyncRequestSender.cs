@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Globalization;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 namespace SparkPost.RequestSenders
@@ -15,7 +14,7 @@ namespace SparkPost.RequestSenders
             this.client = client;
         }
 
-        public async virtual Task<Response> Send(Request request)
+        public virtual async Task<Response> Send(Request request)
         {
             using (var httpClient = client.CustomSettings.CreateANewHttpClient())
             {
@@ -23,7 +22,8 @@ namespace SparkPost.RequestSenders
                 httpClient.DefaultRequestHeaders.Add("Authorization", client.ApiKey);
 
                 if (client.SubaccountId != 0)
-                    httpClient.DefaultRequestHeaders.Add("X-MSYS-SUBACCOUNT", client.SubaccountId.ToString(CultureInfo.InvariantCulture));
+                    httpClient.DefaultRequestHeaders.Add("X-MSYS-SUBACCOUNT",
+                        client.SubaccountId.ToString(CultureInfo.InvariantCulture));
 
                 var result = await GetTheResponse(request, httpClient);
 

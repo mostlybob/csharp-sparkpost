@@ -1,7 +1,5 @@
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using SparkPost.RequestSenders;
-using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -29,14 +27,11 @@ namespace SparkPost
         {
             if (messageEventsQuery == null) messageEventsQuery = new { };
 
-            // Serialize Message Events Query using specific DateTime format required by SparkPost Message Events API.
-            var messageEventsQueryFixed = JsonConvert.DeserializeObject<IDictionary<string, string>>(JsonConvert.SerializeObject(messageEventsQuery, new IsoDateTimeConverter() { DateTimeFormat = "yyyy-MM-ddTHH:mm" }));
-
             var request = new Request
             {
                 Url = $"/api/{client.Version}/message-events",
                 Method = "GET",
-                Data = messageEventsQueryFixed
+                Data = messageEventsQuery
             };
 
             var response = await requestSender.Send(request);

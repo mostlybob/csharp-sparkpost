@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -91,6 +92,35 @@ namespace SparkPost.Tests.RequestSenders
                 Subject.SetupTheResponseWith((r, h) =>
                 {
                     h.BaseAddress.ToString().ShouldEqual(apiHost + "/");
+                    return defaultHttpResponseMessage;
+                });
+
+                await Subject.Send(request);
+            }
+
+            [Test]
+            public async void It_should_set_the_subaccount_when_the_subaccount_is_not_zero()
+            {
+                Mocked<IClient>().Setup(x => x.SubaccountId).Returns(345);
+                Subject.SetupTheResponseWith((r, h) =>
+                {
+                    var match = h.DefaultRequestHeaders.First(x => x.Key == "X-MSYS-SUBACCOUNT");
+                    match.Value.Count().ShouldEqual(1);
+                    match.Value.First().ShouldEqual("345");
+                    return defaultHttpResponseMessage;
+                });
+
+                await Subject.Send(request);
+            }
+
+            [Test]
+            public async void It_should_NOT_set_a_subaccount_when_the_subaccount_is_zero()
+            {
+                Mocked<IClient>().Setup(x => x.SubaccountId).Returns(0);
+                Subject.SetupTheResponseWith((r, h) =>
+                {
+                    var count = h.DefaultRequestHeaders.Count(x => x.Key == "X-MSYS-SUBACCOUNT");
+                    count.ShouldEqual(0);
                     return defaultHttpResponseMessage;
                 });
 

@@ -4,13 +4,12 @@ namespace SparkPost
 {
     public class ResponseException : Exception
     {
-        private readonly Response response;
-
-        public ResponseException(Response response)
+        public ResponseException(Response response) :
+            base(string.Format("Response: {0} {1}. Content: {2}.", ((int)response.StatusCode).ToString(), response.ReasonPhrase, response.Content))
         {
-            this.response = response;
+            this.Response = response;
         }
 
-        public override string Message => response.Content;
+        public Response Response { get; private set; }
     }
 }

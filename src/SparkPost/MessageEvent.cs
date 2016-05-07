@@ -51,6 +51,7 @@ namespace SparkPost
             {
                 int bounceClassAsInt;
                 if (!int.TryParse(BounceClassRaw, out bounceClassAsInt)) return BounceClass.Undefined;
+                // note:  these scare me, perhaps we should check that it is valid?
                 var bounceClass = (BounceClass)bounceClassAsInt;
                 return bounceClass.ToString() == bounceClassAsInt.ToString()
                     ? BounceClass.Undefined

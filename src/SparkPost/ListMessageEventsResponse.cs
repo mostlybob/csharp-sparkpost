@@ -1,17 +1,19 @@
-using Newtonsoft.Json;
 using System.Collections.Generic;
 
 namespace SparkPost
 {
     public class ListMessageEventsResponse : Response
     {
-        [JsonProperty("results")]
-        public IList<MessageEvent> MessageEvents { get; private set; }
+        public ListMessageEventsResponse()
+        {
+            MessageEvents = new MessageEvent[] {};
+            Links = new PageLink[] {};
+        }
 
-        [JsonProperty("links")]
-        public IList<PageLink> Links { get; private set; }
+        public IEnumerable<MessageEvent> MessageEvents { get; set; }
 
-        [JsonProperty("total_count")]
-        public int TotalCount { get; private set; }
+        public IList<PageLink> Links { get; set; }
+
+        public int TotalCount { get; set; }
     }
 }

@@ -27,6 +27,7 @@ namespace SparkPost
                 {
                     var typeNameSnakeCase = SnakeCase.Convert(typeName);
                     if (string.Equals(TypeRaw, typeNameSnakeCase, StringComparison.InvariantCultureIgnoreCase))
+                        // check for an unmapped message event type here
                         return (MessageEventType)Enum.Parse(typeof(MessageEventType), typeName);
                 }
                 return MessageEventType.Undefined;

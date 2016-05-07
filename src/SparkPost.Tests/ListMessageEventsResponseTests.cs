@@ -14,8 +14,8 @@ namespace SparkPost.Tests
                 var response = new ListMessageEventsResponse();
                 response.Links.ShouldNotBeNull();
             }
-            [Test]
 
+            [Test]
             public void It_should_not_have_nil_events()
             {
                 var response = new ListMessageEventsResponse();

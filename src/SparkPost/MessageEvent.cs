@@ -14,19 +14,19 @@ namespace SparkPost
         /// }
         /// "type": "out_of_band",
         /// </summary>
-        public string TypeRaw { get; set; }
+        public string Type { get; set; }
 
         /// <summary>
         /// Type of event this record describes
         /// </summary>
-        public MessageEventType Type
+        public MessageEventType TypeEnum
         {
             get
             {
                 foreach (var typeName in Enum.GetNames(typeof(MessageEventType)))
                 {
                     var typeNameSnakeCase = SnakeCase.Convert(typeName);
-                    if (string.Equals(TypeRaw, typeNameSnakeCase, StringComparison.InvariantCultureIgnoreCase))
+                    if (string.Equals(Type, typeNameSnakeCase, StringComparison.InvariantCultureIgnoreCase))
                         // check for an unmapped message event type here
                         return (MessageEventType)Enum.Parse(typeof(MessageEventType), typeName);
                 }
@@ -41,21 +41,21 @@ namespace SparkPost
         /// },
         /// "bounce_class": "10",
         /// </summary>
-        public string BounceClassRaw { get; set; }
+        public string BounceClass { get; set; }
 
         /// <summary>
         /// Classification code for a given message (see [Bounce Classification Codes](https://support.sparkpost.com/customer/portal/articles/1929896))
         /// </summary>
-        public BounceClass BounceClass
+        public BounceClass BounceClassEnum
         {
             get
             {
                 int bounceClassAsInt;
-                if (!int.TryParse(BounceClassRaw, out bounceClassAsInt)) return BounceClass.Undefined;
+                if (!int.TryParse(BounceClass, out bounceClassAsInt)) return SparkPost.BounceClass.Undefined;
                 // note:  these scare me, perhaps we should check that it is valid?
                 var bounceClass = (BounceClass)bounceClassAsInt;
                 return bounceClass.ToString() == bounceClassAsInt.ToString()
-                    ? BounceClass.Undefined
+                    ? SparkPost.BounceClass.Undefined
                     : bounceClass;
             }
         }
@@ -63,7 +63,7 @@ namespace SparkPost
         /// <summary>
         /// Classification code for a given message (see [Bounce Classification Codes](https://support.sparkpost.com/customer/portal/articles/1929896))
         /// </summary>
-        public BounceClassDetails BounceClassDetails => BounceClassesDetails.AllBounceClasses[BounceClass];
+        public BounceClassDetails BounceClassDetails => BounceClassesDetails.AllBounceClasses[BounceClassEnum];
 
         /// <summary>
         /// "campaign_id": {
@@ -326,7 +326,7 @@ namespace SparkPost
 
         public override string ToString()
         {
-            return $"{Type} from {FriendlyFrom} to {RecipientTo}";
+            return $"{TypeEnum} from {FriendlyFrom} to {RecipientTo}";
         }
     }
 }

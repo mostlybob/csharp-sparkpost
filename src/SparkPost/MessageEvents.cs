@@ -62,6 +62,9 @@ namespace SparkPost
 
             foreach (var result in results)
             {
+                var metadata =
+                    JsonConvert.DeserializeObject<Dictionary<string, string>>(
+                        JsonConvert.SerializeObject(result.rcpt_meta));
                 messageEvents.Add(new MessageEvent
                 {
                     Type = result.type,
@@ -95,6 +98,7 @@ namespace SparkPost
                     TDate = result.tdate,
                     Transactional = result.transactional,
                     RemoteAddress = result.remote_addr,
+                    Metadata = metadata
                 });
             }
             return messageEvents;

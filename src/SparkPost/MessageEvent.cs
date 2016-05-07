@@ -165,7 +165,6 @@ namespace SparkPost
         ///  "CustomKey2": "Custom Value 2"
         ///},
         /// </summary>
-        [JsonProperty("rcpt_meta")]
         public Dictionary<string, string> Metadata { get; set; }
 
         /// <summary>

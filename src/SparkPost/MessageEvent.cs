@@ -14,13 +14,11 @@ namespace SparkPost
         /// }
         /// "type": "out_of_band",
         /// </summary>
-        [JsonProperty("type")]
         public string TypeJson { get; set; }
 
         /// <summary>
         /// Type of event this record describes
         /// </summary>
-        [JsonIgnore]
         public MessageEventType Type
         {
             get
@@ -44,13 +42,11 @@ namespace SparkPost
         /// },
         /// "bounce_class": "10",
         /// </summary>
-        [JsonProperty("bounce_class")]
         public string BounceClassJson { get; set; }
 
         /// <summary>
         /// Classification code for a given message (see [Bounce Classification Codes](https://support.sparkpost.com/customer/portal/articles/1929896))
         /// </summary>
-        [JsonIgnore]
         public BounceClass BounceClass
         {
             get
@@ -72,7 +68,6 @@ namespace SparkPost
         /// <summary>
         /// Classification code for a given message (see [Bounce Classification Codes](https://support.sparkpost.com/customer/portal/articles/1929896))
         /// </summary>
-        [JsonIgnore]
         public BounceClassDetails BounceClassDetails
         {
             get
@@ -88,7 +83,6 @@ namespace SparkPost
         /// },
         /// "campaign_id": "My campaign name",
         /// </summary>
-        [JsonProperty("campaign_id")]
         public string CampaignId { get; set; }
 
         /// <summary>
@@ -98,7 +92,6 @@ namespace SparkPost
         /// },
         /// "customer_id": "12345",
         /// </summary>
-        [JsonProperty("customer_id")]
         public string CustomerId { get; set; }
 
         /// <summary>
@@ -108,7 +101,6 @@ namespace SparkPost
         /// },
         /// "delv_method": "esmtp",
         /// </summary>
-        [JsonProperty("delv_method")]
         public string DeliveryMethod { get; set; }
 
         /// <summary>
@@ -117,7 +109,6 @@ namespace SparkPost
         ///   "sampleValue": "45c19189783f867973f6e6a5cca60061ffe4fa77c547150563a1192fa9847f8a"
         /// },
         /// </summary>
-        [JsonProperty("device_token")]
         public string DeviceToken { get; set; }
 
         /// <summary>
@@ -127,7 +118,6 @@ namespace SparkPost
         /// },
         /// "error_code": "550",
         /// </summary>
-        [JsonProperty("error_code")]
         public string ErrorCode { get; set; }
 
         /// <summary>
@@ -136,7 +126,6 @@ namespace SparkPost
         ///   "sampleValue": "127.0.0.1"
         /// },
         /// </summary>
-        [JsonProperty("ip_address")]
         public string IpAddress { get; set; }
 
         /// <summary>
@@ -146,7 +135,6 @@ namespace SparkPost
         /// },
         /// "message_id": "00021f9a27476a273c57",
         /// </summary>
-        [JsonProperty("message_id")]
         public string MessageId { get; set; }
 
         /// <summary>
@@ -156,7 +144,6 @@ namespace SparkPost
         /// },
         /// "msg_from": "msprvs1=17827RA6TC8Pz=bounces-12345@sparkpostmail1.com",
         /// </summary>
-        [JsonProperty("msg_from")]
         public string MessageForm { get; set; }
 
         /// <summary>
@@ -166,7 +153,6 @@ namespace SparkPost
         /// },
         /// "msg_size": "3168",
         /// </summary>
-        [JsonProperty("msg_size")]
         public string MessageSize { get; set; }
 
         /// <summary>
@@ -176,7 +162,6 @@ namespace SparkPost
         /// },
         /// "num_retries": "0",
         /// </summary>
-        [JsonProperty("num_retries")]
         public string NumberOfRetries { get; set; }
 
         /// <summary>
@@ -214,7 +199,6 @@ namespace SparkPost
         /// },
         /// "rcpt_to": "to@domain.com",
         /// </summary>
-        [JsonProperty("rcpt_to")]
         public string RecipientTo { get; set; }
 
         /// <summary>
@@ -223,7 +207,6 @@ namespace SparkPost
         ///   "sampleValue": "cc"
         /// },
         /// </summary>
-        [JsonProperty("rcpt_type")]
         public string RecipientType { get; set; }
 
         /// <summary>
@@ -233,7 +216,6 @@ namespace SparkPost
         /// },
         /// "raw_reason": "550 [internal] [oob] The recipient is invalid.",
         /// </summary>
-        [JsonProperty("raw_reason")]
         public string RawReason { get; set; }
 
         /// <summary>
@@ -243,7 +225,6 @@ namespace SparkPost
         /// },
         /// "reason": "550 [internal] [oob] The recipient is invalid.",
         /// </summary>
-        [JsonProperty("reason")]
         public string Reason { get; set; }
 
         /// <summary>
@@ -253,7 +234,6 @@ namespace SparkPost
         /// },
         /// "routing_domain": "domain.com",
         /// </summary>
-        [JsonProperty("routing_domain")]
         public string RoutingDomain { get; set; }
 
         /// <summary>
@@ -263,7 +243,6 @@ namespace SparkPost
         /// },
         /// "subject": "My email subject",
         /// </summary>
-        [JsonProperty("subject")]
         public string Subject { get; set; }
 
         /// <summary>
@@ -273,7 +252,6 @@ namespace SparkPost
         /// },
         /// "template_id": "smtp_47287131967131576",
         /// </summary>
-        [JsonProperty("template_id")]
         public string TemplateId { get; set; }
 
         /// <summary>
@@ -283,7 +261,6 @@ namespace SparkPost
         /// },
         /// "template_version": "0",
         /// </summary>
-        [JsonProperty("template_version")]
         public string TemplateVersion { get; set; }
 
         /// <summary>
@@ -293,7 +270,6 @@ namespace SparkPost
         /// },
         /// "timestamp": "2016-04-27T10:54:25.000+00:00"
         /// </summary>
-        [JsonProperty("timestamp")]
         public DateTimeOffset Timestamp { get; set; }
 
         /// <summary>
@@ -303,70 +279,60 @@ namespace SparkPost
         /// }
         /// "transmission_id": "47287131967131576",
         /// </summary>
-        [JsonProperty("transmission_id")]
         public string TransmissionId { get; set; }
 
         /// <summary>
         /// Not documented.
         /// "event_id": "84320004715329757",
         /// </summary>
-        [JsonProperty("event_id")]
         public string EventId { get; set; }
 
         /// <summary>
         /// Not documented.
         /// "friendly_from": "from@domain.com",
         /// </summary>
-        [JsonProperty("friendly_from")]
         public string FriendlyFrom { get; set; }
 
         /// <summary>
         /// Not documented.
         /// "ip_pool": "shared",
         /// </summary>
-        [JsonProperty("ip_pool")]
         public string IpPool { get; set; }
 
         /// <summary>
         /// Not documented.
         /// "queue_time": "3004",
         /// </summary>
-        [JsonProperty("queue_time")]
         public string QueueTime { get; set; }
 
         /// <summary>
         /// Not documented.
         /// "raw_rcpt_to": "to@domain.com",
         /// </summary>
-        [JsonProperty("raw_rcpt_to")]
         public string RawRecipientTo { get; set; }
 
         /// <summary>
         /// Not documented.
         /// "sending_ip": "shared",
         /// </summary>
-        [JsonProperty("sending_ip")]
         public string SendingIp { get; set; }
 
         /// <summary>
         /// Not documented.
         /// "tdate": "2016-04-27T22:05:40.000Z",
         /// </summary>
-        [JsonProperty("tdate")]
         public DateTime TDate { get; set; }
 
         /// <summary>
         /// Not documented.
         /// "transactional": "1",
         /// </summary>
-        [JsonProperty("transactional")]
         public string Transactional { get; set; }
 
         /// <summary>
         /// Not documented.
         /// "remote_addr": "A.B.C.D:25512",
         /// </summary>
-        [JsonProperty("remote_addr")]
         public string RemoteAddress { get; set; }
 
         public override string ToString()

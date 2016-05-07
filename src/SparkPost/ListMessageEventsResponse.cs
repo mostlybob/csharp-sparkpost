@@ -6,7 +6,7 @@ namespace SparkPost
     public class ListMessageEventsResponse : Response
     {
         [JsonProperty("results")]
-        public IList<MessageEvent> MessageEvents { get; private set; }
+        public IEnumerable<MessageEvent> MessageEvents { get; set; }
 
         [JsonProperty("links")]
         public IList<PageLink> Links { get; private set; }

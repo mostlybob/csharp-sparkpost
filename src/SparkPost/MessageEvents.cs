@@ -10,13 +10,11 @@ namespace SparkPost
     {
         private readonly IClient client;
         private readonly IRequestSender requestSender;
-        private readonly IDataMapper dataMapper;
 
-        public MessageEvents(IClient client, IRequestSender requestSender, IDataMapper dataMapper)
+        public MessageEvents(IClient client, IRequestSender requestSender)
         {
             this.client = client;
             this.requestSender = requestSender;
-            this.dataMapper = dataMapper;
         }
 
         public async Task<ListMessageEventsResponse> List(MessageEventsQuery messageEventsQuery)

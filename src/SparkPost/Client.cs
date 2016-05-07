@@ -37,7 +37,7 @@ namespace SparkPost
             Suppressions = new Suppressions(this, requestSender, dataMapper);
             Webhooks = new Webhooks(this, requestSender, dataMapper);
             Subaccounts = new Subaccounts(this, requestSender, dataMapper);
-            MessageEvents = new MessageEvents(this, requestSender, dataMapper);
+            MessageEvents = new MessageEvents(this, requestSender);
 
             CustomSettings = new Settings();
         }

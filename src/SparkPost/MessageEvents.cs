@@ -64,8 +64,8 @@ namespace SparkPost
             {
                 messageEvents.Add(new MessageEvent
                 {
-                    TypeJson = result.type,
-                    BounceClassJson = result.bounce_class,
+                    TypeRaw = result.type,
+                    BounceClassRaw = result.bounce_class,
                     CampaignId = result.campaign_id,
                     CustomerId = result.customer_id,
                     DeliveryMethod = result.delv_method,

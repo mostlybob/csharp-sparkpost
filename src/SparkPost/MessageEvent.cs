@@ -14,7 +14,7 @@ namespace SparkPost
         /// }
         /// "type": "out_of_band",
         /// </summary>
-        public string TypeJson { get; set; }
+        public string TypeRaw { get; set; }
 
         /// <summary>
         /// Type of event this record describes
@@ -26,7 +26,7 @@ namespace SparkPost
                 foreach (var typeName in Enum.GetNames(typeof(MessageEventType)))
                 {
                     var typeNameSnakeCase = SnakeCase.Convert(typeName);
-                    if (string.Equals(TypeJson, typeNameSnakeCase, StringComparison.InvariantCultureIgnoreCase))
+                    if (string.Equals(TypeRaw, typeNameSnakeCase, StringComparison.InvariantCultureIgnoreCase))
                         return (MessageEventType)Enum.Parse(typeof(MessageEventType), typeName);
                 }
                 return MessageEventType.Undefined;
@@ -40,7 +40,7 @@ namespace SparkPost
         /// },
         /// "bounce_class": "10",
         /// </summary>
-        public string BounceClassJson { get; set; }
+        public string BounceClassRaw { get; set; }
 
         /// <summary>
         /// Classification code for a given message (see [Bounce Classification Codes](https://support.sparkpost.com/customer/portal/articles/1929896))
@@ -50,7 +50,7 @@ namespace SparkPost
             get
             {
                 int bounceClassAsInt;
-                if (!int.TryParse(BounceClassJson, out bounceClassAsInt)) return BounceClass.Undefined;
+                if (!int.TryParse(BounceClassRaw, out bounceClassAsInt)) return BounceClass.Undefined;
                 var bounceClass = (BounceClass)bounceClassAsInt;
                 return bounceClass.ToString() == bounceClassAsInt.ToString()
                     ? BounceClass.Undefined

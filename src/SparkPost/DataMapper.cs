@@ -20,6 +20,7 @@ namespace SparkPost
         IDictionary<string, object> ToDictionary(Suppression suppression);
         IDictionary<string, object> ToDictionary(Webhook webhook);
         IDictionary<string, object> ToDictionary(Subaccount subaccount);
+        IDictionary<string, object> CatchAll(object anything);
         object GetTheValue(Type propertyType, object value);
     }
 
@@ -36,6 +37,8 @@ namespace SparkPost
                 new BooleanValueMapper(),
                 new EnumValueMapper(),
                 new DateTimeOffsetValueMapper(),
+                new DateTimeValueMapper(),
+                new DateTimeNullableValueMapper(),
                 new StringObjectDictionaryValueMapper(this),
                 new StringStringDictionaryValueMapper(),
                 new EnumerableValueMapper(this),
@@ -118,6 +121,11 @@ namespace SparkPost
         public IDictionary<string, object> ToDictionary(Subaccount subaccount)
         {
             return WithCommonConventions(subaccount);
+        }
+
+        public IDictionary<string, object> CatchAll(object anything)
+        {
+            return WithCommonConventions(anything);
         }
 
         private static bool AnyValuesWereSetOn(object target)

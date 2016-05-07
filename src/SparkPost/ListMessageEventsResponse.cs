@@ -8,10 +8,8 @@ namespace SparkPost
         [JsonProperty("results")]
         public IEnumerable<MessageEvent> MessageEvents { get; set; }
 
-        [JsonProperty("links")]
-        public IList<PageLink> Links { get; private set; }
+        public IList<PageLink> Links { get; set; }
 
-        [JsonProperty("total_count")]
         public int TotalCount { get; set; }
     }
 }

@@ -37,20 +37,35 @@ namespace SparkPost
             if (response.StatusCode != HttpStatusCode.OK) throw new ResponseException(response);
 
             dynamic content = JsonConvert.DeserializeObject<dynamic>(response.Content);
-            dynamic results = response.StatusCode == HttpStatusCode.OK
-                ? content.results
-                : null;
 
             var listMessageEventsResponse = new ListMessageEventsResponse
             {
                 ReasonPhrase = response.ReasonPhrase,
                 StatusCode = response.StatusCode,
                 Content = response.Content,
-                MessageEvents = ConvertResultsToAListOfMessageEvents(results),
-                TotalCount = content.total_count
+                MessageEvents = ConvertResultsToAListOfMessageEvents(content.results),
+                TotalCount = content.total_count,
+                Links = ConvertToLinks(content.links)
             };
 
             return listMessageEventsResponse;
+        }
+
+        private static IEnumerable<PageLink> ConvertToLinks(dynamic page_links)
+        {
+            var links = new List<PageLink>();
+
+            if (page_links == null) return links;
+
+            foreach (var page_link in page_links)
+            {
+                links.Add(new PageLink
+                {
+                    Href = page_link.href,
+                    Type = page_link.rel
+                });
+            }
+            return links;
         }
 
         private static IEnumerable<MessageEvent> ConvertResultsToAListOfMessageEvents(dynamic results)

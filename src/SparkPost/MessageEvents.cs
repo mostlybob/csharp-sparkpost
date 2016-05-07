@@ -36,9 +36,6 @@ namespace SparkPost
             var response = await requestSender.Send(request);
             if (response.StatusCode != HttpStatusCode.OK) throw new ResponseException(response);
 
-            //var listMessageEventsResponse = JsonConvert.DeserializeObject<ListMessageEventsResponse>(response.Content);
-            //JsonConvert.DeserializeObject<>()
-
             dynamic results = response.StatusCode == HttpStatusCode.OK
                 ? JsonConvert.DeserializeObject<dynamic>(response.Content).results
                 : null;

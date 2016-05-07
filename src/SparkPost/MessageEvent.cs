@@ -177,7 +177,6 @@ namespace SparkPost
         /// },
         /// "rcpt_tags": [ "CustomTag1" ],
         /// </summary>
-        [JsonProperty("rcpt_tags")]
         public List<string> Tags { get; set; }
 
         /// <summary>

@@ -40,11 +40,13 @@ namespace SparkPost
                 ? JsonConvert.DeserializeObject<dynamic>(response.Content).results
                 : null;
 
-            var listMessageEventsResponse = new ListMessageEventsResponse();
-            listMessageEventsResponse.ReasonPhrase = response.ReasonPhrase;
-            listMessageEventsResponse.StatusCode = response.StatusCode;
-            listMessageEventsResponse.Content = response.Content;
-            listMessageEventsResponse.MessageEvents = ConvertResultsToAListOfMessageEvents(results);
+            var listMessageEventsResponse = new ListMessageEventsResponse
+            {
+                ReasonPhrase = response.ReasonPhrase,
+                StatusCode = response.StatusCode,
+                Content = response.Content,
+                MessageEvents = ConvertResultsToAListOfMessageEvents(results)
+            };
 
             return listMessageEventsResponse;
         }

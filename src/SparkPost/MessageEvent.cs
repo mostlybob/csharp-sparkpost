@@ -23,13 +23,11 @@ namespace SparkPost
         {
             get
             {
-                foreach (string typeName in Enum.GetNames(typeof(MessageEventType)))
+                foreach (var typeName in Enum.GetNames(typeof(MessageEventType)))
                 {
-                    string typeNameSnakeCase = SnakeCase.Convert(typeName);
-                    if (string.Equals(this.TypeJson, typeNameSnakeCase, StringComparison.InvariantCultureIgnoreCase))
-                    {
+                    var typeNameSnakeCase = SnakeCase.Convert(typeName);
+                    if (string.Equals(TypeJson, typeNameSnakeCase, StringComparison.InvariantCultureIgnoreCase))
                         return (MessageEventType)Enum.Parse(typeof(MessageEventType), typeName);
-                    }
                 }
                 return MessageEventType.Undefined;
             }
@@ -52,29 +50,18 @@ namespace SparkPost
             get
             {
                 int bounceClassAsInt;
-                if (int.TryParse(this.BounceClassJson, out bounceClassAsInt))
-                {
-                    BounceClass bounceClass = (BounceClass)bounceClassAsInt;
-                    if (bounceClass.ToString() == bounceClassAsInt.ToString()) // Enum value not found - ToString() returns a number
-                    {
-                        return BounceClass.Undefined;
-                    }
-                    return bounceClass;
-                }
-                return BounceClass.Undefined;
+                if (!int.TryParse(BounceClassJson, out bounceClassAsInt)) return BounceClass.Undefined;
+                var bounceClass = (BounceClass)bounceClassAsInt;
+                return bounceClass.ToString() == bounceClassAsInt.ToString()
+                    ? BounceClass.Undefined
+                    : bounceClass;
             }
         }
 
         /// <summary>
         /// Classification code for a given message (see [Bounce Classification Codes](https://support.sparkpost.com/customer/portal/articles/1929896))
         /// </summary>
-        public BounceClassDetails BounceClassDetails
-        {
-            get
-            {
-                return BounceClassesDetails.AllBounceClasses[this.BounceClass];
-            }
-        }
+        public BounceClassDetails BounceClassDetails => BounceClassesDetails.AllBounceClasses[BounceClass];
 
         /// <summary>
         /// "campaign_id": {
@@ -337,7 +324,7 @@ namespace SparkPost
 
         public override string ToString()
         {
-            return string.Format("{0} from {1} to {2}", this.Type, this.FriendlyFrom, this.RecipientTo);
+            return $"{Type} from {FriendlyFrom} to {RecipientTo}";
         }
     }
 }

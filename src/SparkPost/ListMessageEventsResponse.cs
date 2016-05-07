@@ -12,6 +12,6 @@ namespace SparkPost
         public IList<PageLink> Links { get; private set; }
 
         [JsonProperty("total_count")]
-        public int TotalCount { get; private set; }
+        public int TotalCount { get; set; }
     }
 }

@@ -49,5 +49,10 @@
         /// Get the custom settings for this client.
         /// </summary>
         Client.Settings CustomSettings { get; }
+
+        /// <summary>
+        /// Gets the sub account.
+        /// </summary>
+        long SubaccountId { get; }
     }
 }

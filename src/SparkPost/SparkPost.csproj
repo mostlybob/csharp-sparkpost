@@ -21,6 +21,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\SparkPost.xml</DocumentationFile>
+    <NoWarn>1591</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,6 +31,8 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\SparkPost.xml</DocumentationFile>
+    <NoWarn>1591</NoWarn>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -48,7 +52,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Address.cs" />
+    <Compile Include="BounceCategory.cs" />
+    <Compile Include="BounceClass.cs" />
+    <Compile Include="BounceClassDetails.cs" />
+    <Compile Include="BounceClassesDetails.cs" />
+    <Compile Include="IMessageEvents.cs" />
+    <Compile Include="IsoDateTimeMinuteConverter.cs" />
     <Compile Include="IValueMapper.cs" />
+    <Compile Include="ListMessageEventsResponse.cs" />
+    <Compile Include="MessageEvent.cs" />
+    <Compile Include="MessageEvents.cs" />
+    <Compile Include="MessageEventsQuery.cs" />
+    <Compile Include="MessageEventType.cs" />
+    <Compile Include="PageLink.cs" />
     <Compile Include="Utilities\SnakeCase.cs" />
     <Compile Include="ValueMappers\AnonymousValueMapper.cs" />
     <Compile Include="ValueMappers\BooleanValueMapper.cs" />

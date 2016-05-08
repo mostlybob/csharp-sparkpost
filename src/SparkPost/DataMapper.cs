@@ -38,7 +38,6 @@ namespace SparkPost
                 new EnumValueMapper(),
                 new DateTimeOffsetValueMapper(),
                 new DateTimeValueMapper(),
-                new DateTimeNullableValueMapper(),
                 new StringObjectDictionaryValueMapper(this),
                 new StringStringDictionaryValueMapper(),
                 new EnumerableValueMapper(this),

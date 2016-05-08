@@ -1,4 +1,3 @@
-using Newtonsoft.Json;
 using SparkPost.Utilities;
 using System;
 using System.Collections.Generic;
@@ -30,7 +29,6 @@ namespace SparkPost
         /// events : List : Comma-delimited list of event types to search. Defaults to all event types.
         /// Example: delivery, injection, bounce, delay, policy_rejection, out_of_band, open, click, generation_failure, generation_rejection, spam_complaint, list_unsubscribe, link_unsubscribe.
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("Events")]
         public string EventsJson
         {
             get
@@ -43,7 +41,6 @@ namespace SparkPost
         /// events : List : Comma-delimited list of event types to search. Defaults to all event types.
         /// Example: delivery, injection, bounce, delay, policy_rejection, out_of_band, open, click, generation_failure, generation_rejection, spam_complaint, list_unsubscribe, link_unsubscribe.
         /// </summary>
-        [Newtonsoft.Json.JsonIgnore]
         public IList<MessageEventType> Events { get; set; }
 
         /// <summary>
@@ -56,7 +53,6 @@ namespace SparkPost
         /// Example: 2014-07-20T08:00.
         /// Default: One hour ago.
         /// </summary>
-        [JsonConverter(typeof(IsoDateTimeMinuteConverter))]
         public DateTime? From { get; set; }
 
         /// <summary>
@@ -115,7 +111,6 @@ namespace SparkPost
         /// Example: 2014-07-20T09:00.
         /// Default: now.
         /// </summary>
-        [JsonConverter(typeof(IsoDateTimeMinuteConverter))]
         public DateTime? To { get; set; }
 
         /// <summary>

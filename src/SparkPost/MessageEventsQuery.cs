@@ -37,18 +37,6 @@ namespace SparkPost
         /// events : List : Comma-delimited list of event types to search. Defaults to all event types.
         /// Example: delivery, injection, bounce, delay, policy_rejection, out_of_band, open, click, generation_failure, generation_rejection, spam_complaint, list_unsubscribe, link_unsubscribe.
         /// </summary>
-        //public string EventsJson
-        //{
-        //    get
-        //    {
-        //        return string.Join(",", this.Events.Select(e => SnakeCase.Convert(e.ToString())).ToArray());
-        //    }
-        //}
-
-        /// <summary>
-        /// events : List : Comma-delimited list of event types to search. Defaults to all event types.
-        /// Example: delivery, injection, bounce, delay, policy_rejection, out_of_band, open, click, generation_failure, generation_rejection, spam_complaint, list_unsubscribe, link_unsubscribe.
-        /// </summary>
         public IList<string> Events { get; set; }
 
         /// <summary>

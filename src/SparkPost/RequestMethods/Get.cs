@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -26,12 +28,16 @@ namespace SparkPost.RequestMethods
 
         private static string ConvertToQueryString(object data)
         {
+            var dataMapper = new DataMapper();
+
             if (data == null) return null;
-            var dictionary =
-                JsonConvert.DeserializeObject<IDictionary<string, string>>(JsonConvert.SerializeObject(data));
+            var original = dataMapper.CatchAll(data);
+
+            var dictionary = new Dictionary<string, string>();
+            foreach(var thing in original.Where(x=>string.IsNullOrEmpty(x.Value.ToString()) == false))
+                dictionary[thing.Key] = thing.Value.ToString();
 
             var values = dictionary
-                .Where(x => string.IsNullOrEmpty(x.Value) == false)
                 .Select(x => HttpUtility.UrlEncode(SnakeCase.Convert(x.Key)) + "=" + HttpUtility.UrlEncode(x.Value));
 
             return string.Join("&", values);

@@ -11,7 +11,7 @@ namespace SparkPost.ValueMappers
 
         public object Map(Type propertyType, object value)
         {
-            return string.Format("{0:s}{0:zzz}", (DateTime) value);
+            return ((DateTime) value).ToString("yyyy-MM-ddTHH:mm");
         }
     }
 }

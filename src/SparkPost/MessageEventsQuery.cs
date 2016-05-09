@@ -10,7 +10,7 @@ namespace SparkPost
 
         public MessageEventsQuery()
         {
-            this.Events = new List<MessageEventType>();
+            this.Events = new List<string>();
             this.BounceClasses = new List<string>();
             this.CampaignIds = new List<string>();
             this.FriendlyFroms = new List<string>();
@@ -49,7 +49,7 @@ namespace SparkPost
         /// events : List : Comma-delimited list of event types to search. Defaults to all event types.
         /// Example: delivery, injection, bounce, delay, policy_rejection, out_of_band, open, click, generation_failure, generation_rejection, spam_complaint, list_unsubscribe, link_unsubscribe.
         /// </summary>
-        public IList<MessageEventType> Events { get; set; }
+        public IList<string> Events { get; set; }
 
         /// <summary>
         /// friendly_froms : ? : (optional, list, `sender@mail.example.com`) ... Comma-delimited list of friendly_froms to search.

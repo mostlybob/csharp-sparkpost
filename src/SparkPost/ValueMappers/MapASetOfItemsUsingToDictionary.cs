@@ -9,13 +9,13 @@ namespace SparkPost.ValueMappers
 {
     public class MapASetOfItemsUsingToDictionary : IValueMapper
     {
-        private readonly Dictionary<Type, MethodInfo> converters;
+        private readonly IDictionary<Type, MethodInfo> converters;
         private readonly IDataMapper dataMapper;
 
         public MapASetOfItemsUsingToDictionary(IDataMapper dataMapper)
         {
             this.dataMapper = dataMapper;
-            converters = ToDictionaryMethodFinder.GetTheConverters(dataMapper);
+            converters = dataMapper.ToDictionaryMethods();
         }
 
         public bool CanMap(Type propertyType, object value)

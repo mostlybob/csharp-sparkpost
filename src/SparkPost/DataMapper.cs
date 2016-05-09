@@ -24,6 +24,7 @@ namespace SparkPost
         IDictionary<string, object> ToDictionary(Subaccount subaccount);
         IDictionary<string, object> CatchAll(object anything);
         object GetTheValue(Type propertyType, object value);
+        IDictionary<Type, MethodInfo> ToDictionaryMethods();
     }
 
     public class DataMapper : IDataMapper
@@ -143,11 +144,24 @@ namespace SparkPost
 
         public IDictionary<string, object> CatchAll(object anything)
         {
-            var converters = ToDictionaryMethodFinder.GetTheConverters(this);
+            var converters = ToDictionaryMethods();
             if (converters.ContainsKey(anything.GetType()))
                 return converters[anything.GetType()].Invoke(this, BindingFlags.Default, null,
                     new[] {anything}, CultureInfo.CurrentCulture) as IDictionary<string, object>;
             return WithCommonConventions(anything);
+        }
+
+        public IDictionary<Type, MethodInfo> ToDictionaryMethods()
+        {
+            return this.GetType().GetMethods()
+                .Where(x => x.Name == "ToDictionary")
+                .Where(x => x.GetParameters().Length == 1)
+                .Select(x => new
+                {
+                    TheType = x.GetParameters().First().ParameterType,
+                    TheMethod = x
+                }).ToList()
+                .ToDictionary(x => x.TheType, x => x.TheMethod);
         }
 
         private static bool AnyValuesWereSetOn(object target)

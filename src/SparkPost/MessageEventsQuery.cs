@@ -14,6 +14,11 @@ namespace SparkPost
             this.BounceClasses = new List<string>();
             this.CampaignIds = new List<string>();
             this.FriendlyFroms = new List<string>();
+            this.MessageIds = new List<string>();
+            this.Recipients = new List<string>();
+            this.Subaccounts = new List<string>();
+            this.TemplateIds = new List<string>();
+            this.TransmissionIds = new List<string>();
         }
 
         /// <summary>
@@ -62,7 +67,7 @@ namespace SparkPost
         /// message_ids : List : Comma-delimited list of message ID's to search.
         /// Example: 0e0d94b7-9085-4e3c-ab30-e3f2cd9c273e.
         /// </summary>
-        public string MessageIds { get; set; }
+        public IList<string> MessageIds { get; set; }
 
         /// <summary>
         /// page : number : The results page number to return. Used with per_page for paging through results.
@@ -88,19 +93,19 @@ namespace SparkPost
         /// recipients : List : Comma-delimited list of recipients to search.
         /// Example: recipient @example.com.
         /// </summary>
-        public string Recipients { get; set; }
+        public IList<string> Recipients { get; set; }
 
         /// <summary>
         /// subaccounts : List : Comma-delimited list of subaccount ID's to search.
         /// Example: 101.
         /// </summary>
-        public string Subaccounts { get; set; }
+        public IList<string> Subaccounts { get; set; }
 
         /// <summary>
         /// template_ids : List : Comma-delimited list of template ID's to search.
         /// Example: templ-1234.
         /// </summary>
-        public string TemplateIds { get; set; }
+        public IList<string> TemplateIds { get; set; }
 
         /// <summary>
         /// timezone : String : Standard timezone identification string.
@@ -120,7 +125,7 @@ namespace SparkPost
         /// transmission_ids : List : Comma-delimited list of transmission ID's to search (i.e. id generated during creation of a transmission).
         /// Example: 65832150921904138.
         /// </summary>
-        public string TransmissionIds { get; set; }
+        public IList<string> TransmissionIds { get; set; }
 
     }
 }

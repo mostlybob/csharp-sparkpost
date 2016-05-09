@@ -65,6 +65,7 @@
     <Compile Include="MessageEventType.cs" />
     <Compile Include="PageLink.cs" />
     <Compile Include="Utilities\SnakeCase.cs" />
+    <Compile Include="Utilities\ToDictionaryMethodFinder.cs" />
     <Compile Include="ValueMappers\AnonymousValueMapper.cs" />
     <Compile Include="ValueMappers\BooleanValueMapper.cs" />
     <Compile Include="RequestSenders\AsyncRequestSender.cs" />

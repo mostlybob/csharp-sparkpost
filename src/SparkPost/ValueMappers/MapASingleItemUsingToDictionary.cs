@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using SparkPost.Utilities;
 
 namespace SparkPost.ValueMappers
 {
@@ -14,7 +15,7 @@ namespace SparkPost.ValueMappers
         public MapASingleItemUsingToDictionary(IDataMapper dataMapper)
         {
             this.dataMapper = dataMapper;
-            converters = GetTheConverters(dataMapper);
+            converters = ToDictionaryMethodFinder.GetTheConverters(dataMapper);
         }
 
         public bool CanMap(Type propertyType, object value)
@@ -26,19 +27,6 @@ namespace SparkPost.ValueMappers
         {
             return converters[propertyType].Invoke(dataMapper, BindingFlags.Default, null,
                 new[] {value}, CultureInfo.CurrentCulture);
-        }
-
-        public static Dictionary<Type, MethodInfo> GetTheConverters(IDataMapper dataMapper)
-        {
-            return dataMapper.GetType().GetMethods()
-                .Where(x => x.Name == "ToDictionary")
-                .Where(x => x.GetParameters().Length == 1)
-                .Select(x => new
-                {
-                    TheType = x.GetParameters().First().ParameterType,
-                    TheMethod = x
-                }).ToList()
-                .ToDictionary(x => x.TheType, x => x.TheMethod);
         }
     }
 }

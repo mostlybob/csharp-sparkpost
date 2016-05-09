@@ -143,7 +143,7 @@ namespace SparkPost
 
         public IDictionary<string, object> CatchAll(object anything)
         {
-            var converters = MapASingleItemUsingToDictionary.GetTheConverters(this);
+            var converters = ToDictionaryMethodFinder.GetTheConverters(this);
             if (converters.ContainsKey(anything.GetType()))
                 return converters[anything.GetType()].Invoke(this, BindingFlags.Default, null,
                     new[] {anything}, CultureInfo.CurrentCulture) as IDictionary<string, object>;

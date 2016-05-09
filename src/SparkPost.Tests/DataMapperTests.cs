@@ -887,7 +887,7 @@ namespace SparkPost.Tests
 
                 result["first_name"].ShouldEqual("Test1");
                 result["last_name"].ShouldEqual("Test2");
-                ((string)result["the_date"]).Substring(0, 19).ShouldEqual("2016-01-02T03:04:05");
+                ((string)result["the_date"]).Substring(0, 16).ShouldEqual("2016-01-02T03:04");
             }
         }
     }

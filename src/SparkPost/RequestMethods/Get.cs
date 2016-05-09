@@ -13,10 +13,12 @@ namespace SparkPost.RequestMethods
     public class Get : RequestMethod
     {
         private readonly HttpClient client;
+        private readonly IDataMapper dataMapper;
 
-        public Get(HttpClient client)
+        public Get(HttpClient client, IDataMapper dataMapper)
         {
             this.client = client;
+            this.dataMapper = dataMapper;
         }
 
         public override Task<HttpResponseMessage> Execute(Request request)
@@ -26,10 +28,8 @@ namespace SparkPost.RequestMethods
                     .Where(x => string.IsNullOrEmpty(x) == false)));
         }
 
-        private static string ConvertToQueryString(object data)
+        private string ConvertToQueryString(object data)
         {
-            var dataMapper = new DataMapper();
-
             if (data == null) return null;
             var original = dataMapper.CatchAll(data);
 

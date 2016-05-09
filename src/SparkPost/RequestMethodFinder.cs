@@ -13,10 +13,12 @@ namespace SparkPost
     public class RequestMethodFinder : IRequestMethodFinder
     {
         private readonly HttpClient client;
+        private readonly IDataMapper dataMapper;
 
-        public RequestMethodFinder(HttpClient client)
+        public RequestMethodFinder(HttpClient client, IDataMapper dataMapper)
         {
             this.client = client;
+            this.dataMapper = dataMapper;
         }
 
         public IRequestMethod FindFor(Request request)
@@ -26,7 +28,7 @@ namespace SparkPost
                 new Delete(client),
                 new Post(client),
                 new Put(client),
-                new Get(client)
+                new Get(client, dataMapper)
             }.First(x => x.CanExecute(request));
         }
     }

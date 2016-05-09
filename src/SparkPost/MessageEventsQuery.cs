@@ -11,6 +11,9 @@ namespace SparkPost
         public MessageEventsQuery()
         {
             this.Events = new List<MessageEventType>();
+            this.BounceClasses = new List<string>();
+            this.CampaignIds = new List<string>();
+            this.FriendlyFroms = new List<string>();
         }
 
         /// <summary>
@@ -18,12 +21,12 @@ namespace SparkPost
         /// See Bounce Classification Codes at https://support.sparkpost.com/customer/portal/articles/1929896.
         /// Example: 1,10,20.
         /// </summary>
-        public string BounceClasses { get; set; }
+        public IList<string> BounceClasses { get; set; }
 
         /// <summary>
         /// campaign_ids : ? : (optional, string, `Example Campaign Name`) ... Comma-delimited list of campaign ID's to search (i.e. campaign_id used during creation of a transmission).
         /// </summary>
-        public string CampaignIds { get; set; }
+        public IList<string> CampaignIds { get; set; }
 
         /// <summary>
         /// events : List : Comma-delimited list of event types to search. Defaults to all event types.
@@ -46,7 +49,7 @@ namespace SparkPost
         /// <summary>
         /// friendly_froms : ? : (optional, list, `sender@mail.example.com`) ... Comma-delimited list of friendly_froms to search.
         /// </summary>
-        public string FriendlyFroms { get; set; }
+        public IList<string> FriendlyFroms { get; set; }
 
         /// <summary>
         /// from : Datetime : Datetime in format of YYYY-MM-DDTHH:MM.

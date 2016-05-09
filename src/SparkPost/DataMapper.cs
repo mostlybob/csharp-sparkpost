@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using SparkPost.Utilities;
 using SparkPost.ValueMappers;
@@ -122,8 +124,29 @@ namespace SparkPost
             return WithCommonConventions(subaccount);
         }
 
+        public IDictionary<string, object> ToDictionary(MessageEventsQuery query)
+        {
+            return WithCommonConventions(query, new Dictionary<string, object>()
+            {
+                ["events"] = string.Join(",", query.Events),
+                ["campaign_ids"] = string.Join(",", query.CampaignIds),
+                ["bounce_classes"] = string.Join(",", query.BounceClasses),
+                ["campaign_ids"] = string.Join(",", query.CampaignIds),
+                ["friendly_froms"] = string.Join(",", query.FriendlyFroms),
+                ["message_ids"] = string.Join(",", query.MessageIds),
+                ["recipients"] = string.Join(",", query.Recipients),
+                ["subaccounts"] = string.Join(",", query.Subaccounts),
+                ["template_ids"] = string.Join(",", query.TemplateIds),
+                ["transmission_ids"] = string.Join(",", query.TransmissionIds)
+            });
+        }
+
         public IDictionary<string, object> CatchAll(object anything)
         {
+            var converters = MapASingleItemUsingToDictionary.GetTheConverters(this);
+            if (converters.ContainsKey(anything.GetType()))
+                return converters[anything.GetType()].Invoke(this, BindingFlags.Default, null,
+                    new[] {anything}, CultureInfo.CurrentCulture) as IDictionary<string, object>;
             return WithCommonConventions(anything);
         }
 

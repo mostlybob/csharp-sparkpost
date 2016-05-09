@@ -14,7 +14,7 @@ namespace SparkPost.ValueMappers
         public MapASingleItemUsingToDictionary(IDataMapper dataMapper)
         {
             this.dataMapper = dataMapper;
-            converters = GetTheConverters();
+            converters = GetTheConverters(dataMapper);
         }
 
         public bool CanMap(Type propertyType, object value)
@@ -28,9 +28,9 @@ namespace SparkPost.ValueMappers
                 new[] {value}, CultureInfo.CurrentCulture);
         }
 
-        private static Dictionary<Type, MethodInfo> GetTheConverters()
+        public static Dictionary<Type, MethodInfo> GetTheConverters(IDataMapper dataMapper)
         {
-            return typeof (DataMapper).GetMethods()
+            return dataMapper.GetType().GetMethods()
                 .Where(x => x.Name == "ToDictionary")
                 .Where(x => x.GetParameters().Length == 1)
                 .Select(x => new

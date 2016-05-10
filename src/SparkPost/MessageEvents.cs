@@ -17,12 +17,12 @@ namespace SparkPost
             this.requestSender = requestSender;
         }
 
-        public async Task<ListMessageEventsResponse> List(MessageEventsQuery messageEventsQuery)
+        public async Task<ListMessageEventsResponse> List()
         {
-            return await List(messageEventsQuery as object);
+            return await List(null);
         }
 
-        public async Task<ListMessageEventsResponse> List(object messageEventsQuery = null)
+        public async Task<ListMessageEventsResponse> List(object messageEventsQuery)
         {
             if (messageEventsQuery == null) messageEventsQuery = new { };
 

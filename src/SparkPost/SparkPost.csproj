@@ -57,7 +57,6 @@
     <Compile Include="BounceClassDetails.cs" />
     <Compile Include="BounceClassesDetails.cs" />
     <Compile Include="IMessageEvents.cs" />
-    <Compile Include="IsoDateTimeMinuteConverter.cs" />
     <Compile Include="IValueMapper.cs" />
     <Compile Include="ListMessageEventsResponse.cs" />
     <Compile Include="MessageEvent.cs" />
@@ -120,6 +119,7 @@
     <Compile Include="UpdateSubaccountResponse.cs" />
     <Compile Include="UpdateSuppressionResponse.cs" />
     <Compile Include="ValueMappers\DateTimeOffsetValueMapper.cs" />
+    <Compile Include="ValueMappers\DateTimeValueMapper.cs" />
     <Compile Include="ValueMappers\EnumerableValueMapper.cs" />
     <Compile Include="ValueMappers\EnumValueMapper.cs" />
     <Compile Include="ValueMappers\MapASetOfItemsUsingToDictionary.cs" />

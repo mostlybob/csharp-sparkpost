@@ -872,5 +872,23 @@ namespace SparkPost.Tests
                 dataMapper.ToDictionary(subaccount)["compliance_status"].ShouldEqual(subaccount.ComplianceStatus);
             }
         }
+
+        [TestFixture]
+        public class AnythingTests
+        {
+            [Test]
+            public void It_should_map_anything_using_our_conventions()
+            {
+                var dataMapper = new DataMapper();
+
+                var dateTime = new DateTime(2016, 1, 2, 3, 4, 5);
+
+                var result = dataMapper.CatchAll(new {FirstName = "Test1", LastName = "Test2", TheDate = dateTime});
+
+                result["first_name"].ShouldEqual("Test1");
+                result["last_name"].ShouldEqual("Test2");
+                ((string)result["the_date"]).Substring(0, 16).ShouldEqual("2016-01-02T03:04");
+            }
+        }
     }
 }

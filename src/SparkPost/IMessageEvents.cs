@@ -4,7 +4,7 @@ namespace SparkPost
 {
     public interface IMessageEvents
     {
-        Task<ListMessageEventsResponse> List(MessageEventsQuery messageEventsQuery);
-        Task<ListMessageEventsResponse> List(object query = null);
+        Task<ListMessageEventsResponse> List();
+        Task<ListMessageEventsResponse> List(object query);
     }
 }

@@ -22,7 +22,7 @@ namespace SparkPost.Tests.RequestSenders
 
                 request = new Request();
 
-                async = new Mock<AsyncRequestSender>(null);
+                async = new Mock<AsyncRequestSender>(null, null);
                 sync = new Mock<SyncRequestSender>(null);
 
                 Mocker.SetInstance<IClient>(client);

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using SparkPost.Utilities;
 using SparkPost.ValueMappers;
@@ -20,7 +22,9 @@ namespace SparkPost
         IDictionary<string, object> ToDictionary(Suppression suppression);
         IDictionary<string, object> ToDictionary(Webhook webhook);
         IDictionary<string, object> ToDictionary(Subaccount subaccount);
+        IDictionary<string, object> CatchAll(object anything);
         object GetTheValue(Type propertyType, object value);
+        IDictionary<Type, MethodInfo> ToDictionaryMethods();
     }
 
     public class DataMapper : IDataMapper
@@ -36,6 +40,7 @@ namespace SparkPost
                 new BooleanValueMapper(),
                 new EnumValueMapper(),
                 new DateTimeOffsetValueMapper(),
+                new DateTimeValueMapper(),
                 new StringObjectDictionaryValueMapper(this),
                 new StringStringDictionaryValueMapper(),
                 new EnumerableValueMapper(this),
@@ -118,6 +123,45 @@ namespace SparkPost
         public IDictionary<string, object> ToDictionary(Subaccount subaccount)
         {
             return WithCommonConventions(subaccount);
+        }
+
+        public IDictionary<string, object> ToDictionary(MessageEventsQuery query)
+        {
+            return WithCommonConventions(query, new Dictionary<string, object>()
+            {
+                ["events"] = string.Join(",", query.Events),
+                ["campaign_ids"] = string.Join(",", query.CampaignIds),
+                ["bounce_classes"] = string.Join(",", query.BounceClasses),
+                ["campaign_ids"] = string.Join(",", query.CampaignIds),
+                ["friendly_froms"] = string.Join(",", query.FriendlyFroms),
+                ["message_ids"] = string.Join(",", query.MessageIds),
+                ["recipients"] = string.Join(",", query.Recipients),
+                ["subaccounts"] = string.Join(",", query.Subaccounts),
+                ["template_ids"] = string.Join(",", query.TemplateIds),
+                ["transmission_ids"] = string.Join(",", query.TransmissionIds)
+            });
+        }
+
+        public IDictionary<string, object> CatchAll(object anything)
+        {
+            var converters = ToDictionaryMethods();
+            if (converters.ContainsKey(anything.GetType()))
+                return converters[anything.GetType()].Invoke(this, BindingFlags.Default, null,
+                    new[] {anything}, CultureInfo.CurrentCulture) as IDictionary<string, object>;
+            return WithCommonConventions(anything);
+        }
+
+        public IDictionary<Type, MethodInfo> ToDictionaryMethods()
+        {
+            return this.GetType().GetMethods()
+                .Where(x => x.Name == "ToDictionary")
+                .Where(x => x.GetParameters().Length == 1)
+                .Select(x => new
+                {
+                    TheType = x.GetParameters().First().ParameterType,
+                    TheMethod = x
+                }).ToList()
+                .ToDictionary(x => x.TheType, x => x.TheMethod);
         }
 
         private static bool AnyValuesWereSetOn(object target)

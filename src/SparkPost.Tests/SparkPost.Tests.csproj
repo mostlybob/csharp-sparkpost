@@ -88,6 +88,7 @@
     <Compile Include="ClientTests.cs" />
     <Compile Include="DataMapperTests.cs" />
     <Compile Include="ListMessageEventsResponseTests.cs" />
+    <Compile Include="MessageEventsQueryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RequestMethodFinderTests.cs" />
     <Compile Include="RequestMethods\GetTests.cs" />

@@ -29,7 +29,7 @@ namespace SparkPost
             ApiHost = apiHost;
 
             var dataMapper = new DataMapper(Version);
-            var asyncRequestSender = new AsyncRequestSender(this);
+            var asyncRequestSender = new AsyncRequestSender(this, dataMapper);
             var syncRequestSender = new SyncRequestSender(asyncRequestSender);
             var requestSender = new RequestSender(asyncRequestSender, syncRequestSender, this);
 

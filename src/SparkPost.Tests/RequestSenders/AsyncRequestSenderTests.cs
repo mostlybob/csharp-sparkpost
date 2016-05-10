@@ -131,7 +131,7 @@ namespace SparkPost.Tests.RequestSenders
             {
                 private Func<Request, HttpClient, HttpResponseMessage> responseBuilder;
 
-                public AsyncTesting(IClient client) : base(client)
+                public AsyncTesting(IClient client) : base(client, null)
                 {
                 }
 

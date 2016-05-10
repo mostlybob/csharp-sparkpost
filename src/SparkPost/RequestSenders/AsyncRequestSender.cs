@@ -8,10 +8,12 @@ namespace SparkPost.RequestSenders
     public class AsyncRequestSender : IRequestSender
     {
         private readonly IClient client;
+        private readonly IDataMapper dataMapper;
 
-        public AsyncRequestSender(IClient client)
+        public AsyncRequestSender(IClient client, IDataMapper dataMapper)
         {
             this.client = client;
+            this.dataMapper = dataMapper;
         }
 
         public virtual async Task<Response> Send(Request request)
@@ -38,7 +40,7 @@ namespace SparkPost.RequestSenders
 
         protected virtual async Task<HttpResponseMessage> GetTheResponse(Request request, HttpClient httpClient)
         {
-            return await new RequestMethodFinder(httpClient)
+            return await new RequestMethodFinder(httpClient, dataMapper)
                 .FindFor(request)
                 .Execute(request);
         }

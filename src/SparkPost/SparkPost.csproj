@@ -58,6 +58,7 @@
     <Compile Include="BounceClassesDetails.cs" />
     <Compile Include="IMessageEvents.cs" />
     <Compile Include="IValueMapper.cs" />
+    <Compile Include="JsonStuff.cs" />
     <Compile Include="ListMessageEventsResponse.cs" />
     <Compile Include="MessageEvent.cs" />
     <Compile Include="MessageEvents.cs" />

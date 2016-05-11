@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 using SparkPost.RequestSenders;
 
 namespace SparkPost
@@ -32,7 +31,7 @@ namespace SparkPost
             var response = await requestSender.Send(request);
             if (response.StatusCode != HttpStatusCode.OK) throw new ResponseException(response);
 
-            var results = JsonConvert.DeserializeObject<dynamic>(response.Content).results;
+            var results = JsonStuff.DeserializeObject<dynamic>(response.Content).results;
             return new SendTransmissionResponse()
             {
                 Id = results.id,
@@ -66,7 +65,7 @@ namespace SparkPost
 
             try
             {
-                var results = JsonConvert.DeserializeObject<dynamic>(response.Content).results;
+                var results = JsonStuff.DeserializeObject<dynamic>(response.Content).results;
                 if (results.transmission == null) return transmissionResponse;
 
                 transmissionResponse.Id = results.transmission.id;

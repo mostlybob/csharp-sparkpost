@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Newtonsoft.Json;
 
 namespace SparkPost
 {
@@ -12,7 +11,7 @@ namespace SparkPost
             var result = new ListWebhookResponse();
             LeftRight.SetValuesToMatch(result, response);
 
-            var results = JsonConvert.DeserializeObject<dynamic>(result.Content).results;
+            var results = JsonStuff.DeserializeObject<dynamic>(result.Content).results;
             var webhooks = new List<Webhook>();
             foreach(var r in results)
                 webhooks.Add(ConvertToAWebhook(r));

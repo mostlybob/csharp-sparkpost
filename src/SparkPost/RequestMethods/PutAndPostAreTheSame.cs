@@ -1,7 +1,6 @@
 ﻿using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 
 namespace SparkPost.RequestMethods
 {
@@ -28,7 +27,7 @@ namespace SparkPost.RequestMethods
 
         private static string SerializeObject(object data)
         {
-            return JsonConvert.SerializeObject(data,
+            return JsonStuff.SerializeObject(data,
                 new JsonSerializerSettings {TypeNameHandling = TypeNameHandling.None});
         }
     }

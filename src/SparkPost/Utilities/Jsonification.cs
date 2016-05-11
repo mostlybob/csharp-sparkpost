@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 
-namespace SparkPost
+namespace SparkPost.Utilities
 {
-    internal static class JsonStuff
+    internal static class Jsonification
     {
         internal static T DeserializeObject<T>(string json)
         {
@@ -11,7 +11,8 @@ namespace SparkPost
 
         internal static string SerializeObject(object @object)
         {
-            return JsonConvert.SerializeObject(@object);
+            return JsonConvert.SerializeObject(@object,
+                new JsonSerializerSettings {TypeNameHandling = TypeNameHandling.None});
         }
     }
 }

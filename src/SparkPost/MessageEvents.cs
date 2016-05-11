@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using SparkPost.RequestSenders;
 using System.Net;
 using System.Threading.Tasks;
+using SparkPost.Utilities;
 
 namespace SparkPost
 {
@@ -35,7 +36,7 @@ namespace SparkPost
             var response = await requestSender.Send(request);
             if (response.StatusCode != HttpStatusCode.OK) throw new ResponseException(response);
 
-            dynamic content = JsonStuff.DeserializeObject<dynamic>(response.Content);
+            dynamic content = Jsonification.DeserializeObject<dynamic>(response.Content);
 
             var listMessageEventsResponse = new ListMessageEventsResponse
             {
@@ -76,11 +77,11 @@ namespace SparkPost
             foreach (var result in results)
             {
                 var metadata =
-                    JsonStuff.DeserializeObject<Dictionary<string, string>>(
-                        JsonStuff.SerializeObject(result.rcpt_meta));
+                    Jsonification.DeserializeObject<Dictionary<string, string>>(
+                        Jsonification.SerializeObject(result.rcpt_meta));
                 var tags =
-                    JsonStuff.DeserializeObject<List<string>>(
-                        JsonStuff.SerializeObject(result.rcpt_tags));
+                    Jsonification.DeserializeObject<List<string>>(
+                        Jsonification.SerializeObject(result.rcpt_tags));
                 messageEvents.Add(new MessageEvent
                 {
                     Type = result.type,

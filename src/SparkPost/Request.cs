@@ -1,4 +1,6 @@
-﻿namespace SparkPost
+﻿using SparkPost.Utilities;
+
+namespace SparkPost
 {
     public class Request
     {
@@ -8,7 +10,7 @@
 
         public string ToJson()
         {
-            return JsonStuff.SerializeObject(this);
+            return Jsonification.SerializeObject(this);
         }
     }
 }

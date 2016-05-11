@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Threading.Tasks;
 using SparkPost.RequestSenders;
+using SparkPost.Utilities;
 
 namespace SparkPost
 {
@@ -48,7 +49,7 @@ namespace SparkPost
             var response = await requestSender.Send(request);
             if (response.StatusCode != HttpStatusCode.OK) throw new ResponseException(response);
 
-            var results = JsonStuff.DeserializeObject<dynamic>(response.Content).results;
+            var results = Jsonification.DeserializeObject<dynamic>(response.Content).results;
 
             return new CreateSubaccountResponse
             {
@@ -78,7 +79,7 @@ namespace SparkPost
             var response = await requestSender.Send(request);
             if (response.StatusCode != HttpStatusCode.OK) throw new ResponseException(response);
 
-            var results = JsonStuff.DeserializeObject<dynamic>(response.Content).results;
+            var results = Jsonification.DeserializeObject<dynamic>(response.Content).results;
 
             return new UpdateSubaccountResponse
             {

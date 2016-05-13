@@ -18,8 +18,8 @@ namespace SparkPost
         /// Retrieves an email template.
         /// </summary>
         /// <param name="templateId">The id of the template to retrieve.</param>
-        /// <param name="draft">If true, returns the most recent draft template.  If false, returns the most recent published template.  If not provided, returns the most recent template version regardless of draft or published.</param>
+        /// <param name="draft">If true, returns the most recent draft template. If false, returns the most recent published template. If not provided, returns the most recent template version regardless of draft or published.</param>
         /// <returns>The response from the API.</returns>
-        Task<RetrieveTemplateResponse> Retrieve(string templateId, bool? draft);
+        Task<RetrieveTemplateResponse> Retrieve(string templateId, bool? draft = null);
     }
 }

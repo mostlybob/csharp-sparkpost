@@ -41,6 +41,11 @@
         IMessageEvents MessageEvents { get; }
 
         /// <summary>
+        /// Gets access to the relay webhooks resource of the SparkPost API.
+        /// </summary>
+        IRelayWebhooks RelayWebhooks { get; }
+
+        /// <summary>
         /// Gets the API version supported by this client.
         /// </summary>
         string Version { get; }

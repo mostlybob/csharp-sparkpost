@@ -1,11 +1,10 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>$id$</id>
+    <id>SparkPost</id>
     <version>1.5.0</version>
-    <title>$title$</title>
-    <authors>$author$</authors>
-    <owners>$author$</owners>
+    <title>SparkPost</title>
+    <authors>Darren Cauthon</authors>
     <licenseUrl>https://github.com/SparkPost/csharp-sparkpost/blob/master/LICENSE.md</licenseUrl>
     <projectUrl>https://github.com/SparkPost/csharp-sparkpost</projectUrl>
     <iconUrl>https://www.sparkpost.com/sites/default/files/attachments/SparkPost_Logo_2-Color_Gray-Orange_RGB.svg</iconUrl>

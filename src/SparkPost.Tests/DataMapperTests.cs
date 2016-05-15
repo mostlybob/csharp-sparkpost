@@ -890,5 +890,47 @@ namespace SparkPost.Tests
                 ((string)result["the_date"]).Substring(0, 16).ShouldEqual("2016-01-02T03:04");
             }
         }
+
+        [TestFixture]
+        public class RelayWebhookTests
+        {
+            [SetUp]
+            public void Setup()
+            {
+                relayWebhook = new RelayWebhook();
+                mapper = new DataMapper("v1");
+            }
+
+            private RelayWebhook relayWebhook;
+            private DataMapper mapper;
+
+            [Test]
+            public void name()
+            {
+                var value = Guid.NewGuid().ToString();
+                relayWebhook.Name = value;
+                mapper.ToDictionary(relayWebhook)["name"].ShouldEqual(value);
+            }
+
+            [Test]
+            public void match_domain()
+            {
+                var value = Guid.NewGuid().ToString();
+                relayWebhook.Match = new RelayWebhookMatch {Domain = value};
+                mapper.ToDictionary(relayWebhook)["match"]
+                    .CastAs<IDictionary<string, object>>()
+                    ["domain"].ShouldEqual(value);
+            }
+
+            [Test]
+            public void match_protocol()
+            {
+                var value = Guid.NewGuid().ToString();
+                relayWebhook.Match = new RelayWebhookMatch {Protocol = value};
+                mapper.ToDictionary(relayWebhook)["match"]
+                    .CastAs<IDictionary<string, object>>()
+                    ["protocol"].ShouldEqual(value);
+            }
+        }
     }
 }

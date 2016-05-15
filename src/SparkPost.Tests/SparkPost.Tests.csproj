@@ -102,6 +102,7 @@
     <Compile Include="TransmissionTests.cs" />
     <Compile Include="SubaccountTest.cs" />
     <Compile Include="Utilities\SnakeCaseTests.cs" />
+    <Compile Include="RelayWebhookTests.cs" />
     <Compile Include="WebhookTests.cs" />
   </ItemGroup>
   <ItemGroup>

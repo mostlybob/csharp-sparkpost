@@ -59,12 +59,14 @@
     <Compile Include="IMessageEvents.cs" />
     <Compile Include="IValueMapper.cs" />
     <Compile Include="ListMessageEventsResponse.cs" />
+    <Compile Include="ListRelayWebhookResponse.cs" />
     <Compile Include="ListInboundDomainResponse.cs" />
     <Compile Include="MessageEvent.cs" />
     <Compile Include="MessageEvents.cs" />
     <Compile Include="MessageEventsQuery.cs" />
     <Compile Include="MessageEventType.cs" />
     <Compile Include="PageLink.cs" />
+    <Compile Include="RetrieveRelayWebhookResponse.cs" />
     <Compile Include="InboundDomainResponse.cs" />
     <Compile Include="Utilities\SnakeCase.cs" />
     <Compile Include="ValueMappers\AnonymousValueMapper.cs" />
@@ -128,8 +130,10 @@
     <Compile Include="ValueMappers\MapASingleItemUsingToDictionary.cs" />
     <Compile Include="ValueMappers\StringObjectDictionaryValueMapper.cs" />
     <Compile Include="ValueMappers\StringStringDictionaryValueMapper.cs" />
+    <Compile Include="RelayWebhook.cs" />
     <Compile Include="InboundDomain.cs" />
     <Compile Include="Webhook.cs" />
+    <Compile Include="RelayWebhooks.cs" />
     <Compile Include="InboundDomains.cs" />
     <Compile Include="Webhooks.cs" />
   </ItemGroup>

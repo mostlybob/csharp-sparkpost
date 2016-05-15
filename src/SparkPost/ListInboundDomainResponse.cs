@@ -9,25 +9,32 @@ namespace SparkPost
 
         public static ListInboundDomainResponse CreateFromResponse(Response response)
         {
-            var result = new ListInboundDomainResponse();
-            LeftRight.SetValuesToMatch(result, response);
+            var thisResponse = new ListInboundDomainResponse();
 
-            var results = JsonConvert.DeserializeObject<dynamic>(result.Content).results;
-            var inboundDomains = new List<InboundDomain>();
-            foreach(var r in results)
-                inboundDomains.Add(ConvertToAInboundDomain(r));
+            LeftRight.SetValuesToMatch(thisResponse, response);
 
-            result.InboundDomains = inboundDomains;
-            return result;
+            thisResponse.InboundDomains = BuildTheInboundDomainsFrom(response);
+
+            return thisResponse;
         }
 
-        internal static InboundDomain ConvertToAInboundDomain(dynamic r)
+        private static IEnumerable<InboundDomain> BuildTheInboundDomainsFrom(Response response)
         {
-            var inboundDomain = new InboundDomain
+            dynamic results = JsonConvert.DeserializeObject<dynamic>(response.Content).results;
+
+            var inboundDomains = new List<InboundDomain>();
+            foreach (var r in results)
+                inboundDomains.Add(ConvertToAInboundDomain(r));
+
+            return inboundDomains;
+        }
+
+        internal static InboundDomain ConvertToAInboundDomain(dynamic item)
+        {
+            return new InboundDomain
             {
-                Domain = r.domain
+                Domain = item.domain
             };
-            return inboundDomain;
         }
     }
 }

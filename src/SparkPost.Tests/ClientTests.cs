@@ -46,6 +46,12 @@ namespace SparkPost.Tests
             {
                 client.CustomSettings.SendingMode.ShouldEqual(SendingModes.Async);
             }
+
+            [Test]
+            public void it_should_have_inbound_domains()
+            {
+                client.InboundDomains.ShouldNotBeNull();
+            }
         }
     }
 }

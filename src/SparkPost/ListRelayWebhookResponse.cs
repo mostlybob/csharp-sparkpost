@@ -10,11 +10,11 @@ namespace SparkPost
         public static ListRelayWebhookResponse CreateFromResponse(Response response)
         {
             var result = new ListRelayWebhookResponse();
+
             LeftRight.SetValuesToMatch(result, response);
 
-            var relayWebhooks = BuildTheRelayWebhooksFrom(response);
+            result.RelayWebhooks = BuildTheRelayWebhooksFrom(response);
 
-            result.RelayWebhooks = relayWebhooks;
             return result;
         }
 

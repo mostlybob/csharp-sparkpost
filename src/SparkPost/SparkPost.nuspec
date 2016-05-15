@@ -9,8 +9,8 @@
     <projectUrl>https://github.com/SparkPost/csharp-sparkpost</projectUrl>
     <iconUrl>https://www.sparkpost.com/sites/default/files/attachments/SparkPost_Logo_2-Color_Gray-Orange_RGB.svg</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>$description$</description>
-    <releaseNotes>Initial development.</releaseNotes>
+    <description>SparkPost API</description>
+    <releaseNotes>Added support for message events.</releaseNotes>
     <copyright>Copyright 2016</copyright>
     <tags>email</tags>
     <dependencies>

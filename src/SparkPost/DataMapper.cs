@@ -23,6 +23,7 @@ namespace SparkPost
         IDictionary<string, object> ToDictionary(Webhook webhook);
         IDictionary<string, object> ToDictionary(Subaccount subaccount);
         IDictionary<string, object> ToDictionary(RelayWebhook relayWebhook);
+        IDictionary<string, object> ToDictionary(InboundDomain inboundDomain);
         IDictionary<string, object> ToDictionary(RelayWebhookMatch relayWebhookMatch);
         IDictionary<string, object> CatchAll(object anything);
         object GetTheValue(Type propertyType, object value);
@@ -125,6 +126,11 @@ namespace SparkPost
         public IDictionary<string, object> ToDictionary(Subaccount subaccount)
         {
             return WithCommonConventions(subaccount);
+        }
+
+        public IDictionary<string, object> ToDictionary(InboundDomain inboundDomain)
+        {
+            return WithCommonConventions(inboundDomain);
         }
 
         public IDictionary<string, object> ToDictionary(RelayWebhook relayWebhook)

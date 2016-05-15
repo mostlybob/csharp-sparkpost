@@ -12,30 +12,37 @@ namespace SparkPost
             var result = new ListRelayWebhookResponse();
             LeftRight.SetValuesToMatch(result, response);
 
-            var results = JsonConvert.DeserializeObject<dynamic>(result.Content).results;
-            var relayWebhooks = new List<RelayWebhook>();
-            foreach(var r in results)
-                relayWebhooks.Add(ConvertToARelayWebhook(r));
+            var relayWebhooks = BuildTheRelayWebhooksFrom(response);
 
             result.RelayWebhooks = relayWebhooks;
             return result;
         }
 
-        internal static RelayWebhook ConvertToARelayWebhook(dynamic r)
+        private static IEnumerable<RelayWebhook> BuildTheRelayWebhooksFrom(Response response)
         {
-            var relayWebhook = new RelayWebhook
+            var results = JsonConvert.DeserializeObject<dynamic>(response.Content).results;
+
+            var relayWebhooks = new List<RelayWebhook>();
+            foreach (var r in results)
+                relayWebhooks.Add(ConvertToARelayWebhook(r));
+
+            return relayWebhooks;
+        }
+
+        internal static RelayWebhook ConvertToARelayWebhook(dynamic item)
+        {
+            return new RelayWebhook
             {
-                Id = r.id,
-                Name = r.name,
-                Target = r.target,
-                AuthToken = r.auth_token,
+                Id = item.id,
+                Name = item.name,
+                Target = item.target,
+                AuthToken = item.auth_token,
                 Match = new RelayWebhookMatch
                 {
-                    Protocol = r.match.protocol,
-                    Domain = r.match.domain
+                    Protocol = item.match.protocol,
+                    Domain = item.match.domain
                 }
             };
-            return relayWebhook;
         }
     }
 }

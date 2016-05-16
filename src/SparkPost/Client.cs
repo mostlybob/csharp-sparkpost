@@ -38,12 +38,9 @@ namespace SparkPost
             Webhooks = new Webhooks(this, requestSender, dataMapper);
             Subaccounts = new Subaccounts(this, requestSender, dataMapper);
             MessageEvents = new MessageEvents(this, requestSender);
-<<<<<<< 77d42687b26b58d5bbacf3924936a3bbfde8c229
             InboundDomains = new InboundDomains(this, requestSender, dataMapper);
             RelayWebhooks = new RelayWebhooks(this, requestSender, dataMapper);
-=======
             Templates = new Templates(this, requestSender, dataMapper);
->>>>>>> Added Retrieve template function
 
             CustomSettings = new Settings();
         }

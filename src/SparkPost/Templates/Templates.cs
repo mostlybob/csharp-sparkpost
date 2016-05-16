@@ -55,7 +55,8 @@ namespace SparkPost
 
             if (draft != null)
             {
-                request.Url += $"/draft={draft}";
+                string DraftTF = draft.ToString().ToLower();
+                request.Url += $"?draft={DraftTF}";
             }
 
             var response = await requestSender.Send(request);

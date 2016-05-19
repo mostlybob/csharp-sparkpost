@@ -4,6 +4,8 @@ MAINTAINER Darren Cauthon <darren@cauthon.com>
 RUN apt-get update
 RUN apt-get install -y wget git dos2unix
 
+RUN nuget update -self
+
 WORKDIR /
 
 RUN git clone https://github.com/SparkPost/csharp-sparkpost.git

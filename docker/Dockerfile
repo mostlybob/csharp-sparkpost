@@ -6,6 +6,8 @@ RUN apt-get install -y wget git dos2unix
 
 RUN nuget update -self
 
+ENV MONO_THREADS_PER_CPU 2000
+
 WORKDIR /
 
 RUN git clone https://github.com/SparkPost/csharp-sparkpost.git

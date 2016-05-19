@@ -7,4 +7,4 @@ nuget pack SparkPost/SparkPost.nuspec -Prop Configuration=Release
 
 PACKAGE=$(ls *.nupkg)
 
-nuget push $PACKAGE $APIKEY
+nuget push $PACKAGE $APIKEY -s nuget.org

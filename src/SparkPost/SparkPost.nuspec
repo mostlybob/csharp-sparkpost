@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>SparkPost</id>
-    <version>1.6.1</version>
+    <version>1.6.2</version>
     <title>SparkPost</title>
     <authors>Darren Cauthon</authors>
     <licenseUrl>https://github.com/SparkPost/csharp-sparkpost/blob/master/LICENSE.md</licenseUrl>
@@ -10,15 +10,11 @@
     <iconUrl>https://www.sparkpost.com/sites/default/files/attachments/SparkPost_Logo_2-Color_Gray-Orange_RGB.svg</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>SparkPost API</description>
-    <releaseNotes>Fix issue with missing dlls in 1.6.0</releaseNotes>
+    <releaseNotes>Fix a Mono Nuget packing issue.</releaseNotes>
     <copyright>Copyright 2016</copyright>
     <tags>email</tags>
     <dependencies>
       <dependency id="Newtonsoft.Json" version="(6.0,)" />
     </dependencies>
   </metadata>
-  <files>
-    <file src="bin/Release/SparkPost.dll" target="lib/net45" />
-    <file src="bin/Release/SparkPost.xml" target="lib/net45" />
-  </files>
 </package>

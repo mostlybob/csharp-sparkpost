@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using System.Xml.XPath;
 using AutoMoq.Helpers;
 using Moq;
-using Newtonsoft.Json;
 using NUnit.Framework;
 using Should;
 using SparkPost.RequestSenders;

@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Newtonsoft.Json;
+using SparkPost.Utilities;
 
 namespace SparkPost
 {
@@ -20,7 +20,7 @@ namespace SparkPost
 
         private static IEnumerable<InboundDomain> BuildTheInboundDomainsFrom(Response response)
         {
-            dynamic results = JsonConvert.DeserializeObject<dynamic>(response.Content).results;
+            dynamic results = Jsonification.DeserializeObject<dynamic>(response.Content).results;
 
             var inboundDomains = new List<InboundDomain>();
             foreach (var r in results)

@@ -1,17 +1,16 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>$id$</id>
-    <version>1.5.0</version>
-    <title>$title$</title>
-    <authors>$author$</authors>
-    <owners>$author$</owners>
+    <id>SparkPost</id>
+    <version>1.6.2</version>
+    <title>SparkPost</title>
+    <authors>Darren Cauthon</authors>
     <licenseUrl>https://github.com/SparkPost/csharp-sparkpost/blob/master/LICENSE.md</licenseUrl>
     <projectUrl>https://github.com/SparkPost/csharp-sparkpost</projectUrl>
     <iconUrl>https://www.sparkpost.com/sites/default/files/attachments/SparkPost_Logo_2-Color_Gray-Orange_RGB.svg</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>$description$</description>
-    <releaseNotes>Initial development.</releaseNotes>
+    <description>SparkPost API</description>
+    <releaseNotes>Fix a Mono Nuget packing issue.</releaseNotes>
     <copyright>Copyright 2016</copyright>
     <tags>email</tags>
     <dependencies>

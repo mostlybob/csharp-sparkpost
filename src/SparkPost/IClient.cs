@@ -50,6 +50,8 @@
         /// </summary>
         IRelayWebhooks RelayWebhooks { get; }
 
+        IRecipientLists RecipientLists { get; }
+
         /// <summary>
         /// Gets the API version supported by this client.
         /// </summary>

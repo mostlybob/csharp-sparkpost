@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using SparkPost.Utilities;
 
 namespace SparkPost
 {
@@ -10,7 +10,7 @@ namespace SparkPost
 
         public string ToJson()
         {
-            return JsonConvert.SerializeObject(this);
+            return Jsonification.SerializeObject(this);
         }
     }
 }

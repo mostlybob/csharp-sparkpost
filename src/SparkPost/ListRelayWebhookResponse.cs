@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Newtonsoft.Json;
+using SparkPost.Utilities;
 
 namespace SparkPost
 {
@@ -20,7 +20,7 @@ namespace SparkPost
 
         private static IEnumerable<RelayWebhook> BuildTheRelayWebhooksFrom(Response response)
         {
-            var results = JsonConvert.DeserializeObject<dynamic>(response.Content).results;
+            var results = Jsonification.DeserializeObject<dynamic>(response.Content).results;
 
             var relayWebhooks = new List<RelayWebhook>();
             foreach (var r in results)

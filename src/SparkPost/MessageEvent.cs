@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using SparkPost.Utilities;
+﻿using SparkPost.Utilities;
 using System;
 using System.Collections.Generic;
 

@@ -3,8 +3,8 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web;
-using Newtonsoft.Json;
 using SparkPost.RequestSenders;
+using SparkPost.Utilities;
 
 namespace SparkPost
 {
@@ -39,7 +39,7 @@ namespace SparkPost
             var response = await requestSender.Send(request);
             if (response.StatusCode != HttpStatusCode.OK) throw new ResponseException(response);
 
-            var results = JsonConvert.DeserializeObject<dynamic>(response.Content).results;
+            var results = Jsonification.DeserializeObject<dynamic>(response.Content).results;
 
             return new ListSuppressionResponse
             {
@@ -64,7 +64,7 @@ namespace SparkPost
                 throw new ResponseException(response);
 
             dynamic results = response.StatusCode == HttpStatusCode.OK
-                ? JsonConvert.DeserializeObject<dynamic>(response.Content).results
+                ? Jsonification.DeserializeObject<dynamic>(response.Content).results
                 : null;
 
             return new ListSuppressionResponse

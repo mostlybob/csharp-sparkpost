@@ -1,6 +1,6 @@
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using SparkPost.Utilities;
 
 namespace SparkPost
 {
@@ -13,7 +13,7 @@ namespace SparkPost
             var result = new ListSubaccountResponse();
             LeftRight.SetValuesToMatch(result, response);
 
-            var results = JsonConvert.DeserializeObject<dynamic>(response.Content).results;
+            var results = Jsonification.DeserializeObject<dynamic>(response.Content).results;
             var subaccounts = new List<Subaccount>();
             foreach (var r in results)
                 subaccounts.Add(ConvertToSubaccount(r));

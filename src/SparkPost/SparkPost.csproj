@@ -58,6 +58,7 @@
     <Compile Include="BounceClassesDetails.cs" />
     <Compile Include="IMessageEvents.cs" />
     <Compile Include="IValueMapper.cs" />
+    <Compile Include="Utilities\Jsonification.cs" />
     <Compile Include="ListMessageEventsResponse.cs" />
     <Compile Include="ListRelayWebhookResponse.cs" />
     <Compile Include="ListInboundDomainResponse.cs" />

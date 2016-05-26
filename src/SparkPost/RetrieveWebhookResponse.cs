@@ -1,4 +1,5 @@
-using Newtonsoft.Json;
+
+using SparkPost.Utilities;
 
 namespace SparkPost
 {
@@ -11,7 +12,7 @@ namespace SparkPost
             var result = new RetrieveWebhookResponse();
             LeftRight.SetValuesToMatch(result, response);
 
-            var results = JsonConvert.DeserializeObject<dynamic>(response.Content).results;
+            var results = Jsonification.DeserializeObject<dynamic>(response.Content).results;
 
             result.Webhook = ListWebhookResponse.ConvertToAWebhook(results);
 

@@ -1,8 +1,8 @@
 using System.Collections.Generic;
-using Newtonsoft.Json;
 using SparkPost.RequestSenders;
 using System.Net;
 using System.Threading.Tasks;
+using SparkPost.Utilities;
 
 namespace SparkPost
 {
@@ -36,7 +36,7 @@ namespace SparkPost
             var response = await requestSender.Send(request);
             if (response.StatusCode != HttpStatusCode.OK) throw new ResponseException(response);
 
-            dynamic content = JsonConvert.DeserializeObject<dynamic>(response.Content);
+            dynamic content = Jsonification.DeserializeObject<dynamic>(response.Content);
 
             var listMessageEventsResponse = new ListMessageEventsResponse
             {
@@ -77,11 +77,11 @@ namespace SparkPost
             foreach (var result in results)
             {
                 var metadata =
-                    JsonConvert.DeserializeObject<Dictionary<string, string>>(
-                        JsonConvert.SerializeObject(result.rcpt_meta));
+                    Jsonification.DeserializeObject<Dictionary<string, string>>(
+                        Jsonification.SerializeObject(result.rcpt_meta));
                 var tags =
-                    JsonConvert.DeserializeObject<List<string>>(
-                        JsonConvert.SerializeObject(result.rcpt_tags));
+                    Jsonification.DeserializeObject<List<string>>(
+                        Jsonification.SerializeObject(result.rcpt_tags));
                 messageEvents.Add(new MessageEvent
                 {
                     Type = result.type,

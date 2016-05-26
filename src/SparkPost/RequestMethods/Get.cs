@@ -5,7 +5,6 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
-using Newtonsoft.Json;
 using SparkPost.Utilities;
 
 namespace SparkPost.RequestMethods

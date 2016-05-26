@@ -40,7 +40,7 @@ namespace SparkPost
             MessageEvents = new MessageEvents(this, requestSender);
             InboundDomains = new InboundDomains(this, requestSender, dataMapper);
             RelayWebhooks = new RelayWebhooks(this, requestSender, dataMapper);
-
+            RecipientLists = new RecipientLists(this, requestSender, dataMapper);
             CustomSettings = new Settings();
         }
 
@@ -55,6 +55,7 @@ namespace SparkPost
         public IMessageEvents MessageEvents { get; }
         public IInboundDomains InboundDomains { get; }
         public IRelayWebhooks RelayWebhooks { get; }
+        public IRecipientLists RecipientLists { get; }
         public string Version => "v1";
 
         public Settings CustomSettings { get; }

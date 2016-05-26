@@ -28,6 +28,8 @@ namespace SparkPost
         IDictionary<string, object> CatchAll(object anything);
         object GetTheValue(Type propertyType, object value);
         IDictionary<Type, MethodInfo> ToDictionaryMethods();
+
+        IDictionary<string, object> ToDictionary(RecipientList recipientList);
     }
 
     public class DataMapper : IDataMapper
@@ -213,6 +215,22 @@ namespace SparkPost
         {
             var valueMapper = valueMappers.FirstOrDefault(x => x.CanMap(propertyType, value));
             return valueMapper == null ? value : valueMapper.Map(propertyType, value);
+        }
+
+        public IDictionary<string, object> ToDictionary(RecipientList recipientList)
+        {
+
+            var data = new Dictionary<string, object>
+            {
+                ["recipients"] = recipientList.Recipients.Select(ToDictionary),
+                ["attributes"] = recipientList.Attributes != null 
+                ? (object)new Dictionary<string, object> {
+                                              ["internal_id"] = recipientList.Attributes.InternalId
+                                            , ["list_group_id"] = recipientList.Attributes.ListGroupId } : null
+            };
+            var result = WithCommonConventions(recipientList, data);
+            return result;
+
         }
     }
 }

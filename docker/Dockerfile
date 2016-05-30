@@ -2,7 +2,7 @@ FROM mono
 MAINTAINER Darren Cauthon <darren@cauthon.com>
 
 RUN apt-get update
-RUN apt-get install -y wget git dos2unix
+RUN apt-get install -y wget git dos2unix vim zip
 
 RUN nuget update -self
 

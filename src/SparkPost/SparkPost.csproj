@@ -125,6 +125,13 @@
     <Compile Include="Suppressions.cs" />
     <Compile Include="SuppressionsQuery.cs" />
     <Compile Include="RequestSenders\SyncRequestSender.cs" />
+    <Compile Include="CreateTemplateResponse.cs" />
+    <Compile Include="ITemplates.cs" />
+    <Compile Include="RetrieveTemplateResponse.cs" />
+    <Compile Include="Template.cs" />
+    <Compile Include="TemplateContent.cs" />
+    <Compile Include="TemplateOptions.cs" />
+    <Compile Include="Templates.cs" />
     <Compile Include="Transmission.cs" />
     <Compile Include="Transmissions.cs" />
     <Compile Include="UpdateSubaccountResponse.cs" />
@@ -147,6 +154,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

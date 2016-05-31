@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
 using NUnit.Framework;
 using Should;
 
@@ -51,6 +52,13 @@ namespace SparkPost.Tests
             public void it_should_have_inbound_domains()
             {
                 client.InboundDomains.ShouldNotBeNull();
+            }
+
+            [Test]
+            public void It_should_set_any_subaccount_id_passed_to_it()
+            {
+                (new Client(Guid.NewGuid().ToString(), 1234))
+                    .SubaccountId.ShouldEqual(1234);
             }
         }
     }

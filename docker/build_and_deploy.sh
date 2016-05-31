@@ -1,6 +1,4 @@
 git pull origin master
-git remote update
-git checkout -b figure_this_docker_issue_out origin/figure_this_docker_issue_out
 
 nuget restore
 xbuild /p:Configuration=Release
@@ -18,4 +16,4 @@ zip -r ../file.zip *
 cd ..
 mv file.zip $PACKAGE
 
-# nuget push $PACKAGE $APIKEY -s nuget.org
+nuget push $PACKAGE $APIKEY -s nuget.org

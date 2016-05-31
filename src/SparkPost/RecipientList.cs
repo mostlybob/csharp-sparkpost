@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace SparkPost
 {
@@ -20,6 +19,5 @@ namespace SparkPost
         public string Description { get; set; }
 
         public Attributes Attributes { get; set; }
-
     }
 }

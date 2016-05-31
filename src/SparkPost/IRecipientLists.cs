@@ -6,16 +6,16 @@ namespace SparkPost
     public interface IRecipientLists
     {
         /// <summary>
-        /// Sends an email transmission.
+        /// Creates a recipient list.
         /// </summary>
-        /// <param name="recipientList">The properties of the recipientList to send.</param>
+        /// <param name="recipientList">The properties of the recipientList to create.</param>
         /// <returns>The response from the API.</returns>
-        Task<SendRecipientListsResponse> Send(RecipientList recipientList);
+        Task<SendRecipientListsResponse> Create(RecipientList recipientList);
 
         /// <summary>
-        /// Retrieves an email transmission.
+        /// Retrieves a recipient list.
         /// </summary>
-        /// <param name="recipientListsId">The id of the transmission to retrieve.</param>
+        /// <param name="recipientListsId">The id of the recipient list to retrieve.</param>
         /// <returns>The response from the API.</returns>
         Task<RetrieveRecipientListsResponse> Retrieve(string recipientListsId);
     }

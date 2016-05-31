@@ -63,7 +63,7 @@ namespace SparkPost
             return recipientListsResponse;
         }
 
-        public async Task<SendRecipientListsResponse> Send(RecipientList recipientList)
+        public async Task<SendRecipientListsResponse> Create(RecipientList recipientList)
         {
             var request = new Request
             {
@@ -73,7 +73,6 @@ namespace SparkPost
             };
 
             var response = await requestSender.Send(request);
-
 
             if (response.StatusCode != HttpStatusCode.OK) throw new ResponseException(response);
 

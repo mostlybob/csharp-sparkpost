@@ -27,6 +27,7 @@ namespace SparkPost
         {
             ApiKey = apiKey;
             ApiHost = apiHost;
+            SubaccountId = subAccountId;
 
             var dataMapper = new DataMapper(Version);
             var asyncRequestSender = new AsyncRequestSender(this, dataMapper);

@@ -17,4 +17,8 @@
       <dependency id="Newtonsoft.Json" version="(6.0,)" />
     </dependencies>
   </metadata>
+  <files>
+    <file src="bin/Release/SparkPost.dll" target="lib/net45" />
+    <file src="bin/Release/SparkPost.xml" target="lib/net45" />
+  </files>
 </package>

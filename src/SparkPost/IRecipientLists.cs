@@ -10,7 +10,7 @@ namespace SparkPost
         /// </summary>
         /// <param name="recipientList">The properties of the recipientList to send.</param>
         /// <returns>The response from the API.</returns>
-        Task<SendRecipientListsResponse> Send(RecipientList recipientList);
+        Task<SendRecipientListsResponse> Create(RecipientList recipientList);
 
         /// <summary>
         /// Retrieves an email transmission.

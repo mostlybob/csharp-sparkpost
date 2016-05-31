@@ -63,7 +63,7 @@ namespace SparkPost
             return recipientListsResponse;
         }
 
-        public async Task<SendRecipientListsResponse> Send(RecipientList recipientList)
+        public async Task<SendRecipientListsResponse> Create(RecipientList recipientList)
         {
             var request = new Request
             {

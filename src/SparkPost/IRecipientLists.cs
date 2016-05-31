@@ -6,9 +6,9 @@ namespace SparkPost
     public interface IRecipientLists
     {
         /// <summary>
-        /// Sends an email transmission.
+        /// Creates a recipient list.
         /// </summary>
-        /// <param name="recipientList">The properties of the recipientList to send.</param>
+        /// <param name="recipientList">The properties of the recipientList to create.</param>
         /// <returns>The response from the API.</returns>
         Task<SendRecipientListsResponse> Create(RecipientList recipientList);
 

@@ -13,9 +13,9 @@ namespace SparkPost
         Task<SendRecipientListsResponse> Create(RecipientList recipientList);
 
         /// <summary>
-        /// Retrieves an email transmission.
+        /// Retrieves a recipient list.
         /// </summary>
-        /// <param name="recipientListsId">The id of the transmission to retrieve.</param>
+        /// <param name="recipientListsId">The id of the recipient list to retrieve.</param>
         /// <returns>The response from the API.</returns>
         Task<RetrieveRecipientListsResponse> Retrieve(string recipientListsId);
     }

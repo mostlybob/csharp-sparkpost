@@ -52,7 +52,7 @@ namespace SparkPost.Examples
             var client = new Client(settings["apikey"]);
             client.CustomSettings.SendingMode = SendingModes.Sync;
 
-            client.Transmissions.Send(trans);
+            var response = client.Transmissions.Send(trans);
 
             Console.WriteLine("done");
         }

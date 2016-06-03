@@ -37,7 +37,11 @@ namespace SparkPost.Examples
                 "<html><body><h2>Greetings {{firstName or 'recipient'}}</h2><p>Hello from C# land.</p></body></html>";
 
             Console.Write("Sending mail...");
-            new Client(settings["apikey"]).Transmissions.Send(trans).Wait();
+
+            var client = new Client(settings["apikey"]);
+
+            client.Transmissions.Send(trans).Wait();
+
             Console.WriteLine("done");
         }
     }

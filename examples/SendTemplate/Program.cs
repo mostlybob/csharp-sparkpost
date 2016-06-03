@@ -47,7 +47,11 @@ namespace SparkPost.Examples
             trans.Content.TemplateId = "orderSummary";
 
             Console.Write("Sending mail...");
-            new Client(settings["apikey"]).Transmissions.Send(trans).Wait();
+
+            var client = new Client(settings["apikey"]);
+
+            client.Transmissions.Send(trans).Wait();
+
             Console.WriteLine("done");
         }
     }

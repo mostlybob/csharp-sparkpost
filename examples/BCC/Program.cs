@@ -48,7 +48,12 @@ namespace SparkPost.Examples
             trans.Content.Headers.Add("CC", ccAddr);
 
             Console.Write("Sending BCC / CC sample mail...");
-            new Client(settings["apikey"]).Transmissions.Send(trans).Wait();
+
+            var client = new Client(settings["apikey"]);
+            client.CustomSettings.SendingMode = SendingModes.Sync;
+
+            var response = client.Transmissions.Send(trans);
+
             Console.WriteLine("done");
         }
     }

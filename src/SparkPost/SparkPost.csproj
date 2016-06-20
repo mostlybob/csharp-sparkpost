@@ -73,6 +73,7 @@
     <Compile Include="RetrieveRecipientListsResponse.cs" />
     <Compile Include="RetrieveRelayWebhookResponse.cs" />
     <Compile Include="InboundDomainResponse.cs" />
+    <Compile Include="RetrieveTempaltesResponse.cs" />
     <Compile Include="SendRecipientListsResponse.cs" />
     <Compile Include="Utilities\Jsonification.cs" />
     <Compile Include="Utilities\SnakeCase.cs" />

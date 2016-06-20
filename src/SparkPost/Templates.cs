@@ -105,5 +105,47 @@ namespace SparkPost
                 }
             };
         }
+
+        public async Task<RetrieveTempaltesResponse> Retrieve()
+        {
+            var request = new Request
+            {
+                Url = $"api/{client.Version}/templates",
+                Method = "GET"
+            };
+
+            var response = await requestSender.Send(request);
+            if (response.StatusCode != HttpStatusCode.OK) throw new ResponseException(response);
+
+            var results = JsonConvert.DeserializeObject<dynamic>(response.Content).results;
+
+            var headers = new Dictionary<string, string>();
+            if (results.content.headers != null)
+            {
+                foreach (var property in results.content.headers.GetType().GetProperties())
+                {
+                    headers[property.Name] = (string)property.GetValue(results.content.headers);
+                }
+            }
+
+            var templates = new List<RetrieveTempaltesResponse.Template>();
+            foreach (var result in results)
+            {
+                templates.Add(new RetrieveTempaltesResponse.Template
+                {
+                    Id = result.id,
+                    Name = result.name,
+                    LastUpdateTime = result.last_update_time,
+                    Description = result.description,
+                    Published = result.published
+                });
+            }
+
+            return new RetrieveTempaltesResponse()
+            {
+                Templates = templates,
+                Headers = headers
+            };
+        }
     }
 }

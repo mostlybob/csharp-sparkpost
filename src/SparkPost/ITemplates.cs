@@ -21,5 +21,7 @@ namespace SparkPost
         /// <param name="draft">If true, returns the most recent draft template. If false, returns the most recent published template. If not provided, returns the most recent template version regardless of draft or published.</param>
         /// <returns>The response from the API.</returns>
         Task<RetrieveTemplateResponse> Retrieve(string templateId, bool? draft = null);
+
+        Task<RetrieveTempaltesResponse> Retrieve();
     }
 }

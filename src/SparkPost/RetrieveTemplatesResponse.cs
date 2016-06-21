@@ -12,8 +12,6 @@ namespace SparkPost
 
         public List<Template> Templates { get; set; }
 
-        public IDictionary<string, string> Headers { get; set; }
-
         public class Template
         {
             public string Id { get; set; }

@@ -106,7 +106,7 @@ namespace SparkPost
             };
         }
 
-        public async Task<RetrieveTempaltesResponse> Retrieve()
+        public async Task<RetrieveTemplatesResponse> RetrieveTemplates()
         {
             var request = new Request
             {
@@ -119,19 +119,10 @@ namespace SparkPost
 
             var results = JsonConvert.DeserializeObject<dynamic>(response.Content).results;
 
-            var headers = new Dictionary<string, string>();
-            if (results.content.headers != null)
-            {
-                foreach (var property in results.content.headers.GetType().GetProperties())
-                {
-                    headers[property.Name] = (string)property.GetValue(results.content.headers);
-                }
-            }
-
-            var templates = new List<RetrieveTempaltesResponse.Template>();
+            var templates = new List<RetrieveTemplatesResponse.Template>();
             foreach (var result in results)
             {
-                templates.Add(new RetrieveTempaltesResponse.Template
+                templates.Add(new RetrieveTemplatesResponse.Template
                 {
                     Id = result.id,
                     Name = result.name,
@@ -141,10 +132,9 @@ namespace SparkPost
                 });
             }
 
-            return new RetrieveTempaltesResponse()
+            return new RetrieveTemplatesResponse()
             {
-                Templates = templates,
-                Headers = headers
+                Templates = templates
             };
         }
     }

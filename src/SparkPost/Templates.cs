@@ -119,10 +119,10 @@ namespace SparkPost
 
             var results = JsonConvert.DeserializeObject<dynamic>(response.Content).results;
 
-            var templates = new List<RetrieveTemplatesResponse.Template>();
+            var templates = new List<TemplateListItem>();
             foreach (var result in results)
             {
-                templates.Add(new RetrieveTemplatesResponse.Template
+                templates.Add(new TemplateListItem
                 {
                     Id = result.id,
                     Name = result.name,

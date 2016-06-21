@@ -7,18 +7,9 @@ namespace SparkPost
     {
         public RetrieveTemplatesResponse()
         {
-            Templates = new List<Template>();
+            Templates = new List<TemplateListItem>();
         }
 
-        public List<Template> Templates { get; set; }
-
-        public class Template
-        {
-            public string Id { get; set; }
-            public string Name { get; set; }
-            public string Description { get; set; }
-            public bool Published { get; set; }
-            public DateTime LastUpdateTime { get; set; }
-        }
+        public List<TemplateListItem> Templates { get; set; }
     }
 }

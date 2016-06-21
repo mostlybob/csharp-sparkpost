@@ -22,6 +22,6 @@ namespace SparkPost
         /// <returns>The response from the API.</returns>
         Task<RetrieveTemplateResponse> Retrieve(string templateId, bool? draft = null);
 
-        Task<RetrieveTemplatesResponse> RetrieveTemplates();
+        Task<RetrieveTemplatesResponse> List();
     }
 }

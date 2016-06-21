@@ -106,7 +106,7 @@ namespace SparkPost
             };
         }
 
-        public async Task<RetrieveTemplatesResponse> RetrieveTemplates()
+        public async Task<RetrieveTemplatesResponse> List()
         {
             var request = new Request
             {

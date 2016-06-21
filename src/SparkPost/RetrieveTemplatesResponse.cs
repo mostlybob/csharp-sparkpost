@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace SparkPost
 {
-    public class RetrieveTempaltesResponse : Response
+    public class RetrieveTemplatesResponse : Response
     {
-        public RetrieveTempaltesResponse()
+        public RetrieveTemplatesResponse()
         {
             Templates = new List<Template>();
         }

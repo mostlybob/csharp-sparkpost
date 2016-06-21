@@ -7,12 +7,10 @@ namespace SparkPost
     {
         public Template()
         {
-            //Content = new TemplateContent();
             Content = new TemplateContent();
             Options = new TemplateOptions();
         }
 
-        //public TemplateContent Content { get; set; }
         public TemplateContent Content { get; set; }
         public TemplateOptions Options { get; set; }
 

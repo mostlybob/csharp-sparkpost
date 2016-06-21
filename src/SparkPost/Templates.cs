@@ -118,7 +118,6 @@ namespace SparkPost
 
             var templates = new List<TemplateListItem>();
             foreach (var result in results)
-            {
                 templates.Add(new TemplateListItem
                 {
                     Id = result.id,
@@ -127,12 +126,8 @@ namespace SparkPost
                     Description = result.description,
                     Published = result.published
                 });
-            }
 
-            return new RetrieveTemplatesResponse()
-            {
-                Templates = templates
-            };
+            return new RetrieveTemplatesResponse {Templates = templates};
         }
     }
 }

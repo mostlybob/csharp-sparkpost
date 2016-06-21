@@ -1,6 +1,6 @@
 # C# Library for [SparkPost](https://www.sparkpost.com)
 
-[![Travis CI](https://travis-ci.org/darrencauthon/csharp-sparkpost.svg?branch=master)](https://travis-ci.org/SparkPost/csharp-sparkpost)
+[![Travis CI](https://travis-ci.org/darrencauthon/csharp-sparkpost.svg?branch=master)](https://travis-ci.org/darrencauthon/csharp-sparkpost)
 
 A C# package for the [SparkPost API](https://developers.sparkpost.com/api). Xamarin.iOS and Xamarin.Android support provided in the Portable Package (PCL Profile7).
 

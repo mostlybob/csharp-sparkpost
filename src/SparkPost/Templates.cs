@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Net;
 using System.Reflection;
@@ -104,6 +101,33 @@ namespace SparkPost
                     Headers = Headers
                 }
             };
+        }
+
+        public async Task<RetrieveTemplatesResponse> List()
+        {
+            var request = new Request
+            {
+                Url = $"api/{client.Version}/templates",
+                Method = "GET"
+            };
+
+            var response = await requestSender.Send(request);
+            if (response.StatusCode != HttpStatusCode.OK) throw new ResponseException(response);
+
+            var results = JsonConvert.DeserializeObject<dynamic>(response.Content).results;
+
+            var templates = new List<TemplateListItem>();
+            foreach (var result in results)
+                templates.Add(new TemplateListItem
+                {
+                    Id = result.id,
+                    Name = result.name,
+                    LastUpdateTime = result.last_update_time,
+                    Description = result.description,
+                    Published = result.published
+                });
+
+            return new RetrieveTemplatesResponse {Templates = templates};
         }
     }
 }

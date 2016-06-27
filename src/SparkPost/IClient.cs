@@ -53,6 +53,11 @@
         IRecipientLists RecipientLists { get; }
 
         /// <summary>
+        /// Gets access to the Templates resource of the SparkPost API.
+        /// </summary>
+        ITemplates Templates { get; }
+
+        /// <summary>
         /// Gets the API version supported by this client.
         /// </summary>
         string Version { get; }

@@ -127,7 +127,13 @@ namespace SparkPost
                     Published = result.published
                 });
 
-            return new RetrieveTemplatesResponse {Templates = templates};
+            return new RetrieveTemplatesResponse
+            {
+                Templates = templates,
+                StatusCode = response.StatusCode,
+                Content = response.Content,
+                ReasonPhrase = response.ReasonPhrase
+            };
         }
     }
 }

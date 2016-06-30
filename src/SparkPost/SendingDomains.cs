@@ -126,7 +126,7 @@ namespace SparkPost
         {
             var request = new Request
             {
-                Url = $"/api/{client.Version}/sending-domains/{verifySendingDomain.Domain}/ verify",
+                Url = $"/api/{client.Version}/sending-domains/{verifySendingDomain.Domain}/verify",
                 Method = "POST",
                 Data = verifySendingDomain
             };

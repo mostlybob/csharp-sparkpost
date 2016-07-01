@@ -39,22 +39,22 @@ namespace SparkPost
             {
                 Url = $"/api/{client.Version}/sending-domains", 
                 Method = "POST",
-                Data = sendingDomain
+                Data = dataMapper.ToDictionary(sendingDomain)
             };
 
             var response = await requestSender.Send(request);
             if (response.StatusCode != HttpStatusCode.OK) throw new ResponseException(response);
 
-            var results = Jsonification.DeserializeObject<dynamic>(response.Content).results;
-
-            return new CreateSendingDomainResponse
-            {
-                ReasonPhrase = response.ReasonPhrase,
-                StatusCode = response.StatusCode,
-                Content = response.Content,
-                Domain = results.domain,
-                Dkim = results.dkim != null ? Jsonification.DeserializeObject<Dkim>(results.dkim.ToString()) : null
-            };
+            var result = Jsonification.DeserializeObject<dynamic>(response.Content).results;
+            return result != null ? new CreateSendingDomainResponse
+                {
+                    ReasonPhrase = response.ReasonPhrase,
+                    StatusCode = response.StatusCode,
+                    Content = response.Content,
+                    Domain = result.domain,
+                    Dkim = Dkim.ConvertToDkim(result.dkim),
+                }
+                : null;
         }
 
         public async Task<UpdateSendingDomainResponse> Update(SendingDomain sendingDomain)
@@ -63,22 +63,23 @@ namespace SparkPost
             {
                 Url = $"/api/{client.Version}/sending-domains/{sendingDomain.Domain}", 
                 Method = "DELETE",
-                Data = sendingDomain
+                Data = dataMapper.ToDictionary(sendingDomain)
             };
 
             var response = await requestSender.Send(request);
             if (response.StatusCode != HttpStatusCode.OK) throw new ResponseException(response);
 
-            var results = Jsonification.DeserializeObject<dynamic>(response.Content).results;
-
-            return new UpdateSendingDomainResponse
-            {
-                ReasonPhrase = response.ReasonPhrase,
-                StatusCode = response.StatusCode,
-                Content = response.Content,
-                Domain = results.domain,
-                Dkim = results.dkim != null ? Jsonification.DeserializeObject<Dkim>(results.dkim.ToString()) : null
-            };
+            var result = Jsonification.DeserializeObject<dynamic>(response.Content).results;
+            return result != null ? new UpdateSendingDomainResponse
+                {
+                    ReasonPhrase = response.ReasonPhrase,
+                    StatusCode = response.StatusCode,
+                    Content = response.Content,
+                    Domain = result.domain,
+                    TrackingDomain = result.tracking_domain,
+                    Dkim = Dkim.ConvertToDkim(result.dkim),
+                }
+                : null;
         }
 
         public async Task<GetSendingDomainResponse> GetByDomain(string domain)
@@ -91,15 +92,13 @@ namespace SparkPost
 
             var response = await requestSender.Send(request);
             if (response.StatusCode != HttpStatusCode.OK) throw new ResponseException(response);
-
-            var results = Jsonification.DeserializeObject<dynamic>(response.Content).results;
-
+            var result = Jsonification.DeserializeObject<dynamic>(response.Content).results;
             return new GetSendingDomainResponse
             {
                 ReasonPhrase = response.ReasonPhrase,
                 StatusCode = response.StatusCode,
                 Content = response.Content,
-                SendingDomain = results != null ? Jsonification.DeserializeObject<SendingDomain>(results.ToString()) : null
+                SendingDomain = SendingDomain.ConvertToSendingDomain(result)
             };
         }
 
@@ -128,20 +127,20 @@ namespace SparkPost
             {
                 Url = $"/api/{client.Version}/sending-domains/{verifySendingDomain.Domain}/verify",
                 Method = "POST",
-                Data = verifySendingDomain
+                Data = dataMapper.ToDictionary(verifySendingDomain)
             };
 
             var response = await requestSender.Send(request);
             if (response.StatusCode != HttpStatusCode.OK) throw new ResponseException(response);
 
-            var results = Jsonification.DeserializeObject<dynamic>(response.Content).results;
+            var result = Jsonification.DeserializeObject<dynamic>(response.Content).results;
 
             return new VerifySendingDomainResponse
             {
                 ReasonPhrase = response.ReasonPhrase,
                 StatusCode = response.StatusCode,
                 Content = response.Content,
-                Status = results != null ? Jsonification.DeserializeObject<VerifySendingDomainStatus>(results.ToString()) : null
+                Status = VerifySendingDomainStatus.ConvertToVerifySendingDomainStatus(result)
             };
         }
     }

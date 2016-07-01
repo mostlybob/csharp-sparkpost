@@ -1,12 +1,11 @@
-﻿using Newtonsoft.Json;
-namespace SparkPost
+﻿namespace SparkPost
 {
     public class UpdateSendingDomainResponse : Response
     {
-        [JsonProperty("domain")]
         public string Domain { get; set; }
-
-        [JsonProperty("dkim")]
+        
+        public string TrackingDomain { get; set; }
+        
         public Dkim Dkim { get; set; }
     }
 }

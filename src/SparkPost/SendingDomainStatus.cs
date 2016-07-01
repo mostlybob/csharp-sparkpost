@@ -1,88 +1,81 @@
-﻿using System.Runtime.Serialization;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+﻿using System;
 
 namespace SparkPost
 {
     public class SendingDomainStatus
     {
-        [JsonProperty("ownership_verified")]
         public bool OwnershipVerified { get; set; }
 
-        [JsonProperty("dkim_status")]
         public DkimStatus DkimStatus { get; set; }
 
-        [JsonProperty("spf_status")]
         public SpfStatus SpfStatus { get; set; }
 
-        [JsonProperty("abuse_at_status")]
         public AbuseAtStatus AbuseAtStatus { get; set; }
 
-        [JsonProperty("postmaster_at_status")]
         public PostmasterAtStatus PostmasterAtStatus { get; set; }
 
-        [JsonProperty("compliance_status")]
         public ComplianceStatus ComplianceStatus { get; set; }
-    }
 
-    [JsonConverter(typeof(StringEnumConverter))]
+        /// <summary>
+        /// Convert json result form Sparkpost API to SendingDomainStatus.
+        /// </summary>
+        /// <param name="result">Json result form Sparkpost API.</param>
+        /// <returns></returns>
+        public static SendingDomainStatus ConvertToSendingDomainStatus(dynamic result)
+        {
+            return result != null ? new SendingDomainStatus
+            {
+                OwnershipVerified = result.ownership_verified ?? false,
+                DkimStatus = Enum.Parse(typeof(DkimStatus), (result.dkim_status ?? DkimStatus.Unknowed).ToString(), true),
+                SpfStatus = Enum.Parse(typeof(SpfStatus), (result.spf_status ?? SpfStatus.Unknowed).ToString(), true),
+                AbuseAtStatus = Enum.Parse(typeof(AbuseAtStatus), (result.abuse_at_status ?? AbuseAtStatus.Unknowed).ToString(), true),
+                PostmasterAtStatus = Enum.Parse(typeof(PostmasterAtStatus), (result.postmaster_at_status ?? PostmasterAtStatus.Unknowed).ToString(), true),
+                ComplianceStatus = Enum.Parse(typeof(ComplianceStatus), (result.compliance_status ?? ComplianceStatus.Unknowed).ToString(), true)
+            }
+                : null;
+        }
+    }
+    
     public enum DkimStatus
     {
-        [EnumMember(Value = "unverified")]
         Unverified,
-        [EnumMember(Value = "pending")]
         Pending,
-        [EnumMember(Value = "invalid")]
         Invalid,
-        [EnumMember(Value = "valid")]
-        Valid
+        Valid,
+        Unknowed
     }
-
-    [JsonConverter(typeof(StringEnumConverter))]
+    
     public enum SpfStatus
     {
-        [EnumMember(Value = "unverified")]
         Unverified,
-        [EnumMember(Value = "pending")]
         Pending,
-        [EnumMember(Value = "invalid")]
         Invalid,
-        [EnumMember(Value = "valid")]
-        Valid
+        Valid,
+        Unknowed
     }
-
-    [JsonConverter(typeof(StringEnumConverter))]
+    
     public enum AbuseAtStatus
     {
-        [EnumMember(Value = "unverified")]
         Unverified,
-        [EnumMember(Value = "pending")]
         Pending,
-        [EnumMember(Value = "invalid")]
         Invalid,
-        [EnumMember(Value = "valid")]
-        Valid
+        Valid,
+        Unknowed
     }
-
-    [JsonConverter(typeof(StringEnumConverter))]
+    
     public enum PostmasterAtStatus
     {
-        [EnumMember(Value = "unverified")]
         Unverified,
-        [EnumMember(Value = "pending")]
         Pending,
-        [EnumMember(Value = "invalid")]
         Invalid,
-        [EnumMember(Value = "valid")]
-        Valid
+        Valid,
+        Unknowed
     }
-
-    [JsonConverter(typeof(StringEnumConverter))]
+    
     public enum ComplianceStatus
     {
-        [EnumMember(Value = "pending")]
         Pending,
-        [EnumMember(Value = "valid")]
-        Valid
+        Valid,
+        Unknowed
     }
 }

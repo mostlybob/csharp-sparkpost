@@ -966,6 +966,27 @@ namespace SparkPost.Tests
                     .ContainsKey("status")
                     .ShouldBeFalse();
             }
+
+            [Test]
+            public void Matches_on_dkim()
+            {
+                var publicKey = Guid.NewGuid().ToString();
+                sendingDomain.Dkim = new Dkim { PublicKey = publicKey };
+                mapper.ToDictionary(sendingDomain)["dkim"]
+                    .CastAs<IDictionary<string, object>>()
+                    ["public_key"]
+                    .CastAs<string>()
+                    .ShouldEqual(publicKey);
+            }
+
+            [Test]
+            public void Null_dkim_is_is_not_returned()
+            {
+                sendingDomain.Dkim = null;
+                mapper.ToDictionary(sendingDomain)
+                    .ContainsKey("dkim")
+                    .ShouldBeFalse();
+            }
         }
     }
 }

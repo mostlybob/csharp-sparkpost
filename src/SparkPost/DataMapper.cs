@@ -248,8 +248,7 @@ namespace SparkPost
                 var name = SnakeCase.Convert(property.Name);
                 if (results.ContainsKey(name)) continue;
 
-                var theValue = GetTheValue(property.PropertyType, property.GetValue(target));
-                results[name] = theValue;
+                results[name] = GetTheValue(property.PropertyType, property.GetValue(target));
             }
             return RemoveNulls(results);
         }

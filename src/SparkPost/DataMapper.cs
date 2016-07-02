@@ -12,6 +12,8 @@ namespace SparkPost
     public interface IDataMapper
     {
         IDictionary<string, object> ToDictionary(SendingDomain transmission);
+        IDictionary<string, object> ToDictionary(Dkim dkim);
+        IDictionary<string, object> ToDictionary(SendingDomainStatus sendingDomainStatus);
         IDictionary<string, object> ToDictionary(VerifySendingDomain verifySendingDomain);
         IDictionary<string, object> ToDictionary(Transmission transmission);
         IDictionary<string, object> ToDictionary(Recipient recipient);
@@ -59,20 +61,17 @@ namespace SparkPost
 
         public virtual IDictionary<string, object> ToDictionary(SendingDomain sendingDomain)
         {
-            var data = new Dictionary<string, object>
-            {
-                ["status"] =
-                    sendingDomain.Status != null 
-                        ? WithCommonConventions(sendingDomain.Status)
-                        : null,
-                ["dkim"] =
-                    sendingDomain.Dkim != null
-                        ? WithCommonConventions(sendingDomain.Dkim)
-                        : null
-            };
+            return WithCommonConventions(sendingDomain);
+        }
 
-            var result = WithCommonConventions(sendingDomain, data);
-            return result;
+        public virtual IDictionary<string, object> ToDictionary(SendingDomainStatus sendingDomainStatus)
+        {
+            return WithCommonConventions(sendingDomainStatus);
+        }
+
+        public virtual IDictionary<string, object> ToDictionary(Dkim dkim)
+        {
+            return WithCommonConventions(dkim);
         }
 
         public virtual IDictionary<string, object> ToDictionary(VerifySendingDomain verifySendingDomain)
@@ -242,13 +241,15 @@ namespace SparkPost
 
         private IDictionary<string, object> WithCommonConventions(object target, IDictionary<string, object> results = null)
         {
+            if (target == null) return null;
             if (results == null) results = new Dictionary<string, object>();
             foreach (var property in target.GetType().GetProperties())
             {
                 var name = SnakeCase.Convert(property.Name);
                 if (results.ContainsKey(name)) continue;
 
-                results[name] = GetTheValue(property.PropertyType, property.GetValue(target));
+                var theValue = GetTheValue(property.PropertyType, property.GetValue(target));
+                results[name] = theValue;
             }
             return RemoveNulls(results);
         }

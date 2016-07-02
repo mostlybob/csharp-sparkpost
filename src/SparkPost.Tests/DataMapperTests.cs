@@ -962,7 +962,8 @@ namespace SparkPost.Tests
             public void Null_status_return_null()
             {
                 sendingDomain.Status = null;
-                mapper.ToDictionary(sendingDomain)
+                var dictionary = mapper.ToDictionary(sendingDomain);
+                dictionary
                     .ContainsKey("status")
                     .ShouldBeFalse();
             }

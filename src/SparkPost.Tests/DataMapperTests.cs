@@ -932,5 +932,40 @@ namespace SparkPost.Tests
                     ["protocol"].ShouldEqual(value);
             }
         }
+
+        [TestFixture]
+        public class SendingDomainTests
+        {
+            private DataMapper mapper;
+            private SendingDomain sendingDomain;
+
+            [SetUp]
+            public void Setup()
+            {
+                sendingDomain = new SendingDomain();
+                mapper = new DataMapper("v1");
+            }
+
+            [Test]
+            public void Matches_on_status()
+            {
+                sendingDomain.Status = new SendingDomainStatus();
+                sendingDomain.Status.DkimStatus = DkimStatus.Pending;
+                mapper.ToDictionary(sendingDomain)["status"]
+                    .CastAs<IDictionary<string, object>>()
+                    ["dkim_status"]
+                    .CastAs<string>()
+                    .ShouldEqual("pending");
+            }
+
+            [Test]
+            public void Null_status_return_null()
+            {
+                sendingDomain.Status = null;
+                mapper.ToDictionary(sendingDomain)
+                    .ContainsKey("status")
+                    .ShouldBeFalse();
+            }
+        }
     }
 }

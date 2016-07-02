@@ -24,7 +24,6 @@ namespace SparkPost
         /// <returns></returns>
         public static Dkim ConvertToDkim(dynamic result)
         {
-            Console.WriteLine(result.GetType());
             return result != null ? new Dkim
                 {
                     SigningDomain = result[PUBLIC_PROPERTY_NAME],

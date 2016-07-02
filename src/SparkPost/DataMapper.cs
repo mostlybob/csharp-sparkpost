@@ -11,6 +11,8 @@ namespace SparkPost
 {
     public interface IDataMapper
     {
+        IDictionary<string, object> ToDictionary(SendingDomain transmission);
+        IDictionary<string, object> ToDictionary(VerifySendingDomain verifySendingDomain);
         IDictionary<string, object> ToDictionary(Transmission transmission);
         IDictionary<string, object> ToDictionary(Recipient recipient);
         IDictionary<string, object> ToDictionary(Address address);
@@ -53,6 +55,29 @@ namespace SparkPost
                 new EnumerableValueMapper(this),
                 new AnonymousValueMapper(this)
             };
+        }
+
+        public virtual IDictionary<string, object> ToDictionary(SendingDomain sendingDomain)
+        {
+            var data = new Dictionary<string, object>
+            {
+                ["status"] =
+                    sendingDomain.Status != null 
+                        ? WithCommonConventions(sendingDomain.Status)
+                        : null,
+                ["dkim"] =
+                    sendingDomain.Dkim != null
+                        ? WithCommonConventions(sendingDomain.Dkim)
+                        : null
+            };
+
+            var result = WithCommonConventions(sendingDomain, data);
+            return result;
+        }
+
+        public virtual IDictionary<string, object> ToDictionary(VerifySendingDomain verifySendingDomain)
+        {
+            return WithCommonConventions(verifySendingDomain);
         }
 
         public virtual IDictionary<string, object> ToDictionary(Transmission transmission)

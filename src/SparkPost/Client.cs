@@ -34,6 +34,7 @@ namespace SparkPost
             var syncRequestSender = new SyncRequestSender(asyncRequestSender);
             var requestSender = new RequestSender(asyncRequestSender, syncRequestSender, this);
 
+            SendingDomains = new SendingDomains(this, requestSender, dataMapper);
             Transmissions = new Transmissions(this, requestSender, dataMapper);
             Suppressions = new Suppressions(this, requestSender, dataMapper);
             Webhooks = new Webhooks(this, requestSender, dataMapper);
@@ -50,6 +51,7 @@ namespace SparkPost
         public string ApiHost { get; set; }
         public long SubaccountId { get; set; }
 
+        public ISendingDomains SendingDomains { get; }
         public ITransmissions Transmissions { get; }
         public ISuppressions Suppressions { get; }
         public IWebhooks Webhooks { get; }

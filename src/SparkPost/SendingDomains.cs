@@ -62,7 +62,7 @@ namespace SparkPost
             var request = new Request
             {
                 Url = $"/api/{client.Version}/sending-domains/{sendingDomain.Domain}", 
-                Method = "DELETE",
+                Method = "PUT",
                 Data = dataMapper.ToDictionary(sendingDomain)
             };
 

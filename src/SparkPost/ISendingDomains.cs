@@ -7,8 +7,8 @@ namespace SparkPost
         Task<ListSendingDomainResponse> List();
         Task<CreateSendingDomainResponse> Create(SendingDomain sendingDomain);
         Task<UpdateSendingDomainResponse> Update(SendingDomain sendingDomain);
-        Task<GetSendingDomainResponse> GetByDomain(string domain);
+        Task<GetSendingDomainResponse> Retrieve(string domain);
         Task<Response> DeleteByDomain(string domain);
-        Task<VerifySendingDomainResponse> VerifyByDomain(VerifySendingDomain verifySendingDomain);
+        Task<VerifySendingDomainResponse> Verify(VerifySendingDomain verifySendingDomain);
     }
 }

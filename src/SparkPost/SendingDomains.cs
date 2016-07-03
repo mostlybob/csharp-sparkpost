@@ -82,7 +82,7 @@ namespace SparkPost
                 : null;
         }
 
-        public async Task<GetSendingDomainResponse> GetByDomain(string domain)
+        public async Task<GetSendingDomainResponse> Retrieve(string domain)
         {
             var request = new Request
             {
@@ -121,7 +121,7 @@ namespace SparkPost
             return response;
         }
 
-        public async Task<VerifySendingDomainResponse> VerifyByDomain(VerifySendingDomain verifySendingDomain)
+        public async Task<VerifySendingDomainResponse> Verify(VerifySendingDomain verifySendingDomain)
         {
             var request = new Request
             {

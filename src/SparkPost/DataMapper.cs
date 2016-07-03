@@ -11,6 +11,10 @@ namespace SparkPost
 {
     public interface IDataMapper
     {
+        IDictionary<string, object> ToDictionary(SendingDomain transmission);
+        IDictionary<string, object> ToDictionary(Dkim dkim);
+        IDictionary<string, object> ToDictionary(SendingDomainStatus sendingDomainStatus);
+        IDictionary<string, object> ToDictionary(VerifySendingDomain verifySendingDomain);
         IDictionary<string, object> ToDictionary(Transmission transmission);
         IDictionary<string, object> ToDictionary(Recipient recipient);
         IDictionary<string, object> ToDictionary(Address address);
@@ -53,6 +57,26 @@ namespace SparkPost
                 new EnumerableValueMapper(this),
                 new AnonymousValueMapper(this)
             };
+        }
+
+        public virtual IDictionary<string, object> ToDictionary(SendingDomain sendingDomain)
+        {
+            return WithCommonConventions(sendingDomain);
+        }
+
+        public virtual IDictionary<string, object> ToDictionary(SendingDomainStatus sendingDomainStatus)
+        {
+            return WithCommonConventions(sendingDomainStatus);
+        }
+
+        public virtual IDictionary<string, object> ToDictionary(Dkim dkim)
+        {
+            return WithCommonConventions(dkim);
+        }
+
+        public virtual IDictionary<string, object> ToDictionary(VerifySendingDomain verifySendingDomain)
+        {
+            return WithCommonConventions(verifySendingDomain);
         }
 
         public virtual IDictionary<string, object> ToDictionary(Transmission transmission)
@@ -217,6 +241,7 @@ namespace SparkPost
 
         private IDictionary<string, object> WithCommonConventions(object target, IDictionary<string, object> results = null)
         {
+            if (target == null) return null;
             if (results == null) results = new Dictionary<string, object>();
             foreach (var property in target.GetType().GetProperties())
             {

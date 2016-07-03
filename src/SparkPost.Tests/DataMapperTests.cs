@@ -932,5 +932,62 @@ namespace SparkPost.Tests
                     ["protocol"].ShouldEqual(value);
             }
         }
+
+        [TestFixture]
+        public class SendingDomainTests
+        {
+            private DataMapper mapper;
+            private SendingDomain sendingDomain;
+
+            [SetUp]
+            public void Setup()
+            {
+                sendingDomain = new SendingDomain();
+                mapper = new DataMapper("v1");
+            }
+
+            [Test]
+            public void Matches_on_status()
+            {
+                sendingDomain.Status = new SendingDomainStatus();
+                sendingDomain.Status.DkimStatus = DkimStatus.Pending;
+                mapper.ToDictionary(sendingDomain)["status"]
+                    .CastAs<IDictionary<string, object>>()
+                    ["dkim_status"]
+                    .CastAs<string>()
+                    .ShouldEqual("pending");
+            }
+
+            [Test]
+            public void Null_status_return_null()
+            {
+                sendingDomain.Status = null;
+                var dictionary = mapper.ToDictionary(sendingDomain);
+                dictionary
+                    .ContainsKey("status")
+                    .ShouldBeFalse();
+            }
+
+            [Test]
+            public void Matches_on_dkim()
+            {
+                var publicKey = Guid.NewGuid().ToString();
+                sendingDomain.Dkim = new Dkim { PublicKey = publicKey };
+                mapper.ToDictionary(sendingDomain)["dkim"]
+                    .CastAs<IDictionary<string, object>>()
+                    ["public_key"]
+                    .CastAs<string>()
+                    .ShouldEqual(publicKey);
+            }
+
+            [Test]
+            public void Null_dkim_is_is_not_returned()
+            {
+                sendingDomain.Dkim = null;
+                mapper.ToDictionary(sendingDomain)
+                    .ContainsKey("dkim")
+                    .ShouldBeFalse();
+            }
+        }
     }
 }

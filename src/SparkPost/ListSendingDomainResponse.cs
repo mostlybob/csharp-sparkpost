@@ -13,11 +13,16 @@ namespace SparkPost
             LeftRight.SetValuesToMatch(result, response);
 
             var results = Jsonification.DeserializeObject<dynamic>(response.Content).results;
+            result.SendingDomains = BuildTheSendingDomains(results);
+            return result;
+        }
+
+        private static IEnumerable<SendingDomain> BuildTheSendingDomains(dynamic results)
+        {
             var sendingDomains = new List<SendingDomain>();
             foreach (var r in results)
                 sendingDomains.Add(SendingDomain.ConvertToSendingDomain(r));
-            result.SendingDomains = sendingDomains;
-            return result;
+            return sendingDomains;
         }
     }
 }

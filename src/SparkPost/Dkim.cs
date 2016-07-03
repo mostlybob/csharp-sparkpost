@@ -4,9 +4,6 @@ namespace SparkPost
 {
     public class Dkim
     {
-        private const string PUBLIC_PROPERTY_NAME = "public";
-        private const string PRIVATE_PROPERTY_NAME = "private";
-
         public string SigningDomain { get; set; }
         
         public string PrivateKey { get; set; }
@@ -26,8 +23,8 @@ namespace SparkPost
         {
             return result != null ? new Dkim
                 {
-                    SigningDomain = result[PUBLIC_PROPERTY_NAME],
-                    PublicKey = result[PRIVATE_PROPERTY_NAME],
+                    SigningDomain = result["public"],
+                    PublicKey = result["private"],
                     Selector = result.selector,
                     Headers = result.headers
                 }

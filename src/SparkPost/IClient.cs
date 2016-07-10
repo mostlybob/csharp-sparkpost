@@ -44,6 +44,11 @@
         /// Gets access to the inbound domains resource of the SparkPost API.
         /// </summary>
         IInboundDomains InboundDomains { get; }
+
+        /// <summary>
+        /// Gets access to the sending domains resource of the SparkPost API.
+        /// </summary>
+        ISendingDomains SendingDomains { get; }
         
         /// <summary>
         /// Gets access to the relay webhooks resource of the SparkPost API.

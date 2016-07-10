@@ -102,7 +102,7 @@ namespace SparkPost
             };
         }
 
-        public async Task<Response> DeleteByDomain(string domain)
+        public async Task<Response> Delete(string domain)
         {
             var request = new Request
             {

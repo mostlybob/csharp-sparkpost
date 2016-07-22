@@ -135,5 +135,17 @@ namespace SparkPost
                 ReasonPhrase = response.ReasonPhrase
             };
         }
+
+        public async Task<bool> Delete(string templateId)
+        {
+            var request = new Request
+            {
+                Url = $"api/{client.Version}/templates/{templateId}",
+                Method = "DELETE"
+            };
+
+            var response = await requestSender.Send(request);
+            return response.StatusCode == HttpStatusCode.OK;
+        }
     }
 }

@@ -23,5 +23,7 @@ namespace SparkPost
         Task<RetrieveTemplateResponse> Retrieve(string templateId, bool? draft = null);
 
         Task<RetrieveTemplatesResponse> List();
+
+        Task<bool> Delete(string templateId);
     }
 }

@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("SparkPost.Specs")]
+[assembly: AssemblyTitle("SparkPost.Acceptance")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("SparkPost.Specs")]
+[assembly: AssemblyProduct("SparkPost.Acceptance")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("e78b12e0-b84e-4b68-9b44-30f4a22792af")]
+[assembly: Guid("8f62193b-1c44-4e92-96c7-8ebd610f7669")]
 
 // Version information for an assembly consists of the following four values:
 //

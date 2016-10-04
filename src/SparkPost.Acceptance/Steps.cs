@@ -28,13 +28,14 @@ namespace SparkPost.Acceptance
             }).Wait();
 
             ScenarioContext.Current.Set(response);
+            ScenarioContext.Current.Set<Response>(response);
         }
         
         [Then(@"it should return a (.*)")]
         public void ThenItShouldReturnA(int statusCode)
         {
-            var response = ScenarioContext.Current.Get<RetrieveRecipientListsResponse>();
-            int.Parse(response.StatusCode.ToString()).ShouldEqual(statusCode);
+            var response = ScenarioContext.Current.Get<Response>();
+            response.StatusCode.GetHashCode().ShouldEqual(statusCode);
         }
     }
 }

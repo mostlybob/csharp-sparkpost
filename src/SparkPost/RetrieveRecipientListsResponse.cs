@@ -33,10 +33,10 @@ namespace SparkPost
         {
             return new Recipient
             {
-                Address = new Address {Email= item.address.email,Name = item.address.name},
+                Address = new Address { Email = item.address.email, Name = item.address.name },
                 ReturnPath = item.return_path,
-                Metadata = item.metadata,
-                SubstitutionData = item.substitution_data,
+                //Metadata = item.metadata,
+                //SubstitutionData = item.substitution_data,
             };
         }
     }

@@ -35,9 +35,14 @@ namespace SparkPost
             {
                 Address = new Address { Email = item.address.email, Name = item.address.name },
                 ReturnPath = item.return_path,
-                //Metadata = item.metadata,
-                //SubstitutionData = item.substitution_data,
+                Metadata = ConvertToADictionary(item.metadata),
+                SubstitutionData = ConvertToADictionary(item.substitution_data)
             };
+        }
+
+        private static dynamic ConvertToADictionary(dynamic @object)
+        {
+            return JsonConvert.DeserializeObject<Dictionary<string, object>>(JsonConvert.SerializeObject(@object));
         }
     }
 }

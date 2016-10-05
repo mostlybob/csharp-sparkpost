@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using TechTalk.SpecFlow;
 using TechTalk.SpecFlow.Assist;
 
@@ -56,6 +58,15 @@ namespace SparkPost.Acceptance
 
             ScenarioContext.Current.Set(response);
             ScenarioContext.Current.Set<Response>(response);
+            ScenarioContext.Current.Set(response.RecipientLists);
+        }
+
+        [Then(@"it should have the following recipients")]
+        public void ThenItShouldHaveTheFollowingRecipients(Table table)
+        {
+            var recipientLists = ScenarioContext.Current.Get<List<Recipient>>()
+                .Select(x => new {x.Address.Email});
+            table.CompareToSet(recipientLists);
         }
     }
 }

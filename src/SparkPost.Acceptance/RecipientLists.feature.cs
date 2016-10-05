@@ -144,6 +144,15 @@ this.FeatureBackground();
  testRunner.When("I create the recipient list", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 28
  testRunner.Then("it should return a 200", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 29
+ testRunner.When("I retrieve the \"test-name\" recipient list", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+            TechTalk.SpecFlow.Table table4 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Email"});
+            table4.AddRow(new string[] {
+                        "test@test.com"});
+#line 30
+ testRunner.Then("it should have the following recipients", ((string)(null)), table4, "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

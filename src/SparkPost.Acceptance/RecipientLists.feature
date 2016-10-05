@@ -26,3 +26,7 @@ Scenario: Creating a recipient list
 	And I add 'test@test.com' to the recipient list
 	When I create the recipient list
 	Then it should return a 200
+	When I retrieve the "test-name" recipient list
+	Then it should have the following recipients
+	| Email          |
+	| test@test.com  |

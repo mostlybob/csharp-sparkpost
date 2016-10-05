@@ -58,6 +58,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>RecipientLists.feature</DependentUpon>
     </Compile>
+    <Compile Include="RecipientListSteps.cs" />
     <Compile Include="Steps.cs" />
   </ItemGroup>
   <ItemGroup>

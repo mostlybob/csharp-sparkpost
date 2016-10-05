@@ -63,6 +63,18 @@ namespace SparkPost
             return recipientListsResponse;
         }
 
+        public async Task<bool> Delete(string id)
+        {
+            var request = new Request
+            {
+                Url = $"/api/{client.Version}/recipient-lists/{id}",
+                Method = "DELETE"
+            };
+
+            var response = await requestSender.Send(request);
+            return response.StatusCode == HttpStatusCode.NoContent;
+        }
+
         public async Task<SendRecipientListsResponse> Create(RecipientList recipientList)
         {
             var request = new Request

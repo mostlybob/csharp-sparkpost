@@ -8,6 +8,8 @@ Scenario: Retrieving a recipient list
 	And I have a new recipient list as
 	| Id        | Name      | Description      |
 	| test-name | Test Name | Test Description |
+	And I add 'test@test.com' to the recipient list
+	When I create the recipient list
 	When I retrieve the "my-list" recipient list
 	Then it should return a 200
 

@@ -59,7 +59,8 @@
       <DependentUpon>RecipientLists.feature</DependentUpon>
     </Compile>
     <Compile Include="RecipientListSteps.cs" />
-    <Compile Include="Steps.cs" />
+    <Compile Include="ClientSteps.cs" />
+    <Compile Include="ResponseSteps.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SparkPost\SparkPost.csproj">

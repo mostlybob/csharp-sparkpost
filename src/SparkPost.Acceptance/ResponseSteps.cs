@@ -4,15 +4,8 @@ using TechTalk.SpecFlow;
 namespace SparkPost.Acceptance
 {
     [Binding]
-    public class Steps
+    public class ResponseSteps
     {
-        [Given(@"my api key is '(.*)'")]
-        public void GivenMyApiKeyIs(string apiKey)
-        {
-            var client = new Client(apiKey);
-            ScenarioContext.Current.Set<IClient>(client);
-        }
-
         [Then(@"it should return a (.*)")]
         public void ThenItShouldReturnA(int statusCode)
         {

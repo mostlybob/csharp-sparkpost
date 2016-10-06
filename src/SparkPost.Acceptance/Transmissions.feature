@@ -1,7 +1,7 @@
 ﻿Feature: Transmissions
 
 Background:
-	Given my api key is 'da72d0e0bf7b26e4e931137375a5f58f7b782445'
+	Given my api key is 'yyy'
 
 Scenario: Sending a regular email
 	Given I have a new transmission

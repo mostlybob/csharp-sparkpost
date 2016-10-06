@@ -9,45 +9,52 @@ namespace SparkPost.Acceptance
     [Binding]
     public class RecipientListSteps
     {
+        private readonly ScenarioContext scenarioContext;
+
+        public RecipientListSteps(ScenarioContext scenarioContext)
+        {
+            this.scenarioContext = scenarioContext;
+        }
+
         [Given(@"I have a new recipient list as")]
         public void GivenIHaveANewRecipientListAs(Table table)
         {
             var recipientList = table.CreateInstance<RecipientList>();
-            ScenarioContext.Current.Set(recipientList);
+            scenarioContext.Set(recipientList);
         }
 
         [Given(@"I add '(.*)' to the recipient list")]
         public void GivenIAddToTheRecipientList(string email)
         {
-            var recipientList = ScenarioContext.Current.Get<RecipientList>();
+            var recipientList = scenarioContext.Get<RecipientList>();
             recipientList.Recipients.Add(new Recipient {Address = new Address {Email = email}});
         }
 
         [Given(@"I do not have a recipient list of id '(.*)'")]
         public void GivenIDoNotHaveARecipientListOfId(string id)
         {
-            var client = ScenarioContext.Current.Get<IClient>();
+            var client = scenarioContext.Get<IClient>();
             client.RecipientLists.Delete(id);
         }
 
         [When(@"I create the recipient list")]
         public void WhenICreateTheRecipientList()
         {
-            var recipientList = ScenarioContext.Current.Get<RecipientList>();
+            var recipientList = scenarioContext.Get<RecipientList>();
 
-            var client = ScenarioContext.Current.Get<IClient>();
+            var client = scenarioContext.Get<IClient>();
 
             SendRecipientListsResponse response = null;
             Task.Run(async () => { response = await client.RecipientLists.Create(recipientList); }).Wait();
 
-            ScenarioContext.Current.Set(response);
-            ScenarioContext.Current.Set<Response>(response);
+            scenarioContext.Set(response);
+            scenarioContext.Set<Response>(response);
         }
 
         [When(@"I retrieve the ""(.*)"" recipient list")]
         public void WhenIRetrieveTheRecipientList(string key)
         {
-            var client = ScenarioContext.Current.Get<IClient>();
+            var client = scenarioContext.Get<IClient>();
 
             RetrieveRecipientListsResponse response = null;
 
@@ -56,15 +63,15 @@ namespace SparkPost.Acceptance
                 response = await client.RecipientLists.Retrieve(key);
             }).Wait();
 
-            ScenarioContext.Current.Set(response);
-            ScenarioContext.Current.Set<Response>(response);
-            ScenarioContext.Current.Set(response.RecipientLists);
+            scenarioContext.Set(response);
+            scenarioContext.Set<Response>(response);
+            scenarioContext.Set(response.RecipientLists);
         }
 
         [Then(@"it should have the following recipients")]
         public void ThenItShouldHaveTheFollowingRecipients(Table table)
         {
-            var recipientLists = ScenarioContext.Current.Get<List<Recipient>>()
+            var recipientLists = scenarioContext.Get<List<Recipient>>()
                 .Select(x => new {x.Address.Email});
             table.CompareToSet(recipientLists);
         }

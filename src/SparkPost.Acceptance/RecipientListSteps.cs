@@ -63,10 +63,6 @@ namespace SparkPost.Acceptance
                 response = await client.RecipientLists.Retrieve(key);
             }).Wait();
 
-            scenarioContext.Set(response);
-            scenarioContext.Set<Response>(response);
-            scenarioContext.Set(response.RecipientLists);
-
             scenarioContext.Set(response.TheActualRecipientList);
         }
 
@@ -80,7 +76,8 @@ namespace SparkPost.Acceptance
         [Then(@"it should have the following recipients")]
         public void ThenItShouldHaveTheFollowingRecipients(Table table)
         {
-            var recipientLists = scenarioContext.Get<List<Recipient>>()
+            var recipientLists = scenarioContext.Get<RecipientList>()
+                .Recipients
                 .Select(x => new {x.Address.Email});
             table.CompareToSet(recipientLists);
         }

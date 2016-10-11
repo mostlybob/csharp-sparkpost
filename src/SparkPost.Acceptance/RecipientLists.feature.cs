@@ -67,7 +67,7 @@ namespace SparkPost.Acceptance
         {
 #line 3
 #line 4
- testRunner.Given("my api key is \'yyy\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("my api key is \'41687a9a610f1a94062245618c5e47de81739d0d\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
         }
         
@@ -81,8 +81,6 @@ this.ScenarioSetup(scenarioInfo);
 #line 3
 this.FeatureBackground();
 #line 7
- testRunner.Given("my api key is \'41687a9a610f1a94062245618c5e47de81739d0d\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 8
  testRunner.Given("I do not have a recipient list of id \'test-name\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
             TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
@@ -93,17 +91,17 @@ this.FeatureBackground();
                         "test-name",
                         "Test Name",
                         "Test Description"});
-#line 9
+#line 8
  testRunner.And("I have a new recipient list as", ((string)(null)), table1, "And ");
-#line 12
+#line 11
  testRunner.And("I add \'test@test.com\' to the recipient list", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 13
+#line 12
  testRunner.And("I add \'test2@test.com\' to the recipient list", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 14
+#line 13
  testRunner.When("I create the recipient list", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 15
+#line 14
  testRunner.When("I retrieve the \"test-name\" recipient list", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 16
+#line 15
  testRunner.Then("it should return a 200", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
@@ -112,7 +110,7 @@ this.FeatureBackground();
                         "test@test.com"});
             table2.AddRow(new string[] {
                         "test2@test.com"});
-#line 17
+#line 16
  testRunner.And("it should have the following recipients", ((string)(null)), table2, "And ");
 #line hidden
             TechTalk.SpecFlow.Table table3 = new TechTalk.SpecFlow.Table(new string[] {
@@ -123,7 +121,7 @@ this.FeatureBackground();
                         "test-name",
                         "Test Name",
                         "Test Description"});
-#line 21
+#line 20
  testRunner.And("it should have the following recipient list values", ((string)(null)), table3, "And ");
 #line hidden
             this.ScenarioCleanup();
@@ -134,11 +132,11 @@ this.FeatureBackground();
         public virtual void CreatingARecipientList()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Creating a recipient list", ((string[])(null)));
-#line 25
+#line 24
 this.ScenarioSetup(scenarioInfo);
 #line 3
 this.FeatureBackground();
-#line 26
+#line 25
  testRunner.Given("I do not have a recipient list of id \'test-name\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
             TechTalk.SpecFlow.Table table4 = new TechTalk.SpecFlow.Table(new string[] {
@@ -149,22 +147,22 @@ this.FeatureBackground();
                         "test-name",
                         "Test Name",
                         "Test Description"});
-#line 27
+#line 26
  testRunner.And("I have a new recipient list as", ((string)(null)), table4, "And ");
-#line 30
+#line 29
  testRunner.And("I add \'test@test.com\' to the recipient list", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 31
+#line 30
  testRunner.When("I create the recipient list", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 32
+#line 31
  testRunner.Then("it should return a 200", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 33
+#line 32
  testRunner.When("I retrieve the \"test-name\" recipient list", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
             TechTalk.SpecFlow.Table table5 = new TechTalk.SpecFlow.Table(new string[] {
                         "Email"});
             table5.AddRow(new string[] {
                         "test@test.com"});
-#line 34
+#line 33
  testRunner.Then("it should have the following recipients", ((string)(null)), table5, "Then ");
 #line hidden
             this.ScenarioCleanup();

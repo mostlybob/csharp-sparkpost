@@ -81,6 +81,8 @@ this.ScenarioSetup(scenarioInfo);
 #line 3
 this.FeatureBackground();
 #line 7
+ testRunner.Given("my api key is \'41687a9a610f1a94062245618c5e47de81739d0d\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 8
  testRunner.Given("I do not have a recipient list of id \'test-name\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
             TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
@@ -91,17 +93,17 @@ this.FeatureBackground();
                         "test-name",
                         "Test Name",
                         "Test Description"});
-#line 8
+#line 9
  testRunner.And("I have a new recipient list as", ((string)(null)), table1, "And ");
-#line 11
- testRunner.And("I add \'test@test.com\' to the recipient list", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 12
- testRunner.And("I add \'test2@test.com\' to the recipient list", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I add \'test@test.com\' to the recipient list", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 13
- testRunner.When("I create the recipient list", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("I add \'test2@test.com\' to the recipient list", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 14
- testRunner.When("I retrieve the \"test-name\" recipient list", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I create the recipient list", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 15
+ testRunner.When("I retrieve the \"test-name\" recipient list", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 16
  testRunner.Then("it should return a 200", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
@@ -110,23 +112,8 @@ this.FeatureBackground();
                         "test@test.com"});
             table2.AddRow(new string[] {
                         "test2@test.com"});
-#line 16
+#line 17
  testRunner.And("it should have the following recipients", ((string)(null)), table2, "And ");
-#line hidden
-            this.ScenarioCleanup();
-        }
-        
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Creating a recipient list")]
-        public virtual void CreatingARecipientList()
-        {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Creating a recipient list", ((string[])(null)));
-#line 21
-this.ScenarioSetup(scenarioInfo);
-#line 3
-this.FeatureBackground();
-#line 22
- testRunner.Given("I do not have a recipient list of id \'test-name\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
             TechTalk.SpecFlow.Table table3 = new TechTalk.SpecFlow.Table(new string[] {
                         "Id",
@@ -136,23 +123,49 @@ this.FeatureBackground();
                         "test-name",
                         "Test Name",
                         "Test Description"});
-#line 23
- testRunner.And("I have a new recipient list as", ((string)(null)), table3, "And ");
+#line 21
+ testRunner.And("it should have the following recipient list values", ((string)(null)), table3, "And ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Creating a recipient list")]
+        public virtual void CreatingARecipientList()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Creating a recipient list", ((string[])(null)));
+#line 25
+this.ScenarioSetup(scenarioInfo);
+#line 3
+this.FeatureBackground();
 #line 26
- testRunner.And("I add \'test@test.com\' to the recipient list", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 27
- testRunner.When("I create the recipient list", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 28
- testRunner.Then("it should return a 200", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 29
- testRunner.When("I retrieve the \"test-name\" recipient list", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.Given("I do not have a recipient list of id \'test-name\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
             TechTalk.SpecFlow.Table table4 = new TechTalk.SpecFlow.Table(new string[] {
-                        "Email"});
+                        "Id",
+                        "Name",
+                        "Description"});
             table4.AddRow(new string[] {
-                        "test@test.com"});
+                        "test-name",
+                        "Test Name",
+                        "Test Description"});
+#line 27
+ testRunner.And("I have a new recipient list as", ((string)(null)), table4, "And ");
 #line 30
- testRunner.Then("it should have the following recipients", ((string)(null)), table4, "Then ");
+ testRunner.And("I add \'test@test.com\' to the recipient list", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 31
+ testRunner.When("I create the recipient list", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 32
+ testRunner.Then("it should return a 200", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 33
+ testRunner.When("I retrieve the \"test-name\" recipient list", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+            TechTalk.SpecFlow.Table table5 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Email"});
+            table5.AddRow(new string[] {
+                        "test@test.com"});
+#line 34
+ testRunner.Then("it should have the following recipients", ((string)(null)), table5, "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

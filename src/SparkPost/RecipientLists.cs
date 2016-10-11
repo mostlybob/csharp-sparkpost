@@ -59,6 +59,14 @@ namespace SparkPost
             recipientListsResponse.TotalAcceptedRecipients = results.total_accepted_recipients;
             recipientListsResponse.RecipientLists = RetrieveRecipientListsResponse.CreateFromResponse(response);
 
+            recipientListsResponse.TheActualRecipientList = new RecipientList
+            {
+                Id = recipientListsResponse.Id,
+                Recipients = recipientListsResponse.RecipientLists,
+                Attributes = recipientListsResponse.Attributes,
+                Description = recipientListsResponse.Description,
+                Name = recipientListsResponse.Name
+            };
 
             return recipientListsResponse;
         }

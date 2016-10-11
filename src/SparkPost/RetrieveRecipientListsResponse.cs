@@ -17,6 +17,8 @@ namespace SparkPost
 
         public int TotalAcceptedRecipients { get; set; }
 
+        public RecipientList TheActualRecipientList { get; set; }
+
         public static List<Recipient> CreateFromResponse(Response response)
         {
             var result = new List<Recipient>();

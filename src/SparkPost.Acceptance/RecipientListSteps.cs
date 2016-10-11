@@ -66,6 +66,15 @@ namespace SparkPost.Acceptance
             scenarioContext.Set(response);
             scenarioContext.Set<Response>(response);
             scenarioContext.Set(response.RecipientLists);
+
+            scenarioContext.Set(response.TheActualRecipientList);
+        }
+
+        [Then(@"it should have the following recipient list values")]
+        public void ThenItShouldHaveTheFollowingRecipientListValues(Table table)
+        {
+            var recipientList = scenarioContext.Get<RecipientList>();
+            table.CompareToInstance(recipientList);
         }
 
         [Then(@"it should have the following recipients")]

@@ -167,6 +167,83 @@ this.FeatureBackground();
 #line hidden
             this.ScenarioCleanup();
         }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Updating a recipient list")]
+        public virtual void UpdatingARecipientList()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Updating a recipient list", ((string[])(null)));
+#line 37
+this.ScenarioSetup(scenarioInfo);
+#line 3
+this.FeatureBackground();
+#line 38
+ testRunner.Given("I do not have a recipient list of id \'test-name\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+            TechTalk.SpecFlow.Table table6 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Id",
+                        "Name",
+                        "Description"});
+            table6.AddRow(new string[] {
+                        "test-name",
+                        "Test Name",
+                        "Test Description"});
+#line 39
+ testRunner.And("I have a new recipient list as", ((string)(null)), table6, "And ");
+#line 42
+ testRunner.And("I add \'test@test.com\' to the recipient list", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 43
+ testRunner.And("I add \'test2@test.com\' to the recipient list", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 44
+ testRunner.When("I create the recipient list", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+            TechTalk.SpecFlow.Table table7 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Id",
+                        "Name",
+                        "Description"});
+            table7.AddRow(new string[] {
+                        "test-name",
+                        "Test Name Again",
+                        "Test Description Second"});
+#line 45
+ testRunner.Given("I have a new recipient list as", ((string)(null)), table7, "Given ");
+#line 48
+ testRunner.And("I clear the recipients on the recipient list", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 49
+ testRunner.And("I add \'test1@test.com\' to the recipient list", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 50
+ testRunner.And("I add \'test3@test.com\' to the recipient list", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 51
+ testRunner.When("I update the recipient list", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 52
+ testRunner.Then("it should return a 200", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 53
+ testRunner.When("I retrieve the \"test-name\" recipient list", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 54
+ testRunner.Then("it should return a 200", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            TechTalk.SpecFlow.Table table8 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Id",
+                        "Name",
+                        "Description"});
+            table8.AddRow(new string[] {
+                        "test-name",
+                        "Test Name Again",
+                        "Test Description Second"});
+#line 55
+ testRunner.And("it should have the following recipient list values", ((string)(null)), table8, "And ");
+#line hidden
+            TechTalk.SpecFlow.Table table9 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Email"});
+            table9.AddRow(new string[] {
+                        "test1@test.com"});
+            table9.AddRow(new string[] {
+                        "test3@test.com"});
+#line 58
+ testRunner.And("it should have the following recipients", ((string)(null)), table9, "And ");
+#line hidden
+            this.ScenarioCleanup();
+        }
     }
 }
 #pragma warning restore

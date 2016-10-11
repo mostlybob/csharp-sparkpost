@@ -83,6 +83,28 @@ namespace SparkPost
             return response.StatusCode == HttpStatusCode.NoContent;
         }
 
+        public async Task<UpdateRecipientListResponse> Update(RecipientList recipientList)
+        {
+            var request = new Request
+            {
+                Url = $"api/{client.Version}/recipient-lists/{recipientList.Id}",
+                Method = "PUT",
+                Data = dataMapper.ToDictionary(recipientList)
+            };
+
+            var response = await requestSender.Send(request);
+
+            if (new[] {HttpStatusCode.OK, HttpStatusCode.NotFound}.Contains(response.StatusCode) == false)
+                throw new ResponseException(response);
+
+            return new UpdateRecipientListResponse()
+            {
+                ReasonPhrase = response.ReasonPhrase,
+                StatusCode = response.StatusCode,
+                Content = response.Content,
+            };
+        }
+
         public async Task<SendRecipientListsResponse> Create(RecipientList recipientList)
         {
             var request = new Request

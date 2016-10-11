@@ -25,5 +25,12 @@ namespace SparkPost
         /// <param name="id"></param>
         /// <returns>A success or failure.</returns>
         Task<bool> Delete(string id);
+
+        /// <summary>
+        /// Updates a recipient list.
+        /// </summary>
+        /// <param name="recipientList"></param>
+        /// <returns></returns>
+        Task<UpdateRecipientListResponse> Update(RecipientList recipientList);
     }
 }

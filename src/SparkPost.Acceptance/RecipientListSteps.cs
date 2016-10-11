@@ -30,6 +30,13 @@ namespace SparkPost.Acceptance
             recipientList.Recipients.Add(new Recipient {Address = new Address {Email = email}});
         }
 
+        [Given(@"I clear the recipients on the recipient list")]
+        public void x()
+        {
+            var recipientList = scenarioContext.Get<RecipientList>();
+            recipientList.Recipients.Clear();
+        }
+
         [Given(@"I do not have a recipient list of id '(.*)'")]
         public void GivenIDoNotHaveARecipientListOfId(string id)
         {
@@ -64,6 +71,23 @@ namespace SparkPost.Acceptance
             }).Wait();
 
             scenarioContext.Set(response.TheActualRecipientList);
+        }
+
+        [When(@"I update the recipient list")]
+        public void WhenIUpdateTheRecipientList()
+        {
+            var recipientList = scenarioContext.Get<RecipientList>();
+
+            var client = scenarioContext.Get<IClient>();
+
+            UpdateRecipientListResponse response = null;
+
+            Task.Run(async () =>
+            {
+                response = await client.RecipientLists.Update(recipientList);
+            }).Wait();
+
+            scenarioContext.Set(response);
         }
 
         [Then(@"it should have the following recipient list values")]

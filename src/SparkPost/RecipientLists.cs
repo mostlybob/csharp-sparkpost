@@ -59,8 +59,50 @@ namespace SparkPost
             recipientListsResponse.TotalAcceptedRecipients = results.total_accepted_recipients;
             recipientListsResponse.RecipientLists = RetrieveRecipientListsResponse.CreateFromResponse(response);
 
+            recipientListsResponse.RecipientList = new RecipientList
+            {
+                Id = recipientListsResponse.Id,
+                Recipients = recipientListsResponse.RecipientLists,
+                Attributes = recipientListsResponse.Attributes,
+                Description = recipientListsResponse.Description,
+                Name = recipientListsResponse.Name
+            };
 
             return recipientListsResponse;
+        }
+
+        public async Task<bool> Delete(string id)
+        {
+            var request = new Request
+            {
+                Url = $"/api/{client.Version}/recipient-lists/{id}",
+                Method = "DELETE"
+            };
+
+            var response = await requestSender.Send(request);
+            return response.StatusCode == HttpStatusCode.NoContent;
+        }
+
+        public async Task<UpdateRecipientListResponse> Update(RecipientList recipientList)
+        {
+            var request = new Request
+            {
+                Url = $"api/{client.Version}/recipient-lists/{recipientList.Id}",
+                Method = "PUT",
+                Data = dataMapper.ToDictionary(recipientList)
+            };
+
+            var response = await requestSender.Send(request);
+
+            if (new[] {HttpStatusCode.OK, HttpStatusCode.NotFound}.Contains(response.StatusCode) == false)
+                throw new ResponseException(response);
+
+            return new UpdateRecipientListResponse()
+            {
+                ReasonPhrase = response.ReasonPhrase,
+                StatusCode = response.StatusCode,
+                Content = response.Content,
+            };
         }
 
         public async Task<SendRecipientListsResponse> Create(RecipientList recipientList)

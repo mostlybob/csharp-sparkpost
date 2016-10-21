@@ -1,21 +1,29 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace SparkPost
 {
     public class RetrieveRecipientListsResponse : Response
     {
+        [Obsolete("Please use Recipients from RecipientList. This will be removed in v2.")]
         public List<Recipient> RecipientLists { get; set; }
 
+        [Obsolete("Please use Id from RecipientList. This will be removed in v2.")]
         public string Id { get; set; }
 
+        [Obsolete("Please use Name from RecipientList. This will be removed in v2.")]
         public string Name { set; get; }
 
+        [Obsolete("Please use Description from RecipientList. This will be removed in v2.")]
         public string Description { get; set; }
 
+        [Obsolete("Please use Attributes from RecipientList. This will be removed in v2.")]
         public Attributes Attributes { get; set; }
 
         public int TotalAcceptedRecipients { get; set; }
+
+        public RecipientList RecipientList { get; set; }
 
         public static List<Recipient> CreateFromResponse(Response response)
         {

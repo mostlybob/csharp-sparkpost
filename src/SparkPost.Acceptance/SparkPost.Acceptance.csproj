@@ -53,12 +53,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Transmissions.feature.cs">
+      <DependentUpon>Transmissions.feature</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="RecipientLists.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>RecipientLists.feature</DependentUpon>
     </Compile>
-    <Compile Include="Steps.cs" />
+    <Compile Include="RecipientListSteps.cs" />
+    <Compile Include="ClientSteps.cs" />
+    <Compile Include="ResponseSteps.cs" />
+    <Compile Include="TransmissionSteps.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SparkPost\SparkPost.csproj">
@@ -69,6 +77,10 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+    <None Include="Transmissions.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>Transmissions.feature.cs</LastGenOutput>
+    </None>
     <None Include="RecipientLists.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>RecipientLists.feature.cs</LastGenOutput>

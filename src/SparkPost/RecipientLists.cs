@@ -59,7 +59,7 @@ namespace SparkPost
             recipientListsResponse.TotalAcceptedRecipients = results.total_accepted_recipients;
             recipientListsResponse.RecipientLists = RetrieveRecipientListsResponse.CreateFromResponse(response);
 
-            recipientListsResponse.TheActualRecipientList = new RecipientList
+            recipientListsResponse.RecipientList = new RecipientList
             {
                 Id = recipientListsResponse.Id,
                 Recipients = recipientListsResponse.RecipientLists,

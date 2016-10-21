@@ -70,7 +70,7 @@ namespace SparkPost.Acceptance
                 response = await client.RecipientLists.Retrieve(key);
             }).Wait();
 
-            scenarioContext.Set(response.TheActualRecipientList);
+            scenarioContext.Set(response.RecipientList);
         }
 
         [When(@"I update the recipient list")]

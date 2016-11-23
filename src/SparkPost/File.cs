@@ -16,7 +16,7 @@ namespace SparkPost
             return Create<T>(content, Path.GetFileName(filename));            
         }
 
-        public static T Create<T>(string filename, string name) where T : SparkPost.File, new()
+        public static T Create<T>(string filename, string name) where T : File, new()
         {
             var result = Create<T>(filename);
             result.Name = name;

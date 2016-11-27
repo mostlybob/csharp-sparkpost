@@ -20,22 +20,43 @@ namespace SparkPost
             this.requestSender = requestSender;
         }
 
-        public async Task<IEnumerable<string>> ListDomains(object metricsSimpleQuery)
+
+        public async Task<IEnumerable<string>> GetDomains()
+        {
+            return await GetDomains(null);
+        }
+
+        public async Task<IEnumerable<string>> GetDomains(object metricsSimpleQuery)
         {
             return await GetSimpleList("domains", metricsSimpleQuery);
         }
 
-        public async Task<IEnumerable<string>> ListIpPools(object metricsSimpleQuery)
+        public async Task<IEnumerable<string>> GetIpPools()
+        {
+            return await GetIpPools(null);
+        }
+
+        public async Task<IEnumerable<string>> GetIpPools(object metricsSimpleQuery)
         {
             return await GetSimpleList("ip-pools", metricsSimpleQuery);
         }
 
-        public async Task<IEnumerable<string>> ListSendingIps(object metricsSimpleQuery)
+        public async Task<IEnumerable<string>> GetSendingIps()
+        {
+            return await GetSendingIps(null);
+        }
+
+        public async Task<IEnumerable<string>> GetSendingIps(object metricsSimpleQuery)
         {
             return await GetSimpleList("sending-ips", metricsSimpleQuery);            
         }
 
-        public async Task<IEnumerable<string>> ListCampaigns(object metricsSimpleQuery)
+        public async Task<IEnumerable<string>> GetCampaigns()
+        {
+            return await GetCampaigns(null);
+        }
+
+        public async Task<IEnumerable<string>> GetCampaigns(object metricsSimpleQuery)
         {
             return await GetSimpleList("campaigns", metricsSimpleQuery);
         }

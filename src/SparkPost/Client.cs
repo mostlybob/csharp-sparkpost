@@ -44,6 +44,7 @@ namespace SparkPost
             RelayWebhooks = new RelayWebhooks(this, requestSender, dataMapper);
             RecipientLists = new RecipientLists(this, requestSender, dataMapper);
             Templates = new Templates(this, requestSender, dataMapper);
+            Metrics = new Metrics(this, requestSender);
             CustomSettings = new Settings();
         }
 
@@ -61,6 +62,7 @@ namespace SparkPost
         public IRelayWebhooks RelayWebhooks { get; }
         public IRecipientLists RecipientLists { get; }
         public ITemplates Templates { get; }
+        public IMetrics Metrics { get; } 
         public string Version => "v1";
 
         public Settings CustomSettings { get; }

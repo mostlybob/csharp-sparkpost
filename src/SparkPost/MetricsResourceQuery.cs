@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SparkPost
 {
-    public class MetricsSimpleQuery
+    public class MetricsResourceQuery
     {
         /// <summary>
         /// Only return results containing this string

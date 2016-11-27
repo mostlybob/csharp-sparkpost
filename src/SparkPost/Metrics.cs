@@ -11,6 +11,10 @@ namespace SparkPost
 {
     public class Metrics: IMetrics
     {
+        // TODO: List<Dictionary<string, object>> or Dictionary<string, Dictionary<string, object>> ? 
+        // TODO: Condense metric fields?
+        // TODO: Get rid of JValue
+
         private readonly IClient client;
         private readonly IRequestSender requestSender;
 
@@ -20,88 +24,168 @@ namespace SparkPost
             this.requestSender = requestSender;
         }
 
-        public async Task<GetDeliverabilityResponse> GetDeliverability(object query)
+        #region Metrics
+        public async Task<GetMetricsResponse> GetDeliverability(object query)
         {
-            var response = await GetMetricsResponse("deliverability", query);
+            return await GetMetrics("deliverability", query);
+        }
+
+        public async Task<GetMetricsResponse> GetDeliverabilityByDomain(object query)
+        {
+            return await GetMetrics("deliverability/domain", query);
+        }
+
+        public async Task<GetMetricsResponse> GetDeliverabilityBySendingIp(object query)
+        {
+            return await GetMetrics("deliverability/sending-ip", query);
+        }
+
+        public async Task<GetMetricsResponse> GetDeliverabilityByIpPool(object query)
+        {
+            return await GetMetrics("deliverability/ip-pool", query);
+        }
+
+        public async Task<GetMetricsResponse> GetDeliverabilityBySendingDomain(object query)
+        {
+            return await GetMetrics("deliverability/sending-domain", query);
+        }
+
+        public async Task<GetMetricsResponse> GetDeliverabilityBySubAccount(object query)
+        {
+            return await GetMetrics("deliverability/subaccount", query);
+        }
+
+        public async Task<GetMetricsResponse> GetDeliverabilityByCampaign(object query)
+        {
+            return await GetMetrics("deliverability/campaign", query);
+        }
+
+        public async Task<GetMetricsResponse> GetDeliverabilityByTemplate(object query)
+        {
+            return await GetMetrics("deliverability", query);
+        }
+
+        public async Task<GetMetricsResponse> GetDeliverabilityByWatchedDomain(object query)
+        {
+            return await GetMetrics("deliverability/watched-domain", query);
+        }
+
+        public async Task<GetMetricsResponse> GetDeliverabilityByTimeSeries(object query)
+        {
+            return await GetMetrics("deliverability/time-series", query);
+        }
+
+        public async Task<GetMetricsResponse> GetBounceReasons(object query)
+        {
+            return await GetMetrics("deliverability/bounce-reason", query);
+        }
+
+        public async Task<GetMetricsResponse> GetBounceReasonsByDomain(object query)
+        {
+            return await GetMetrics("deliverability/bounce-reason/domain", query);
+        }
+
+        public async Task<GetMetricsResponse> GetBounceClassifications(object query)
+        {
+            return await GetMetrics("deliverability/bounce-classification", query);
+        }
+
+        public async Task<GetMetricsResponse> GetRejectionReasons(object query)
+        {
+            return await GetMetrics("deliverability/rejection-reason", query);
+        }
+
+        public async Task<GetMetricsResponse> GetRejectionReasonsByDomain(object query)
+        {
+            return await GetMetrics("deliverability/rejection-reason/domain", query);
+        }
+
+        public async Task<GetMetricsResponse> GetDelayReasons(object query)
+        {
+            return await GetMetrics("deliverability/delay-reason", query);
+        }
+
+        public async Task<GetMetricsResponse> GetDelayReasonsByDomain(object query)
+        {
+            return await GetMetrics("deliverability/delay-reason/domain", query);
+        }
+
+        public async Task<GetMetricsResponse> GetEngagementByLink(object query)
+        {
+            return await GetMetrics("deliverability/link-name", query);
+        }
+
+        public async Task<GetMetricsResponse> GetDeliveriesByAttempt(object query)
+        {
+            return await GetMetrics("deliverability/attempt", query);
+        }
+        #endregion
+
+        #region Resources
+        public async Task<GetMetricsResourceResponse> GetDomains()
+        {
+            return await GetDomains(null);
+        }
+
+        public async Task<GetMetricsResourceResponse> GetDomains(object metricsSimpleQuery)
+        {
+            return await GetMetricsResource("domains", metricsSimpleQuery);
+        }
+
+        public async Task<GetMetricsResourceResponse> GetIpPools()
+        {
+            return await GetIpPools(null);
+        }
+
+        public async Task<GetMetricsResourceResponse> GetIpPools(object metricsSimpleQuery)
+        {
+            return await GetMetricsResource("ip-pools", metricsSimpleQuery);
+        }
+
+        public async Task<GetMetricsResourceResponse> GetSendingIps()
+        {
+            return await GetSendingIps(null);
+        }
+
+        public async Task<GetMetricsResourceResponse> GetSendingIps(object metricsSimpleQuery)
+        {
+            return await GetMetricsResource("sending-ips", metricsSimpleQuery);            
+        }
+
+        public async Task<GetMetricsResourceResponse> GetCampaigns()
+        {
+            return await GetCampaigns(null);
+        }
+
+        public async Task<GetMetricsResourceResponse> GetCampaigns(object metricsSimpleQuery)
+        {
+            return await GetMetricsResource("campaigns", metricsSimpleQuery);
+        }
+        #endregion
+
+        private async Task<GetMetricsResourceResponse> GetMetricsResource(string resourceName, object query)
+        {
+            var response = await GetApiResponse(resourceName, query);
             dynamic content = Jsonification.DeserializeObject<dynamic>(response.Content);
 
-            var result = new GetDeliverabilityResponse(response);
+            var result = new GetMetricsResourceResponse(response);
+            result.Results = ConvertToStrings(content.results, resourceName);
+
+            return result;            
+        }
+
+        private async Task<GetMetricsResponse> GetMetrics(string relUrl, object query)
+        {
+            var response = await GetApiResponse(relUrl, query);
+            dynamic content = Jsonification.DeserializeObject<dynamic>(response.Content);
+
+            var result = new GetMetricsResponse(response);
             result.Results = ConvertToDictionary(content.results);
 
             return result;
         }
 
-        private IList<IDictionary<MetricsField, object>> ConvertToDictionary(dynamic input)
-        {
-            var result = new List<IDictionary<MetricsField, object>>();
-            if (input == null) return result;
-
-            foreach (var array in input)
-            {
-                var dict = new Dictionary<MetricsField, object>();
-                foreach (var item in array)
-                {
-                    var key = (MetricsField)item.Name;
-                    dict.Add(key, item.Value);
-                }
-                result.Add(dict);
-            }
-
-            return result;
-        }
-
-        public async Task<GetMetricsListResponse> GetDomains()
-        {
-            return await GetDomains(null);
-        }
-
-        public async Task<GetMetricsListResponse> GetDomains(object metricsSimpleQuery)
-        {
-            return await GetSimpleList("domains", metricsSimpleQuery);
-        }
-
-        public async Task<GetMetricsListResponse> GetIpPools()
-        {
-            return await GetIpPools(null);
-        }
-
-        public async Task<GetMetricsListResponse> GetIpPools(object metricsSimpleQuery)
-        {
-            return await GetSimpleList("ip-pools", metricsSimpleQuery);
-        }
-
-        public async Task<GetMetricsListResponse> GetSendingIps()
-        {
-            return await GetSendingIps(null);
-        }
-
-        public async Task<GetMetricsListResponse> GetSendingIps(object metricsSimpleQuery)
-        {
-            return await GetSimpleList("sending-ips", metricsSimpleQuery);            
-        }
-
-        public async Task<GetMetricsListResponse> GetCampaigns()
-        {
-            return await GetCampaigns(null);
-        }
-
-        public async Task<GetMetricsListResponse> GetCampaigns(object metricsSimpleQuery)
-        {
-            return await GetSimpleList("campaigns", metricsSimpleQuery);
-        }
-
-        private async Task<GetMetricsListResponse> GetSimpleList(string listName, object query)
-        {
-            var response = await GetMetricsResponse(listName, query);
-            dynamic content = Jsonification.DeserializeObject<dynamic>(response.Content);
-
-            var result = new GetMetricsListResponse(response);
-            result.Results = ConvertToStrings(content.results, listName);
-
-            return result;            
-        }
-
-        private async Task<Response> GetMetricsResponse(string relUrl, object query)
+        private async Task<Response> GetApiResponse(string relUrl, object query)
         {
             if (query == null)
                 query = new { };
@@ -128,70 +212,24 @@ namespace SparkPost
             
             return result;
         }
+
+        private IList<IDictionary<MetricsField, object>> ConvertToDictionary(dynamic input)
+        {
+            var result = new List<IDictionary<MetricsField, object>>();
+            if (input == null) return result;
+
+            foreach (var array in input)
+            {
+                var dict = new Dictionary<MetricsField, object>();
+                foreach (var item in array)
+                {
+                    var key = (MetricsField)item.Name;
+                    dict.Add(key, item.Value);
+                }
+                result.Add(dict);
+            }
+
+            return result;
+        }
     }
 }
-
-
-
-// Don't need DELIMITER
-// Fields returned depend on METRICS param sent in -- probably should be dictionary
-
-
-/*
- * GET/api/v1/metrics/deliverability{?from,to,delimiter,domains,campaigns,templates,sending_ips,ip_pools,sending_domains,subaccounts,metrics,timezone}  NO LIMIT
-
-GET/api/v1/metrics/deliverability/domain{?from,to,delimiter,domains,campaigns,templates,sending_ips,ip_pools,sending_domains,subaccounts,metrics,timezone,limit}
-
-GET/api/v1/metrics/deliverability/sending-ip{?from,to,delimiter,domains,campaigns,templates,sending_ips,ip_pools,sending_domains,subaccounts,metrics,timezone,limit}
-
-GET/api/v1/metrics/deliverability/ip-pool{?from,to,delimiter,domains,campaigns,templates,sending_ips,ip_pools,sending_domains,subaccounts,metrics,timezone,limit}	
-
-GET/api/v1/metrics/deliverability/sending-domain{?from,to,delimiter,domains,campaigns,templates,sending_ips,ip_pools,sending_domains,subaccounts,metrics,timezone,limit}
-
-GET/api/v1/metrics/deliverability/subaccount{?from,to,delimiter,domains,campaigns,templates,sending_ips,ip_pools,sending_domains,subaccounts,metrics,timezone,limit}	
-
-GET/api/v1/metrics/deliverability/campaign{?from,to,delimiter,domains,campaigns,templates,sending_ips,ip_pools,sending_domains,subaccounts,metrics,timezone,limit}
-
-GET/api/v1/metrics/deliverability/template{?from,to,delimiter,domains,campaigns,templates,sending_ips,ip_pools,sending_domains,subaccounts,metrics,timezone,limit}
-
-GET/api/v1/metrics/deliverability/watched-domain{?from,to,delimiter,domains,campaigns,templates,sending_ips,ip_pools,sending_domains,subaccounts,metrics,timezone,limit}
-
-GET/api/v1/metrics/deliverability/time-series{?from,to,delimiter,domains,campaigns,templates,sending_ips,ip_pools,sending_domains,subaccounts,precision,metrics,timezone}  PRECISION
-
-GET/api/v1/metrics/deliverability/bounce-reason{?from,to,delimiter,domains,campaigns,templates,sending_ips,ip_pools,sending_domains,subaccounts,metrics,timezone,limit}
-
-GET/api/v1/metrics/deliverability/bounce-reason/domain{?from,to,delimiter,domains,campaigns,templates,sending_ips,ip_pools,sending_domains,subaccounts,metrics,timezone,limit}
-
-GET/api/v1/metrics/deliverability/bounce-classification{?from,to,delimiter,domains,campaigns,templates,sending_ips,ip_pools,sending_domains,subaccounts,metrics,timezone,limit}
-
-
-
-GET/api/v1/metrics/deliverability/rejection-reason{?from,to,delimiter,domains,campaigns,templates,sending_ips,ip_pools,sending_domains,subaccounts,timezone,limit}	NO METRICS
-
-GET/api/v1/metrics/deliverability/rejection-reason/domain{?from,to,delimiter,domains,campaigns,templates,sending_ips,ip_pools,sending_domains,subaccounts,timezone,limit}   NO METRICS
-
-GET/api/v1/metrics/deliverability/delay-reason{?from,to,delimiter,domains,campaigns,templates,sending_ips,ip_pools,sending_domains,subaccounts,timezone,limit}  NO METRICS
-
-GET/api/v1/metrics/deliverability/delay-reason/domain{?from,to,delimiter,domains,campaigns,templates,sending_ips,ip_pools,sending_domains,subaccounts,timezone,limit}  NO METRICS
-
-
-
-
-GET/api/v1/metrics/deliverability/link-name{?from,to,delimiter,timezone,campaigns,templates,subaccounts,sending_domains,metrics,limit}   NO DOMAINS, SENDING_IPS, IP_POOLS, SUBACCOUNTS, TIMEZONE
-
-GET/api/v1/metrics/deliverability/attempt{?from,to,delimiter,domains,campaigns,templates,sending_ips,ip_pools,bindings,binding_groups,sending_domains,subaccounts,timezone}  NO METRICS, LIMIT
-
-
-
-
-
-
-GET/api/v1/metrics/ip-pools{?from,to,timezone,match,limit}
-
-GET/api/v1/metrics/sending-ips{?from,to,timezone,match,limit}
-
-GET/api/v1/metrics/campaigns{?from,to,timezone,limit,match}
-
-GET/api/v1/metrics/domains{?from,to,timezone,limit,match}
-
-    */

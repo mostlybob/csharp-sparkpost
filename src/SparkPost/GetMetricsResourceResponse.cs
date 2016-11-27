@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 
 namespace SparkPost
 {
-    public class GetMetricsListResponse: Response
+    public class GetMetricsResourceResponse: Response
     {
         public IList<string> Results { get; set; }
 
-        public GetMetricsListResponse()
+        public GetMetricsResourceResponse()
         {
             Results = new List<string>();
         }        
 
-        public GetMetricsListResponse(Response source)
+        public GetMetricsResourceResponse(Response source)
         {
             this.SetFrom(source);
         }

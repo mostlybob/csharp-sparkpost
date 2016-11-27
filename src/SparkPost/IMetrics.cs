@@ -8,13 +8,14 @@ namespace SparkPost
 {
     public interface IMetrics
     {
-        Task<IEnumerable<string>> GetDomains();
-        Task<IEnumerable<string>> GetDomains(object metricsSimpleQuery);
-        Task<IEnumerable<string>> GetSendingIps();
-        Task<IEnumerable<string>> GetSendingIps(object metricsSimpleQuery);
-        Task<IEnumerable<string>> GetIpPools();
-        Task<IEnumerable<string>> GetIpPools(object metricsSimpleQuery);
-        Task<IEnumerable<string>> GetCampaigns();
-        Task<IEnumerable<string>> GetCampaigns(object metricsSimpleQuery);
+        Task<GetDeliverabilityResponse> GetDeliverability(object query);
+        Task<GetMetricsListResponse> GetDomains();
+        Task<GetMetricsListResponse> GetDomains(object metricsSimpleQuery);
+        Task<GetMetricsListResponse> GetSendingIps();
+        Task<GetMetricsListResponse> GetSendingIps(object metricsSimpleQuery);
+        Task<GetMetricsListResponse> GetIpPools();
+        Task<GetMetricsListResponse> GetIpPools(object metricsSimpleQuery);
+        Task<GetMetricsListResponse> GetCampaigns();
+        Task<GetMetricsListResponse> GetCampaigns(object metricsSimpleQuery);
     }
 }

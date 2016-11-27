@@ -20,69 +20,105 @@ namespace SparkPost
             this.requestSender = requestSender;
         }
 
+        public async Task<GetDeliverabilityResponse> GetDeliverability(object query)
+        {
+            var response = await GetMetricsResponse("deliverability", query);
+            dynamic content = Jsonification.DeserializeObject<dynamic>(response.Content);
 
-        public async Task<IEnumerable<string>> GetDomains()
+            var result = new GetDeliverabilityResponse(response);
+            result.Results = ConvertToDictionary(content.results);
+
+            return result;
+        }
+
+        private IList<IDictionary<MetricsField, object>> ConvertToDictionary(dynamic input)
+        {
+            var result = new List<IDictionary<MetricsField, object>>();
+            if (input == null) return result;
+
+            foreach (var array in input)
+            {
+                var dict = new Dictionary<MetricsField, object>();
+                foreach (var item in array)
+                {
+                    var key = (MetricsField)item.Name;
+                    dict.Add(key, item.Value);
+                }
+                result.Add(dict);
+            }
+
+            return result;
+        }
+
+        public async Task<GetMetricsListResponse> GetDomains()
         {
             return await GetDomains(null);
         }
 
-        public async Task<IEnumerable<string>> GetDomains(object metricsSimpleQuery)
+        public async Task<GetMetricsListResponse> GetDomains(object metricsSimpleQuery)
         {
             return await GetSimpleList("domains", metricsSimpleQuery);
         }
 
-        public async Task<IEnumerable<string>> GetIpPools()
+        public async Task<GetMetricsListResponse> GetIpPools()
         {
             return await GetIpPools(null);
         }
 
-        public async Task<IEnumerable<string>> GetIpPools(object metricsSimpleQuery)
+        public async Task<GetMetricsListResponse> GetIpPools(object metricsSimpleQuery)
         {
             return await GetSimpleList("ip-pools", metricsSimpleQuery);
         }
 
-        public async Task<IEnumerable<string>> GetSendingIps()
+        public async Task<GetMetricsListResponse> GetSendingIps()
         {
             return await GetSendingIps(null);
         }
 
-        public async Task<IEnumerable<string>> GetSendingIps(object metricsSimpleQuery)
+        public async Task<GetMetricsListResponse> GetSendingIps(object metricsSimpleQuery)
         {
             return await GetSimpleList("sending-ips", metricsSimpleQuery);            
         }
 
-        public async Task<IEnumerable<string>> GetCampaigns()
+        public async Task<GetMetricsListResponse> GetCampaigns()
         {
             return await GetCampaigns(null);
         }
 
-        public async Task<IEnumerable<string>> GetCampaigns(object metricsSimpleQuery)
+        public async Task<GetMetricsListResponse> GetCampaigns(object metricsSimpleQuery)
         {
             return await GetSimpleList("campaigns", metricsSimpleQuery);
         }
 
-        private async Task<IEnumerable<string>> GetSimpleList(string listName, object query)
+        private async Task<GetMetricsListResponse> GetSimpleList(string listName, object query)
+        {
+            var response = await GetMetricsResponse(listName, query);
+            dynamic content = Jsonification.DeserializeObject<dynamic>(response.Content);
+
+            var result = new GetMetricsListResponse(response);
+            result.Results = ConvertToStrings(content.results, listName);
+
+            return result;            
+        }
+
+        private async Task<Response> GetMetricsResponse(string relUrl, object query)
         {
             if (query == null)
                 query = new { };
 
             var request = new Request
             {
-                Url = $"/api/{client.Version}/metrics/{listName}",
+                Url = $"/api/{client.Version}/metrics/{relUrl}",
                 Method = "GET",
                 Data = query
             };
 
             var response = await requestSender.Send(request);
             if (response.StatusCode != HttpStatusCode.OK) throw new ResponseException(response);
-
-            dynamic content = Jsonification.DeserializeObject<dynamic>(response.Content);
-
-            var result = ConvertToStrings(content["results"], listName);
-            return result;            
+            return response;
         }
 
-        private IEnumerable<string> ConvertToStrings(dynamic input, string propName)
+        private IList<string> ConvertToStrings(dynamic input, string propName)
         {
             var result = new List<string>();
             if (input == null) return result;
@@ -128,6 +164,8 @@ GET/api/v1/metrics/deliverability/bounce-reason/domain{?from,to,delimiter,domain
 
 GET/api/v1/metrics/deliverability/bounce-classification{?from,to,delimiter,domains,campaigns,templates,sending_ips,ip_pools,sending_domains,subaccounts,metrics,timezone,limit}
 
+
+
 GET/api/v1/metrics/deliverability/rejection-reason{?from,to,delimiter,domains,campaigns,templates,sending_ips,ip_pools,sending_domains,subaccounts,timezone,limit}	NO METRICS
 
 GET/api/v1/metrics/deliverability/rejection-reason/domain{?from,to,delimiter,domains,campaigns,templates,sending_ips,ip_pools,sending_domains,subaccounts,timezone,limit}   NO METRICS
@@ -135,6 +173,9 @@ GET/api/v1/metrics/deliverability/rejection-reason/domain{?from,to,delimiter,dom
 GET/api/v1/metrics/deliverability/delay-reason{?from,to,delimiter,domains,campaigns,templates,sending_ips,ip_pools,sending_domains,subaccounts,timezone,limit}  NO METRICS
 
 GET/api/v1/metrics/deliverability/delay-reason/domain{?from,to,delimiter,domains,campaigns,templates,sending_ips,ip_pools,sending_domains,subaccounts,timezone,limit}  NO METRICS
+
+
+
 
 GET/api/v1/metrics/deliverability/link-name{?from,to,delimiter,timezone,campaigns,templates,subaccounts,sending_domains,metrics,limit}   NO DOMAINS, SENDING_IPS, IP_POOLS, SUBACCOUNTS, TIMEZONE
 

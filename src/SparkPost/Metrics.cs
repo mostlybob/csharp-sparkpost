@@ -22,14 +22,34 @@ namespace SparkPost
 
         public async Task<IEnumerable<string>> ListDomains(object metricsSimpleQuery)
         {
-            if (metricsSimpleQuery == null)
-                metricsSimpleQuery = new { };
+            return await GetSimpleList("domains", metricsSimpleQuery);
+        }
+
+        public async Task<IEnumerable<string>> ListIpPools(object metricsSimpleQuery)
+        {
+            return await GetSimpleList("ip-pools", metricsSimpleQuery);
+        }
+
+        public async Task<IEnumerable<string>> ListSendingIps(object metricsSimpleQuery)
+        {
+            return await GetSimpleList("sending-ips", metricsSimpleQuery);            
+        }
+
+        public async Task<IEnumerable<string>> ListCampaigns(object metricsSimpleQuery)
+        {
+            return await GetSimpleList("campaigns", metricsSimpleQuery);
+        }
+
+        private async Task<IEnumerable<string>> GetSimpleList(string listName, object query)
+        {
+            if (query == null)
+                query = new { };
 
             var request = new Request
             {
-                Url = $"/api/{client.Version}/metrics/domains",
+                Url = $"/api/{client.Version}/metrics/{listName}",
                 Method = "GET",
-                Data = metricsSimpleQuery
+                Data = query
             };
 
             var response = await requestSender.Send(request);
@@ -37,18 +57,18 @@ namespace SparkPost
 
             dynamic content = Jsonification.DeserializeObject<dynamic>(response.Content);
 
-            var result = ConvertToStrings(content.results.domains);
-            return result;
+            var result = ConvertToStrings(content["results"], listName);
+            return result;            
         }
 
-        private IEnumerable<string> ConvertToStrings(dynamic input)
+        private IEnumerable<string> ConvertToStrings(dynamic input, string propName)
         {
             var result = new List<string>();
             if (input == null) return result;
 
-            foreach (var item in input)
+            foreach (var item in input[propName])
                 result.Add((string)item);
-
+            
             return result;
         }
     }

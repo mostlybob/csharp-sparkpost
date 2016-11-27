@@ -9,5 +9,8 @@ namespace SparkPost
     public interface IMetrics
     {
         Task<IEnumerable<string>> ListDomains(object metricsSimpleQuery);
+        Task<IEnumerable<string>> ListSendingIps(object metricsSimpleQuery);
+        Task<IEnumerable<string>> ListIpPools(object metricsSimpleQuery);
+        Task<IEnumerable<string>> ListCampaigns(object metricsSimpleQuery);
     }
 }

@@ -46,7 +46,7 @@ namespace SparkPost
             return await GetMetrics("deliverability/sending-domain", query);
         }
 
-        public async Task<GetMetricsResponse> GetDeliverabilityBySubAccount(object query)
+        public async Task<GetMetricsResponse> GetDeliverabilityBySubaccount(object query)
         {
             return await GetMetrics("deliverability/subaccount", query);
         }
@@ -106,7 +106,7 @@ namespace SparkPost
             return await GetMetrics("deliverability/delay-reason/domain", query);
         }
 
-        public async Task<GetMetricsResponse> GetEngagementByLink(object query)
+        public async Task<GetMetricsResponse> GetEngagementDetails(object query)
         {
             return await GetMetrics("deliverability/link-name", query);
         }

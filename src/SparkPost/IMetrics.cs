@@ -13,7 +13,7 @@ namespace SparkPost
         Task<GetMetricsResponse> GetDeliverabilityBySendingIp(object query);
         Task<GetMetricsResponse> GetDeliverabilityByIpPool(object query);
         Task<GetMetricsResponse> GetDeliverabilityBySendingDomain(object query);
-        Task<GetMetricsResponse> GetDeliverabilityBySubAccount(object query);
+        Task<GetMetricsResponse> GetDeliverabilityBySubaccount(object query);
         Task<GetMetricsResponse> GetDeliverabilityByCampaign(object query);
         Task<GetMetricsResponse> GetDeliverabilityByTemplate(object query);
         Task<GetMetricsResponse> GetDeliverabilityByWatchedDomain(object query);
@@ -25,7 +25,7 @@ namespace SparkPost
         Task<GetMetricsResponse> GetRejectionReasonsByDomain(object query);
         Task<GetMetricsResponse> GetDelayReasons(object query);
         Task<GetMetricsResponse> GetDelayReasonsByDomain(object query);
-        Task<GetMetricsResponse> GetEngagementByLink(object query);
+        Task<GetMetricsResponse> GetEngagementDetails(object query);
         Task<GetMetricsResponse> GetDeliveriesByAttempt(object query);
 
         Task<GetMetricsResourceResponse> GetDomains();

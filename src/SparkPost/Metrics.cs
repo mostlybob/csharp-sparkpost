@@ -13,8 +13,7 @@ namespace SparkPost
     {
         // TODO: List<Dictionary<string, object>> or Dictionary<string, Dictionary<string, object>> ? 
         // TODO: Condense metric fields?
-        // TODO: Get rid of JValue
-
+        
         private readonly IClient client;
         private readonly IRequestSender requestSender;
 
@@ -224,7 +223,8 @@ namespace SparkPost
                 foreach (var item in array)
                 {
                     var key = (MetricsField)item.Name;
-                    dict.Add(key, item.Value);
+                    var val = item.Value.ToObject<object>();
+                    dict.Add(key, val);
                 }
                 result.Add(dict);
             }

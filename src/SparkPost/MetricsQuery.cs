@@ -17,7 +17,7 @@ namespace SparkPost
         public IList<string> IpPools { get; set; }
         public IList<string> SendingDomains { get; set; }
         public IList<string> Subaccounts { get; set; }
-        public IList<MetricsQueryField> Metrics { get; set; }
+        public IList<string> Metrics { get; set; }
         public string TimeZone { get; set; }
         public string Precision { get; set; }
 
@@ -30,7 +30,7 @@ namespace SparkPost
             IpPools = new List<string>();
             SendingDomains = new List<string>();
             Subaccounts = new List<string>();
-            Metrics = new List<MetricsQueryField>();
+            Metrics = new List<string>();
         }
     }
 }

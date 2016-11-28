@@ -11,9 +11,6 @@ namespace SparkPost
 {
     public class Metrics: IMetrics
     {
-        // TODO: List<Dictionary<string, object>> or Dictionary<string, Dictionary<string, object>> ? 
-        // TODO: Condense metric fields?
-        
         private readonly IClient client;
         private readonly IRequestSender requestSender;
 
@@ -179,7 +176,7 @@ namespace SparkPost
             dynamic content = Jsonification.DeserializeObject<dynamic>(response.Content);
 
             var result = new GetMetricsResponse(response);
-            result.Results = ConvertToDictionary(content.results);
+            result.Results = ConvertToDictionaries(content.results);
 
             return result;
         }
@@ -212,17 +209,17 @@ namespace SparkPost
             return result;
         }
 
-        private IList<IDictionary<MetricsField, object>> ConvertToDictionary(dynamic input)
+        private IList<IDictionary<string, object>> ConvertToDictionaries(dynamic input)
         {
-            var result = new List<IDictionary<MetricsField, object>>();
+            var result = new List<IDictionary<string, object>>();
             if (input == null) return result;
 
             foreach (var array in input)
             {
-                var dict = new Dictionary<MetricsField, object>();
+                var dict = new Dictionary<string, object>();
                 foreach (var item in array)
                 {
-                    var key = (MetricsField)item.Name;
+                    var key = (string)item.Name;
                     var val = item.Value.ToObject<object>();
                     dict.Add(key, val);
                 }

@@ -80,7 +80,6 @@
     <Compile Include="Metrics.cs" />
     <Compile Include="MetricsQuery.cs" />
     <Compile Include="MetricsField.cs" />
-    <Compile Include="MetricsQueryField.cs" />
     <Compile Include="MetricsResourceQuery.cs" />
     <Compile Include="PageLink.cs" />
     <Compile Include="RecipientList.cs" />

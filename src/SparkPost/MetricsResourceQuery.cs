@@ -21,6 +21,6 @@ namespace SparkPost
         /// <summary>
         /// Standard timezone identification string, defaults to UTC
         /// </summary>
-        public string TimeZone { get; set; }
+        public string Timezone { get; set; }
     }
 }

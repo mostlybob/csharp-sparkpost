@@ -18,7 +18,7 @@ namespace SparkPost
         public IList<string> SendingDomains { get; set; }
         public IList<string> Subaccounts { get; set; }
         public IList<string> Metrics { get; set; }
-        public string TimeZone { get; set; }
+        public string Timezone { get; set; }
         public string Precision { get; set; }
 
         public MetricsQuery()

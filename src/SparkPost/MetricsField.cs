@@ -15,6 +15,8 @@ namespace SparkPost
         public const string Delivered = "count_delivered";
         public const string DeliveredFirst = "count_delivered_first";
         public const string DeliveredSubsequent = "count_delivered_subsequent";
+        public const string DeliveryTimeFirst = "total_delivery_time_first";
+        public const string DeliveryTimeSubsequent = "total_delivery_time_subsequent";
         public const string Rendered = "count_rendered";
         public const string UniqueRendered = "count_unique_rendered";
         public const string UniqueConfirmedOpened = "count_unique_confirmed_opened";
@@ -57,5 +59,69 @@ namespace SparkPost
         public const string LinkName = "link_name";
         public const string RawClicked = "count_raw_clicked";
         public const string Attempt = "attempt";
+
+        public static IList<string> AllDeliverability
+        {
+            get
+            {
+                return new List<string>() {
+                    Injected,
+                    Bounce,
+                    Rejected,
+                    Delivered,
+                    DeliveredFirst,
+                    DeliveredSubsequent,
+                    DeliveryTimeFirst,
+                    DeliveryTimeSubsequent,
+                    MessageVolume,
+                    PolicyRejection,
+                    GenerationRejection,
+                    GenerationFailed,
+                    InBandBounce,
+                    OutOfBandBounce,
+                    SoftBounce,
+                    HardBounce,
+                    BlockBounce,
+                    AdminBounce,
+                    UndeterminedBounce,
+                    Delayed,
+                    DelayedFirst,
+                    Rendered,
+                    UniqueRendered,
+                    UniqueConfirmedOpened,
+                    Clicked,
+                    UniqueClicked,
+                    Targeted,
+                    Sent,
+                    Accepted,
+                    SpamComplaint,
+                };
+            }
+        }
+
+        public static IList<string> AllBounce
+        {
+            get
+            {
+                return new List<string>()
+                {
+                    Bounce,
+                    InBandBounce,
+                    OutOfBandBounce
+                };
+            }
+        }
+
+        public static IList<string> AllEngagement
+        {
+            get
+            {
+                return new List<string>()
+                {
+                    Clicked,
+                    RawClicked
+                };
+            }
+        }
     }    
 }

@@ -60,6 +60,9 @@ namespace SparkPost
         public const string RawClicked = "count_raw_clicked";
         public const string Attempt = "attempt";
 
+        /// <summary>
+        /// A list of all metrics that are valid for GetDeliverabilityXyz() methods.
+        /// </summary>
         public static IList<string> AllDeliverability
         {
             get
@@ -99,6 +102,9 @@ namespace SparkPost
             }
         }
 
+        /// <summary>
+        /// A list of all metrics that are valid for GetBounceXyz() methods.
+        /// </summary>
         public static IList<string> AllBounce
         {
             get
@@ -112,6 +118,9 @@ namespace SparkPost
             }
         }
 
+        /// <summary>
+        /// A list of all metrics that are valid for GetEngagementDetails().
+        /// </summary>
         public static IList<string> AllEngagement
         {
             get

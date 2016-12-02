@@ -45,6 +45,18 @@ namespace SparkPost.Acceptance
             scenarioContext.Set(transmission);
         }
 
+        [Given(@"the transmission has a text file attachment")]
+        public void GivenTheTransmissionHasATextFileAttachment()
+        {
+            var transmission = scenarioContext.Get<Transmission>();
+
+            var attachment = File.Create<Attachment>("testtextfile.txt");
+
+            transmission.Content.Attachments.Add(attachment);
+
+            scenarioContext.Set(transmission);
+        }
+
         [When(@"I send the transmission")]
         public void WhenISendTheTransmission()
         {

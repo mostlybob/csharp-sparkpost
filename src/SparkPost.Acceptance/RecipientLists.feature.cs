@@ -67,7 +67,7 @@ namespace SparkPost.Acceptance
         {
 #line 3
 #line 4
- testRunner.Given("my api key is \'41687a9a610f1a94062245618c5e47de81739d0d\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("my api key is \'yyy\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
         }
         

@@ -61,8 +61,11 @@
     <Compile Include="CreateSendingDomainResponse.cs" />
     <Compile Include="Dkim.cs" />
     <Compile Include="Dns.cs" />
+    <Compile Include="GetMetricsResponse.cs" />
+    <Compile Include="GetMetricsResourceResponse.cs" />
     <Compile Include="GetSendingDomainResponse.cs" />
     <Compile Include="IMessageEvents.cs" />
+    <Compile Include="IMetrics.cs" />
     <Compile Include="IRecipientLists.cs" />
     <Compile Include="ISendingDomains.cs" />
     <Compile Include="IValueMapper.cs" />
@@ -74,6 +77,10 @@
     <Compile Include="MessageEvents.cs" />
     <Compile Include="MessageEventsQuery.cs" />
     <Compile Include="MessageEventType.cs" />
+    <Compile Include="Metrics.cs" />
+    <Compile Include="MetricsQuery.cs" />
+    <Compile Include="MetricsField.cs" />
+    <Compile Include="MetricsResourceQuery.cs" />
     <Compile Include="PageLink.cs" />
     <Compile Include="RecipientList.cs" />
     <Compile Include="RecipientLists.cs" />

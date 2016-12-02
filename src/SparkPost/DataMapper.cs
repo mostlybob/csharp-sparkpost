@@ -36,6 +36,7 @@ namespace SparkPost
         IDictionary<string, object> ToDictionary(Template template);
         IDictionary<string, object> ToDictionary(TemplateContent templateContent);
         IDictionary<string, object> ToDictionary(TemplateOptions templateOptions);
+        IDictionary<string, object> ToDictionary(MetricsQuery query);
     }
 
     public class DataMapper : IDataMapper
@@ -185,6 +186,21 @@ namespace SparkPost
                 ["subaccounts"] = string.Join(",", query.Subaccounts),
                 ["template_ids"] = string.Join(",", query.TemplateIds),
                 ["transmission_ids"] = string.Join(",", query.TransmissionIds)
+            });
+        }
+
+        public IDictionary<string, object> ToDictionary(MetricsQuery query)
+        {
+            return WithCommonConventions(query, new Dictionary<string, object>()
+            {
+                ["domains"] = string.Join(",", query.Domains),
+                ["campaigns"] = string.Join(",", query.Campaigns),
+                ["templates"] = string.Join(",", query.Templates),
+                ["sending_ips"] = string.Join(",", query.SendingIps),
+                ["ip_pools"] = string.Join(",", query.IpPools),
+                ["sending_domains"] = string.Join(",", query.SendingDomains),
+                ["subaccounts"] = string.Join(",", query.Subaccounts),
+                ["metrics"] = string.Join(",", query.Metrics)
             });
         }
 

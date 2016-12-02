@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using Should;
+using SparkPost.ValueMappers;
 
 namespace SparkPost.Tests
 {
@@ -987,6 +988,188 @@ namespace SparkPost.Tests
                 mapper.ToDictionary(sendingDomain)
                     .ContainsKey("dkim")
                     .ShouldBeFalse();
+            }
+        }
+
+        [TestFixture]
+        public class MetricsQueryTests
+        {
+            private DataMapper _mapper;
+            private MetricsQuery _query;
+            private string _timeFormat = "yyyy-MM-ddTHH:mm";
+
+            [SetUp]
+            public void Setup()
+            {
+                _query = new MetricsQuery();
+                _mapper = new DataMapper("v1");
+            }
+
+            [Test]
+            public void from()
+            {
+                var from = DateTime.Parse("2013-11-29 14:26");
+                _query.From = from;
+                var dict = _mapper.CatchAll(_query);
+                Assert.That(dict["from"].CastTo<string>(), Is.EqualTo(from.ToString(_timeFormat)));
+            }
+
+            [Test]
+            public void to()
+            {
+                var to = DateTime.Parse("2003-08-13 12:15");
+                _query.To = to;
+                var dict = _mapper.CatchAll(_query);
+                Assert.That(dict["to"].CastTo<string>(), Is.EqualTo(to.ToString(_timeFormat)));
+            }
+
+            [Test]
+            public void timezone()
+            {
+                var tz = Guid.NewGuid().ToString();
+                _query.Timezone = tz;
+                var dict = _mapper.CatchAll(_query);
+                Assert.That(dict["timezone"].CastTo<string>(), Is.EqualTo(tz));
+            }
+
+            [Test]
+            public void precision()
+            {
+                var p = Guid.NewGuid().ToString();
+                _query.Precision = p;
+                var dict = _mapper.CatchAll(_query);
+                Assert.That(dict["precision"].CastTo<string>(), Is.EqualTo(p));
+            }
+
+            [TestCase("apple")]
+            [TestCase("apple", "banana", "carrot")]
+            public void campaigns(params string[] list)
+            {
+                _query.Campaigns = list;
+                CheckList(list, "campaigns");
+            }
+
+            [TestCase("apple")]
+            [TestCase("apple", "banana", "carrot")]
+            public void domains(params string[] list)
+            {
+                _query.Domains = list;
+                CheckList(list, "domains");
+            }
+
+            [TestCase("apple")]
+            [TestCase("apple", "banana", "carrot")]
+            public void templates(params string[] list)
+            {
+                _query.Templates = list;
+                CheckList(list, "templates");
+            }
+
+            [TestCase("apple")]
+            [TestCase("apple", "banana", "carrot")]
+            public void sendingips(params string[] list)
+            {
+                _query.SendingIps = list;
+                CheckList(list, "sending_ips");
+            }
+
+            [TestCase("apple")]
+            [TestCase("apple", "banana", "carrot")]
+            public void ippools(params string[] list)
+            {
+                _query.IpPools = list;
+                CheckList(list, "ip_pools");
+            }
+
+            [TestCase("apple")]
+            [TestCase("apple", "banana", "carrot")]
+            public void sendingdomains(params string[] list)
+            {
+                _query.SendingDomains = list;
+                CheckList(list, "sending_domains");
+            }
+
+            [TestCase("apple")]
+            [TestCase("apple", "banana", "carrot")]
+            public void subaccounts(params string[] list)
+            {
+                _query.Subaccounts = list;
+                CheckList(list, "subaccounts");
+            }
+
+            [TestCase("apple")]
+            [TestCase("apple", "banana", "carrot")]
+            public void metrics(params string[] list)
+            {
+                _query.Metrics = list;
+                CheckList(list, "metrics");
+            }
+
+            private void CheckList(IList<string> list, string k)
+            {
+                var cat = String.Join(",", list);
+                var dict = _mapper.CatchAll(_query);
+                Assert.That(dict[k].CastTo<string>(), Is.EqualTo(cat));
+            }
+        }
+
+        [TestFixture]
+        public class MetricsResourceQueryTests
+        {
+            private DataMapper _mapper;
+            private MetricsResourceQuery _query;
+            private string _timeFormat = "yyyy-MM-ddTHH:mm";
+
+            [SetUp]
+            public void Setup()
+            {
+                _query = new MetricsResourceQuery();
+                _mapper = new DataMapper("v1");
+            }
+
+            [Test]
+            public void from()
+            {
+                var from = DateTime.Parse("2013-11-29 14:26");
+                _query.From = from;
+                var dict = _mapper.CatchAll(_query);
+                Assert.That(dict["from"].CastTo<string>(), Is.EqualTo(from.ToString(_timeFormat)));
+            }
+
+            [Test]
+            public void to()
+            {
+                var to = DateTime.Parse("2003-08-13 12:15");
+                _query.To = to;
+                var dict = _mapper.CatchAll(_query);
+                Assert.That(dict["to"].CastTo<string>(), Is.EqualTo(to.ToString(_timeFormat)));
+            }
+
+            [Test]
+            public void timezone()
+            {
+                var tz = Guid.NewGuid().ToString();
+                _query.Timezone = tz;
+                var dict = _mapper.CatchAll(_query);
+                Assert.That(dict["timezone"].CastTo<string>(), Is.EqualTo(tz));
+            }
+
+            [Test]
+            public void match()
+            {
+                var p = Guid.NewGuid().ToString();
+                _query.Match = p;
+                var dict = _mapper.CatchAll(_query);
+                Assert.That(dict["match"].CastTo<string>(), Is.EqualTo(p));
+            }
+
+            [Test]
+            public void limit()
+            {
+                var r = new Random().Next();
+                _query.Limit = r;
+                var dict = _mapper.CatchAll(_query);
+                Assert.That(dict["limit"].CastTo<int>(), Is.EqualTo(r));
             }
         }
     }

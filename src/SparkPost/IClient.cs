@@ -63,6 +63,11 @@
         ITemplates Templates { get; }
 
         /// <summary>
+        /// Gets access to the metrics resource of the SparkPost API.
+        /// </summary>
+        IMetrics Metrics { get; }
+
+        /// <summary>
         /// Gets the API version supported by this client.
         /// </summary>
         string Version { get; }

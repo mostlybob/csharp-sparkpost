@@ -20,7 +20,6 @@ namespace SparkPost
             this.requestSender = requestSender;
         }
 
-        #region Metrics
         /// <summary>
         /// Provides high-level summary of aggregate metrics.
         /// </summary>
@@ -210,9 +209,7 @@ namespace SparkPost
         {
             return await GetMetrics("deliverability/attempt", query);
         }
-        #endregion
 
-        #region Resources
         /// <summary>
         /// Returns a list of domains that the Metrics API contains data on.
         /// </summary>
@@ -288,7 +285,6 @@ namespace SparkPost
         {
             return await GetMetricsResource("campaigns", metricsSimpleQuery);
         }
-        #endregion
 
         private async Task<GetMetricsResourceResponse> GetMetricsResource(string resourceName, object query)
         {

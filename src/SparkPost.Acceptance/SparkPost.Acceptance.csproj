@@ -52,7 +52,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MetricsSteps.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Metrics.feature.cs">
+      <DependentUpon>Metrics.feature</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Transmissions.feature.cs">
       <DependentUpon>Transmissions.feature</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -77,6 +83,10 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+    <None Include="Metrics.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>Metrics.feature.cs</LastGenOutput>
+    </None>
     <None Include="Transmissions.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>Transmissions.feature.cs</LastGenOutput>

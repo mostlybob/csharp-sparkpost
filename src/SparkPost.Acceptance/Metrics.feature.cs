@@ -73,10 +73,10 @@ namespace SparkPost.Acceptance
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Sending a regular email")]
-        public virtual void SendingARegularEmail()
+        [NUnit.Framework.DescriptionAttribute("Checking for count accepted")]
+        public virtual void CheckingForCountAccepted()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Sending a regular email", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Checking for count accepted", ((string[])(null)));
 #line 6
 this.ScenarioSetup(scenarioInfo);
 #line 3

@@ -1,7 +1,7 @@
 ﻿Feature: Recipient Lists
 
 Background:
-	Given my api key is '41687a9a610f1a94062245618c5e47de81739d0d'
+	Given my api key is 'yyy'
 
 Scenario: Retrieving a recipient list
 	Given I do not have a recipient list of id 'test-name'

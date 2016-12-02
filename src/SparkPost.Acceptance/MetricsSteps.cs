@@ -25,6 +25,22 @@ namespace SparkPost.Acceptance
             ScenarioContext.Current.Set(response);
         }
 
+        [When(@"I query my bounce reasons")]
+        public void y()
+        {
+            var client = ScenarioContext.Current.Get<IClient>();
+            Response response = null;
+            Task.Run(async () =>
+            {
+                response = await client.Metrics.GetBounceReasons(new
+                {
+                    from = DateTime.MinValue
+                });
+            }).Wait();
+
+            ScenarioContext.Current.Set(response);
+        }
+
         [Then("it should return some metrics count")]
         public void x()
         {

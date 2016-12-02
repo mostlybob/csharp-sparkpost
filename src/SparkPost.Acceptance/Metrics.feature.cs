@@ -68,7 +68,7 @@ namespace SparkPost.Acceptance
         {
 #line 3
 #line 4
- testRunner.Given("my api key is \'yyyy\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("my api key is \'yyy\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
         }
         
@@ -86,6 +86,25 @@ this.FeatureBackground();
 #line 8
  testRunner.Then("it should return a 200", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 9
+ testRunner.And("it should return some metrics count", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Bounce reasons")]
+        public virtual void BounceReasons()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Bounce reasons", ((string[])(null)));
+#line 11
+this.ScenarioSetup(scenarioInfo);
+#line 3
+this.FeatureBackground();
+#line 12
+ testRunner.When("I query my bounce reasons", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 13
+ testRunner.Then("it should return a 200", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 14
  testRunner.And("it should return some metrics count", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Should;
 using TechTalk.SpecFlow;
 
 namespace SparkPost.Acceptance
@@ -7,8 +8,8 @@ namespace SparkPost.Acceptance
     [Binding]
     public class MetricsSteps
     {
-        [When(@"I query my deliverability")]
-        public void WhenIQueryMyDeliverability()
+        [When(@"I query my deliverability for (.*)")]
+        public void WhenIQueryMyDeliverability(string metric)
         {
             var client = ScenarioContext.Current.Get<IClient>();
             Response response = null;
@@ -17,11 +18,18 @@ namespace SparkPost.Acceptance
                 response = await client.Metrics.GetDeliverability(new
                 {
                     from = DateTime.MinValue,
-                    metrics = "count_accepted"
+                    metrics = metric
                 });
             }).Wait();
 
             ScenarioContext.Current.Set(response);
+        }
+
+        [Then("it should return some metrics count")]
+        public void x()
+        {
+            var response = ScenarioContext.Current.Get<Response>();
+            response.ShouldBeType(typeof(GetMetricsResponse));
         }
     }
 }

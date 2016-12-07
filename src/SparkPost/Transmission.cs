@@ -62,11 +62,16 @@ namespace SparkPost
 
             var textTypes = new[] { MediaTypeNames.Text.Plain, MediaTypeNames.Text.Html };
             var views = message.AlternateViews;
-            if (views.Count < 2 &&
+            if (views.Any() && views.Count <= 2 &&
                 !views.Select(av => av.ContentType.MediaType).Except(textTypes).Any())
             {
-                Content.Text = GetViewContent(views, MediaTypeNames.Text.Plain);
-                Content.Html = GetViewContent(views, MediaTypeNames.Text.Html);
+                var text = GetViewContent(views, MediaTypeNames.Text.Plain);
+                if (text != null)
+                    Content.Text = text;
+
+                var html = GetViewContent(views, MediaTypeNames.Text.Html);
+                if (html != null)
+                    Content.Html = html;
             }
             
             foreach (var attach in message.Attachments)

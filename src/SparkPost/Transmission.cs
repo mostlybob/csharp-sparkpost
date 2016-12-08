@@ -95,8 +95,13 @@ namespace SparkPost
 
         private void AddRecipients(MailAddressCollection addresses, RecipientType type)
         {
-            foreach (var address in addresses)
-                Recipients.Add(ConvertToARecipient(type, address));
+            foreach(var recipient in ConvertToRecipients(addresses, type))
+                Recipients.Add(recipient);
+        }
+
+        private static IEnumerable<Recipient> ConvertToRecipients(MailAddressCollection addresses, RecipientType type)
+        {
+            return addresses.Select(a => ConvertToARecipient(type, a));
         }
 
         private static Recipient ConvertToARecipient(RecipientType type, MailAddress address)

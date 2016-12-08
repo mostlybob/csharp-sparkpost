@@ -63,19 +63,27 @@ namespace SparkPost
             foreach (var action in actions)
                 action(this, message);
 
-            var textTypes = new[] { MediaTypeNames.Text.Plain, MediaTypeNames.Text.Html };
             var views = message.AlternateViews;
-            if (views.Any() && views.Count <= 2 &&
-                !views.Select(av => av.ContentType.MediaType).Except(textTypes).Any())
-            {
-                var text = GetViewContent(views, MediaTypeNames.Text.Plain);
-                if (text != null)
-                    Content.Text = text;
 
-                var html = GetViewContent(views, MediaTypeNames.Text.Html);
-                if (html != null)
-                    Content.Html = html;
-            }
+            var text = GetTheAlternativeView(views, MediaTypeNames.Text.Plain);
+            if (text != null)
+                Content.Text = text;
+
+            var html = GetTheAlternativeView(views, MediaTypeNames.Text.Html);
+            if (html != null)
+                Content.Html = html;
+        }
+
+        private static string GetTheAlternativeView(AlternateViewCollection views, string type)
+        {
+            return AlternativeViewsAreAvailable(views) ? GetViewContent(views, type) : null;
+        }
+
+        private static bool AlternativeViewsAreAvailable(AlternateViewCollection views)
+        {
+            var textTypes = new[] { MediaTypeNames.Text.Plain, MediaTypeNames.Text.Html };
+            return views.Any() && views.Count <= 2 &&
+                   !views.Select(av => av.ContentType.MediaType).Except(textTypes).Any();
         }
 
         private static Address ConvertToAddress(MailAddress address)

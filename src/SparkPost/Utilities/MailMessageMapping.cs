@@ -4,37 +4,48 @@ using System.IO;
 using System.Linq;
 using System.Net.Mail;
 using System.Net.Mime;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SparkPost.Utilities
 {
     public static class MailMessageMapping
     {
-        private static readonly Action<Transmission, MailMessage>[] Actions = {
+        private static readonly Action<Transmission, MailMessage>[] Actions =
+        {
             (t, m) => t.Content.From = ConvertToAddress(m.From),
             (t, m) => t.Content.Subject = m.Subject,
             (t, m) => AddRecipients(t, m.To, RecipientType.To),
             (t, m) => AddRecipients(t, m.CC, RecipientType.CC),
             (t, m) => AddRecipients(t, m.Bcc, RecipientType.BCC),
-            (t, m) => { if (m.ReplyToList.Any()) t.Content.ReplyTo = m.ReplyToList.First().Address; },
-            (t, m) => { if (m.IsBodyHtml) t.Content.Html = m.Body;},
-            (t, m) => { if (!m.IsBodyHtml) t.Content.Text = m.Body;},
-            (t, m) => {
-                        foreach (var attachment in m.Attachments)
-                            t.Content.Attachments
-                                .Add(File.Create<Attachment>(attachment.ContentStream, attachment.ContentType.Name));
-                      },
-            (t, m) => {
-                        var text = GetTheAlternativeView(m.AlternateViews, MediaTypeNames.Text.Plain);
-                        if (text != null)
-                            t.Content.Text = text;
-                      },
-            (t, m) => {
-                        var html = GetTheAlternativeView(m.AlternateViews, MediaTypeNames.Text.Html);
-                        if (html != null)
-                            t.Content.Html = html;
-                      }
+            (t, m) =>
+            {
+                if (m.ReplyToList.Any()) t.Content.ReplyTo = m.ReplyToList.First().Address;
+            },
+            (t, m) =>
+            {
+                if (m.IsBodyHtml) t.Content.Html = m.Body;
+            },
+            (t, m) =>
+            {
+                if (!m.IsBodyHtml) t.Content.Text = m.Body;
+            },
+            (t, m) =>
+            {
+                foreach (var attachment in m.Attachments)
+                    t.Content.Attachments
+                        .Add(File.Create<Attachment>(attachment.ContentStream, attachment.ContentType.Name));
+            },
+            (t, m) =>
+            {
+                var text = GetTheAlternativeView(m.AlternateViews, MediaTypeNames.Text.Plain);
+                if (text != null)
+                    t.Content.Text = text;
+            },
+            (t, m) =>
+            {
+                var html = GetTheAlternativeView(m.AlternateViews, MediaTypeNames.Text.Html);
+                if (html != null)
+                    t.Content.Html = html;
+            }
         };
 
         public static Transmission ToTransmission(MailMessage message)
@@ -58,8 +69,8 @@ namespace SparkPost.Utilities
 
         private static bool AlternativeViewsAreAvailable(AlternateViewCollection views)
         {
-            var textTypes = new[] { MediaTypeNames.Text.Plain, MediaTypeNames.Text.Html };
-            return views.Any() && views.Count <= 2 &&
+            var textTypes = new[] {MediaTypeNames.Text.Plain, MediaTypeNames.Text.Html};
+            return views.Any() && (views.Count <= 2) &&
                    !views.Select(av => av.ContentType.MediaType).Except(textTypes).Any();
         }
 
@@ -74,7 +85,7 @@ namespace SparkPost.Utilities
             return view == null ? null : GetViewContent(view);
         }
 
-        private static string GetViewContent(AlternateView view)
+        private static string GetViewContent(AttachmentBase view)
         {
             var reader = new StreamReader(view.ContentStream);
 
@@ -86,7 +97,7 @@ namespace SparkPost.Utilities
 
         private static void AddRecipients(Transmission transmission, MailAddressCollection addresses, RecipientType type)
         {
-            foreach(var recipient in ConvertToRecipients(addresses, type))
+            foreach (var recipient in ConvertToRecipients(addresses, type))
                 transmission.Recipients.Add(recipient);
         }
 

@@ -68,8 +68,6 @@ namespace SparkPost.Tests
                 mailMessage.Body = "Unit test message";
                 mailMessage.Subject = "Test ssubject";
 
-
-
                 transmission = new Transmission(mailMessage);                
             }
 

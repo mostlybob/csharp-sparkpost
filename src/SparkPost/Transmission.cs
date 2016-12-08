@@ -43,20 +43,25 @@ namespace SparkPost
 
         private void LoadFrom(MailMessage message)
         {
-            Content.From = ConvertToAddress(message.From);
-            Content.Subject = message.Subject;
+            var actions = new Action<Transmission, MailMessage>[]
+            {
+                (t, m) => t.Content.From = ConvertToAddress(m.From),
+                (t, m) => t.Content.Subject = message.Subject,
+                (t, m) => AddRecipients(t, message.To, RecipientType.To),
+                (t, m) => AddRecipients(t, message.CC, RecipientType.CC),
+                (t, m) => AddRecipients(t, message.Bcc, RecipientType.BCC),
+                (t, m) => { if (message.ReplyToList.Any()) Content.ReplyTo = message.ReplyToList.First().Address; },
+                (t, m) => { if (message.IsBodyHtml) Content.Html = message.Body;},
+                (t, m) => { if (!message.IsBodyHtml) Content.Text = message.Body;},
+                (t, m) => {
+                            foreach (var attachment in message.Attachments)
+                                Content.Attachments
+                                    .Add(File.Create<Attachment>(attachment.ContentStream, attachment.ContentType.Name));
+                          },
+            };
 
-            AddRecipients(message.To, RecipientType.To);
-            AddRecipients(message.CC, RecipientType.CC);
-            AddRecipients(message.Bcc, RecipientType.BCC);
-
-            if (message.ReplyToList.Any())
-                Content.ReplyTo = message.ReplyToList.First().Address;
-
-            if (message.IsBodyHtml)
-                Content.Html = message.Body;
-            else
-                Content.Text = message.Body;
+            foreach (var action in actions)
+                action(this, message);
 
             var textTypes = new[] { MediaTypeNames.Text.Plain, MediaTypeNames.Text.Html };
             var views = message.AlternateViews;
@@ -71,10 +76,6 @@ namespace SparkPost
                 if (html != null)
                     Content.Html = html;
             }
-            
-            foreach (var attachment in message.Attachments)
-                Content.Attachments
-                    .Add(File.Create<Attachment>(attachment.ContentStream, attachment.ContentType.Name));
         }
 
         private static Address ConvertToAddress(MailAddress address)
@@ -98,10 +99,10 @@ namespace SparkPost
             return reader.ReadToEnd();
         }
 
-        private void AddRecipients(MailAddressCollection addresses, RecipientType type)
+        private static void AddRecipients(Transmission transmission, MailAddressCollection addresses, RecipientType type)
         {
             foreach(var recipient in ConvertToRecipients(addresses, type))
-                Recipients.Add(recipient);
+                transmission.Recipients.Add(recipient);
         }
 
         private static IEnumerable<Recipient> ConvertToRecipients(MailAddressCollection addresses, RecipientType type)

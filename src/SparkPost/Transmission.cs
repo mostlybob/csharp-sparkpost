@@ -20,7 +20,7 @@ namespace SparkPost
 
         public Transmission(MailMessage message): this()
         {
-            Parse(message);
+            LoadFrom(message);
         }
 
         public string Id { get; set; }
@@ -41,7 +41,7 @@ namespace SparkPost
         public int NumFailedGeneration { get; set; }
         public int NumInvalidRecipients { get; set; }
 
-        public void Parse(MailMessage message)
+        private void LoadFrom(MailMessage message)
         {
             Content.From = ConvertToAddress(message.From);
             Content.Subject = message.Subject;

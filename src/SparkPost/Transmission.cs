@@ -73,13 +73,11 @@ namespace SparkPost
             }
             
             foreach (var attachment in message.Attachments)
-            {
-                var newAttach = File.Create<Attachment>(attachment.ContentStream, attachment.ContentType.Name);
-                Content.Attachments.Add(newAttach);
-            }
+                Content.Attachments
+                    .Add(File.Create<Attachment>(attachment.ContentStream, attachment.ContentType.Name));
         }
 
-        private string GetViewContent(AlternateViewCollection views, string type)
+        private static string GetViewContent(AlternateViewCollection views, string type)
         {
             var view = views.FirstOrDefault(v => v.ContentType.MediaType == type);
             if (view == null) return null;

@@ -1,9 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Net.Mail;
-using System.Net.Mime;
-using System.Linq;
-using System;
-using System.IO;
 using SparkPost.Utilities;
 
 namespace SparkPost
@@ -16,10 +12,10 @@ namespace SparkPost
             Metadata = new Dictionary<string, object>();
             SubstitutionData = new Dictionary<string, object>();
             Content = new Content();
-            Options = new Options();            
+            Options = new Options();
         }
 
-        public Transmission(MailMessage message): this()
+        public Transmission(MailMessage message) : this()
         {
             MailMessageMapping.ToTransmission(message, this);
         }

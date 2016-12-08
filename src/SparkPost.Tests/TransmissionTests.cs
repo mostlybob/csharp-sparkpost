@@ -68,7 +68,7 @@ namespace SparkPost.Tests
                 mailMessage.Body = "Unit test message";
                 mailMessage.Subject = "Test ssubject";
 
-                transmission = new Transmission(mailMessage);
+                transmission = Transmission.Parse(mailMessage);
             }
 
             [Test]
@@ -133,7 +133,7 @@ namespace SparkPost.Tests
             public void Html_body_should_match()
             {
                 mailMessage.IsBodyHtml = true;
-                transmission = new Transmission(mailMessage);
+                transmission = Transmission.Parse(mailMessage);
                 Assert.That(transmission.Content.Html, Is.EqualTo(mailMessage.Body));
             }
 
@@ -143,7 +143,7 @@ namespace SparkPost.Tests
                 var html = "<p>Html body</p>";
                 var view = AlternateView.CreateAlternateViewFromString(html, null, MediaTypeNames.Text.Html);
                 mailMessage.AlternateViews.Add(view);
-                transmission = new Transmission(mailMessage);
+                transmission = Transmission.Parse(mailMessage);
 
                 Assert.That(transmission.Content.Html, Is.EqualTo(html));
             }
@@ -155,7 +155,7 @@ namespace SparkPost.Tests
                 var text = "Text body";
                 var view = AlternateView.CreateAlternateViewFromString(text, null, MediaTypeNames.Text.Plain);
                 mailMessage.AlternateViews.Add(view);
-                transmission = new Transmission(mailMessage);
+                transmission = Transmission.Parse(mailMessage);
 
                 Assert.That(transmission.Content.Text, Is.EqualTo(text));
             }
@@ -169,7 +169,7 @@ namespace SparkPost.Tests
                 mailMessage.AlternateViews.Add(view);
                 view = AlternateView.CreateAlternateViewFromString(html, null, MediaTypeNames.Text.Html);
                 mailMessage.AlternateViews.Add(view);
-                transmission = new Transmission(mailMessage);
+                transmission = Transmission.Parse(mailMessage);
 
                 Assert.That(transmission.Content.Text, Is.EqualTo(text));
                 Assert.That(transmission.Content.Html, Is.EqualTo(html));
@@ -183,7 +183,7 @@ namespace SparkPost.Tests
                 var type = "text/plain";
                 var ms = new MemoryStream(Encoding.ASCII.GetBytes(text));
                 mailMessage.Attachments.Add(new System.Net.Mail.Attachment(ms, name, type));
-                transmission = new Transmission(mailMessage);
+                transmission = Transmission.Parse(mailMessage);
 
                 Assert.That(transmission.Content.Attachments.Count, Is.EqualTo(1));
                 Assert.That(transmission.Content.Attachments.First().Type, Is.EqualTo(type));

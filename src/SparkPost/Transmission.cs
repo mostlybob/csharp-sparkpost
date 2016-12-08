@@ -51,9 +51,7 @@ namespace SparkPost
             AddRecipients(message.Bcc, RecipientType.BCC);
 
             if (message.ReplyToList.Any())
-            {
                 Content.ReplyTo = message.ReplyToList.First().Address;
-            }
 
             if (message.IsBodyHtml)
                 Content.Html = message.Body;

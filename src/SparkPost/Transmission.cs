@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Net.Mail;
+using SparkPost.Utilities;
 
 namespace SparkPost
 {
@@ -11,6 +13,11 @@ namespace SparkPost
             SubstitutionData = new Dictionary<string, object>();
             Content = new Content();
             Options = new Options();
+        }
+
+        public Transmission(MailMessage message) : this()
+        {
+            MailMessageMapping.ToTransmission(message, this);
         }
 
         public string Id { get; set; }

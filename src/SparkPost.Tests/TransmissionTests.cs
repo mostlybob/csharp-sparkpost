@@ -68,10 +68,9 @@ namespace SparkPost.Tests
                 mailMessage.Body = "Unit test message";
                 mailMessage.Subject = "Test ssubject";
 
-                transmission = new Transmission(mailMessage);                
+                transmission = new Transmission(mailMessage);
             }
 
-            
             [Test]
             public void From_should_match()
             {

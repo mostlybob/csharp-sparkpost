@@ -72,39 +72,34 @@ namespace SparkPost
                     Content.Html = html;
             }
             
-            foreach (var attach in message.Attachments)
+            foreach (var attachment in message.Attachments)
             {
-                var newAttach = File.Create<Attachment>(attach.ContentStream, attach.ContentType.Name);
+                var newAttach = File.Create<Attachment>(attachment.ContentStream, attachment.ContentType.Name);
                 Content.Attachments.Add(newAttach);
             }
         }
 
         private string GetViewContent(AlternateViewCollection views, string type)
         {
-            string result = null;
-
             var view = views.FirstOrDefault(v => v.ContentType.MediaType == type);
-            if (view != null)
-            { 
-                var rdr = new StreamReader(view.ContentStream);
-                if (view.ContentStream.CanSeek)
-                    view.ContentStream.Position = 0;
-                result = rdr.ReadToEnd();
-            }
+            if (view == null) return null;
 
-            return result;
+            var reader = new StreamReader(view.ContentStream);
+            if (view.ContentStream.CanSeek)
+                view.ContentStream.Position = 0;
+            return reader.ReadToEnd();
         }
 
-        private void AddRecipients(MailAddressCollection addrs, RecipientType type)
+        private void AddRecipients(MailAddressCollection addresses, RecipientType type)
         {
-            foreach (var addr in addrs)
+            foreach (var address in addresses)
             {
-                var recp = new Recipient()
+                var recipient = new Recipient()
                 {
                     Type = type,
-                    Address = new Address(addr.Address, addr.DisplayName)
+                    Address = new Address(address.Address, address.DisplayName)
                 };
-                Recipients.Add(recp);
+                Recipients.Add(recipient);
             }
         }
     }

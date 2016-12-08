@@ -80,11 +80,16 @@ namespace SparkPost
         private static string GetViewContent(AlternateViewCollection views, string type)
         {
             var view = views.FirstOrDefault(v => v.ContentType.MediaType == type);
-            if (view == null) return null;
+            return view == null ? null : GetViewContent(view);
+        }
 
+        private static string GetViewContent(AlternateView view)
+        {
             var reader = new StreamReader(view.ContentStream);
+
             if (view.ContentStream.CanSeek)
                 view.ContentStream.Position = 0;
+
             return reader.ReadToEnd();
         }
 

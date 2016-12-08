@@ -21,7 +21,7 @@ namespace SparkPost
 
         public Transmission(MailMessage message): this()
         {
-            LoadFrom(message);
+            MailMessageMapping.ToTransmission(message, this);
         }
 
         public string Id { get; set; }
@@ -41,10 +41,5 @@ namespace SparkPost
         public int NumGenerated { get; set; }
         public int NumFailedGeneration { get; set; }
         public int NumInvalidRecipients { get; set; }
-
-        private void LoadFrom(MailMessage message)
-        {
-            MailMessageMapping.ToTransmission(message, this);
-        }
     }
 }

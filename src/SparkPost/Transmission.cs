@@ -35,9 +35,7 @@ namespace SparkPost
 
         public static Transmission Parse(MailMessage message)
         {
-            var transmission = new Transmission();
-            MailMessageMapping.ToTransmission(message, transmission);
-            return transmission;
+            return MailMessageMapping.ToTransmission(message);
         }
 
         public void LoadFrom(MailMessage message)

@@ -74,8 +74,8 @@ namespace SparkPost.Tests
             [Test]
             public void From_should_match()
             {
-                Assert.That(transmission.Content.From.Name, Is.EqualTo(mailMessage.From.DisplayName));
-                Assert.That(transmission.Content.From.Email, Is.EqualTo(mailMessage.From.Address));
+                transmission.Content.From.Name.ShouldEqual(mailMessage.From.DisplayName);
+                transmission.Content.From.Email.ShouldEqual(mailMessage.From.Address);
             }
 
             [Test]

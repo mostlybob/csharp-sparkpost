@@ -43,7 +43,7 @@ namespace SparkPost
 
         public void Parse(MailMessage message)
         {
-            Content.From = new Address(message.From.Address, message.From.DisplayName);
+            Content.From = ConvertToAddress(message.From);
             Content.Subject = message.Subject;
 
             AddRecipients(message.To, RecipientType.To);
@@ -75,6 +75,11 @@ namespace SparkPost
             foreach (var attachment in message.Attachments)
                 Content.Attachments
                     .Add(File.Create<Attachment>(attachment.ContentStream, attachment.ContentType.Name));
+        }
+
+        private static Address ConvertToAddress(MailAddress address)
+        {
+            return new Address(address.Address, address.DisplayName);
         }
 
         private static string GetViewContent(AlternateViewCollection views, string type)
@@ -109,7 +114,7 @@ namespace SparkPost
             return new Recipient()
             {
                 Type = type,
-                Address = new Address(address.Address, address.DisplayName)
+                Address = ConvertToAddress(address)
             };
         }
     }

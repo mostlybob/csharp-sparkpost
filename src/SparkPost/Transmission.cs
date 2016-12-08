@@ -37,5 +37,10 @@ namespace SparkPost
         public int NumGenerated { get; set; }
         public int NumFailedGeneration { get; set; }
         public int NumInvalidRecipients { get; set; }
+
+        public void LoadFrom(MailMessage message)
+        {
+            MailMessageMapping.ToTransmission(message, this);
+        }
     }
 }

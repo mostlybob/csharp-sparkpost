@@ -15,11 +15,6 @@ namespace SparkPost
             Options = new Options();
         }
 
-        public Transmission(MailMessage message) : this()
-        {
-            MailMessageMapping.ToTransmission(message, this);
-        }
-
         public string Id { get; set; }
         public string State { get; set; }
         public Options Options { get; set; }
@@ -37,6 +32,13 @@ namespace SparkPost
         public int NumGenerated { get; set; }
         public int NumFailedGeneration { get; set; }
         public int NumInvalidRecipients { get; set; }
+
+        public static Transmission Parse(MailMessage message)
+        {
+            var transmission = new Transmission();
+            MailMessageMapping.ToTransmission(message, transmission);
+            return transmission;
+        }
 
         public void LoadFrom(MailMessage message)
         {

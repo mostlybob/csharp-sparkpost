@@ -58,20 +58,20 @@ namespace SparkPost
                                 Content.Attachments
                                     .Add(File.Create<Attachment>(attachment.ContentStream, attachment.ContentType.Name));
                           },
+                (t, m) => {
+                            var text = GetTheAlternativeView(message.AlternateViews, MediaTypeNames.Text.Plain);
+                            if (text != null)
+                                Content.Text = text;
+                          },
+                (t, m) => {
+                            var html = GetTheAlternativeView(message.AlternateViews, MediaTypeNames.Text.Html);
+                            if (html != null)
+                                Content.Html = html;
+                          }
             };
 
             foreach (var action in actions)
                 action(this, message);
-
-            var views = message.AlternateViews;
-
-            var text = GetTheAlternativeView(views, MediaTypeNames.Text.Plain);
-            if (text != null)
-                Content.Text = text;
-
-            var html = GetTheAlternativeView(views, MediaTypeNames.Text.Html);
-            if (html != null)
-                Content.Html = html;
         }
 
         private static string GetTheAlternativeView(AlternateViewCollection views, string type)

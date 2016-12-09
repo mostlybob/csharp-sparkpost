@@ -132,8 +132,8 @@ namespace SparkPost
                 suppressions.Add(new Suppression
                 {
                     Description = result.description,
-                    Transactional = result.transactional,
-                    NonTransactional = result.non_transactional,
+                    Transactional = result.transactional == true,
+                    NonTransactional = result.non_transactional == true,
                     Email = result.recipient,
                     Source = result.source,
                     Created = result.created,

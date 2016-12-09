@@ -59,6 +59,12 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="SuppressionsSteps.cs" />
+    <Compile Include="Suppressions.feature.cs">
+      <DependentUpon>Suppressions.feature</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Transmissions.feature.cs">
       <DependentUpon>Transmissions.feature</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -86,6 +92,10 @@
     <None Include="Metrics.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>Metrics.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Suppressions.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>Suppressions.feature.cs</LastGenOutput>
     </None>
     <None Include="Transmissions.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>

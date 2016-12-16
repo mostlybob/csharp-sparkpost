@@ -75,6 +75,7 @@
     <Compile Include="ListSendingDomainResponse.cs" />
     <Compile Include="MessageEvent.cs" />
     <Compile Include="MessageEvents.cs" />
+    <Compile Include="MessageEventSampleResponse.cs" />
     <Compile Include="MessageEventsQuery.cs" />
     <Compile Include="MessageEventType.cs" />
     <Compile Include="Metrics.cs" />

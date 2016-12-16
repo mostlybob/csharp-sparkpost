@@ -51,6 +51,11 @@ namespace SparkPost
             return listMessageEventsResponse;
         }
 
+        public Task<MessageEventSampleResponse> SamplesOf(string events)
+        {
+            throw new System.NotImplementedException();
+        }
+
         private static IEnumerable<PageLink> ConvertToLinks(dynamic page_links)
         {
             var links = new List<PageLink>();

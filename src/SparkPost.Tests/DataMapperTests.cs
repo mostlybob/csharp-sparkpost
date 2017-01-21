@@ -340,7 +340,7 @@ namespace SparkPost.Tests
                     .CastAs<IDictionary<string, string>>()
                     ["CC"];
 
-                cc.ShouldEqual("<" + recipient1.Address.Email + ">,<" + recipient3.Address.Email + ">");
+                cc.ShouldEqual(recipient1.Address.Email + ", " + recipient3.Address.Email);
             }
 
             [Test]
@@ -350,7 +350,8 @@ namespace SparkPost.Tests
                 var value = Guid.NewGuid().ToString();
 
                 var recipient1 = new Recipient {Type = RecipientType.CC, Address = new Address {Email = Guid.NewGuid().ToString()}};
-                transmission.Recipients = new List<Recipient> {recipient1};
+                var toRecipient = new Recipient { Type = RecipientType.To, Address = new Address() };
+                transmission.Recipients = new List<Recipient> {recipient1, toRecipient};
 
                 transmission.Content.Headers[key] = value;
 
@@ -403,7 +404,8 @@ namespace SparkPost.Tests
                 var recipient1 = new Recipient {Type = RecipientType.CC, Address = new Address {Email = ""}};
                 var recipient2 = new Recipient {Type = RecipientType.CC, Address = new Address {Email = null}};
                 var recipient3 = new Recipient {Type = RecipientType.CC, Address = new Address {Email = " "}};
-                transmission.Recipients = new List<Recipient> {recipient1, recipient2, recipient3};
+                var toRecipient = new Recipient { Type = RecipientType.To, Address = new Address() };
+                transmission.Recipients = new List<Recipient> {recipient1, recipient2, recipient3, toRecipient};
 
                  mapper.ToDictionary(transmission)
                     ["content"]
@@ -416,7 +418,8 @@ namespace SparkPost.Tests
             public void It_should_ignore_any_cc_recipients_with_no_address()
             {
                 var recipient1 = new Recipient {Type = RecipientType.CC, Address = null};
-                transmission.Recipients = new List<Recipient> {recipient1};
+                var toRecipient = new Recipient { Type = RecipientType.To, Address = new Address() };
+                transmission.Recipients = new List<Recipient> {recipient1, toRecipient};
 
                  mapper.ToDictionary(transmission)
                     ["content"]

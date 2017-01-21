@@ -13,16 +13,13 @@ namespace SparkPost
             if (recipients.All(r => r.Type == RecipientType.To))
                 return;
 
-            var toRecipientCount = recipients.Count(r => r.Type == RecipientType.To);
-
-            if (toRecipientCount == 0)
-                throw new ArgumentException("Transmission has no To recipient defined.");
-            if (toRecipientCount > 1)
-                throw new ArgumentException("Transmission has more than one To recipient defined.");
+            if (recipients.Count(r => r.Type == RecipientType.To) != 1)
+                throw new ArgumentException("There must be exactly one 'To' recipient if there are copied recipients.");
 
             var toRecipient = recipients.Single(r => r.Type == RecipientType.To);
             if (toRecipient.Address == null)
-                throw new ArgumentException("To recipient has no address.");
+                throw new ArgumentException("'To' recipient has no address.");
+
             var toName = toRecipient.Address.Name;
             var toEmail = toRecipient.Address.Email;
 

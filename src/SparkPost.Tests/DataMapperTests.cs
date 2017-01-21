@@ -325,13 +325,14 @@ namespace SparkPost.Tests
             private DataMapper mapper;
 
             [Test]
-            public void It_should_set_the_CC_Header_for_the_cc_emails()
+            public void It_should_set_the_CC_Header_for_only_the_cc_emails()
             {
                 var recipient1 = new Recipient {Type = RecipientType.CC, Address = new Address {Email = Guid.NewGuid().ToString()}};
                 var recipient2 = new Recipient {Type = RecipientType.To, Address = new Address {Email = Guid.NewGuid().ToString()}};
                 var recipient3 = new Recipient {Type = RecipientType.CC, Address = new Address {Email = Guid.NewGuid().ToString()}};
+                var recipient4 = new Recipient {Type = RecipientType.BCC, Address = new Address { Email = Guid.NewGuid().ToString()}};
 
-                transmission.Recipients = new List<Recipient> {recipient1, recipient2, recipient3};
+                transmission.Recipients = new List<Recipient> {recipient1, recipient2, recipient3, recipient4};
 
                 var cc = mapper.ToDictionary(transmission)
                     ["content"]
@@ -342,7 +343,7 @@ namespace SparkPost.Tests
 
                 cc.ShouldEqual(recipient1.Address.Email + ", " + recipient3.Address.Email);
             }
-
+            
             [Test]
             public void It_should_not_overwrite_any_existing_headers()
             {
@@ -428,6 +429,79 @@ namespace SparkPost.Tests
                     .ShouldBeFalse();
             }
 
+            [Test]
+            public void It_should_set_the_name_and_header_to_fields()
+            {
+                var toName = Guid.NewGuid().ToString();
+                var toEmail = Guid.NewGuid().ToString();
+
+                var toRecipient = new Recipient { Type = RecipientType.To, Address = new Address(toEmail, toName) };
+                var ccRecipient = new Recipient { Type = RecipientType.CC, Address = new Address() };
+                var bccRecipient = new Recipient { Type = RecipientType.BCC, Address = new Address() };
+                transmission.Recipients = new List<Recipient>() { toRecipient, ccRecipient, bccRecipient };
+
+                var addresses = mapper.ToDictionary(transmission)
+                        ["recipients"]
+                        .CastAs<IEnumerable<IDictionary<string, object>>>()
+                        .Select(r => r["address"])
+                        .Cast<IDictionary<string, object>>();
+
+                foreach (var address in addresses)
+                {
+                    address["name"].ShouldEqual(toName);
+                    address["header_to"].ShouldEqual(toEmail);
+                }
+            }
+
+            [Test]
+            public void It_should_throw_exception_with_no_to_recipient()
+            {
+                var recipient1 = new Recipient { Type = RecipientType.CC, Address = new Address() };
+                var recipient2 = new Recipient { Type = RecipientType.BCC, Address = new Address() };
+                transmission.Recipients = new List<Recipient> { recipient1, recipient2 };
+
+                Assert.That(() => { mapper.ToDictionary(transmission); }, Throws.ArgumentException);
+            }
+
+            [Test]
+            public void It_should_throw_exception_with_multiple_to_recipients()
+            {
+                var recipient1 = new Recipient { Type = RecipientType.To, Address = new Address() };
+                var recipient2 = new Recipient { Type = RecipientType.To, Address = new Address() };
+                var recipient3 = new Recipient { Type = RecipientType.CC, Address = new Address() };
+                transmission.Recipients = new List<Recipient> { recipient1, recipient2, recipient3 };
+
+                Assert.That(() => { mapper.ToDictionary(transmission); }, Throws.ArgumentException);
+            }
+
+            [Test]
+            public void It_should_throw_exception_if_to_has_no_address()
+            {
+                var recipient1 = new Recipient { Type = RecipientType.To, Address = null };
+                var recipient2 = new Recipient { Type = RecipientType.BCC, Address = new Address() };
+                transmission.Recipients = new List<Recipient> { recipient1, recipient2 };
+
+                Assert.That(() => { mapper.ToDictionary(transmission); }, Throws.ArgumentException);
+            }
+
+            [TestCase("Bob Jones", "bob@jones.com", "Bob Jones <bob@jones.com>")]
+            [TestCase(null, "bob@jones.com", "bob@jones.com")]
+            [TestCase("", "bob@jones.com", "bob@jones.com")]
+            [TestCase("Jones, Bob", "bob@jones.com", "\"Jones, Bob\" <bob@jones.com>")]
+            public void It_should_format_addresses_correctly(string name, string address, string result)
+            {
+                var recipient1 = new Recipient { Type = RecipientType.To, Address = new Address() };
+                var recipient2 = new Recipient { Type = RecipientType.CC, Address = new Address(address, name) };
+                transmission.Recipients = new List<Recipient> { recipient1, recipient2 };
+
+                mapper.ToDictionary(transmission)
+                    ["content"]
+                    .CastAs<IDictionary<string, object>>()
+                    ["headers"]
+                    .CastAs<IDictionary<string, string>>()
+                    ["CC"]
+                    .ShouldEqual(result);
+            }
         }
 
         [TestFixture]

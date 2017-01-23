@@ -7,36 +7,76 @@ namespace SparkPost
 {
     internal static class CcHandling
     {
-        internal static void DoStandardCcRewriting(Transmission transmission, IDictionary<string, object> result)
+        internal static void Process(Transmission transmission, IDictionary<string, object> result)
         {
             var recipients = transmission.Recipients;
-            if (recipients.All(r => r.Type == RecipientType.To))
+            if (recipients.All(RecipientTypeIsTo))
                 return;
 
-            if (recipients.Count(r => r.Type == RecipientType.To) != 1)
-                throw new ArgumentException("There must be exactly one 'To' recipient if there are copied recipients.");
+            var toRecipient = recipients.FirstOrDefault(RecipientTypeIsTo);
+            if (recipients.Count(RecipientTypeIsTo) == 1 && toRecipient.Address != null)
+                DoStandardCcRewriting(recipients, result);
+            else
+                SetAnyCCsInTheHeader(recipients, result);
+        }
 
-            var toRecipient = recipients.Single(r => r.Type == RecipientType.To);
-            if (toRecipient.Address == null)
-                throw new ArgumentException("'To' recipient has no address.");
-
+        private static void DoStandardCcRewriting(IEnumerable<Recipient> recipients, IDictionary<string, object> result)
+        {
+            var toRecipient = recipients.Single(RecipientTypeIsTo);
             var toName = toRecipient.Address.Name;
             var toEmail = toRecipient.Address.Email;
 
-            var ccRecipients = recipients.Where(r => r.Type == RecipientType.CC);
+            var ccRecipients = recipients.Where(RecipientTypeIsCC);
             if (ccRecipients.Any())
             {
                 var ccHeader = GetCcHeader(ccRecipients);
-                if (ccHeader != null)
-                {
-                    MakeSureThereIsAHeaderDefinedInTheRequest(result);
-                    SetThisHeaderValue(result, "CC", ccHeader);
-                }
+                if (!String.IsNullOrWhiteSpace(ccHeader))
+                    SetTheCcHeader(result, ccHeader);
             }
 
             var resultRecipients = (result["recipients"] as IEnumerable<IDictionary<string, object>>).ToList();
             SetFieldsOnRecipients(resultRecipients, toName, toEmail);
             result["recipients"] = resultRecipients;
+        }
+
+        private static void SetAnyCCsInTheHeader(IEnumerable<Recipient> recipients, IDictionary<string, object> result)
+        {
+            var ccs = GetTheCcEmails(recipients);
+
+            if (ccs.Any() == false) return;
+
+            string ccHeader = FormatTheCCs(ccs);
+            SetTheCcHeader(result, ccHeader);
+        }
+
+        private static IEnumerable<string> GetTheCcEmails(IEnumerable<Recipient> recipients)
+        {
+            return recipients
+                .Where(x => x.Type == RecipientType.CC)
+                .Where(x => x.Address != null)
+                .Where(x => string.IsNullOrWhiteSpace(x.Address.Email) == false)
+                .Select(x => x.Address.Email);
+        }
+
+        private static string FormatTheCCs(IEnumerable<string> ccs)
+        {
+            return string.Join(",", ccs.Select(x => "<" + x + ">"));
+        }
+
+        private static void SetTheCcHeader(IDictionary<string, object> result, string header)
+        {
+            MakeSureThereIsAHeaderDefinedInTheRequest(result);
+            SetThisHeaderValue(result, "CC", header);
+        }
+
+        private static bool RecipientTypeIsTo(Recipient recipient)
+        {
+            return recipient.Type == RecipientType.To;
+        }
+
+        private static bool RecipientTypeIsCC(Recipient recipient)
+        {
+            return recipient.Type == RecipientType.CC;
         }
 
         private static void SetFieldsOnRecipients(IEnumerable<IDictionary<string, object>> recipients,
@@ -58,11 +98,11 @@ namespace SparkPost
 
         private static string GetCcHeader(IEnumerable<Recipient> recipients)
         {
-            var listOfFormattedAddresses = recipients.Select(FormatAddress).Where(fa => !String.IsNullOrWhiteSpace(fa));
+            var listOfFormattedAddresses = recipients.Select(FormatedAddress).Where(fa => !String.IsNullOrWhiteSpace(fa));
             return listOfFormattedAddresses.Any() ? String.Join(", ", listOfFormattedAddresses) : null;
         }
 
-        private static string FormatAddress(Recipient recipient)
+        private static string FormatedAddress(Recipient recipient)
         {
             var address = recipient.Address;
             if (address == null)

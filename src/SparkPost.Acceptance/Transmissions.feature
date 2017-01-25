@@ -24,14 +24,27 @@ Scenario: Sending a regular email with an attachment
 	When I send the transmission
 	Then it should return a 200
 
-Scenario: Using CC/BCC
+Scenario: Using CC/BCC with one direct recipient
 	Given I have a new transmission
 	And the transmission is meant to be sent from 'darren@cauthon.com'
 	And the transmission is meant to be sent to 'darren@cauthon.com'
 	And the transmission is meant to be CCd to 'darrencauthon@gmail.com'
 	And the transmission is meant to be BCCd to 'darrencauthon@yahoo.com'
 	And the transmission content is
-	| Subject                    | Html                 |
-	| Test Email With CC and BCC | this is a test email |
+	| Subject                                  | Html                 |
+	| Test Email With CC and BCC (1 recipient) | this is a test email |
+	When I send the transmission
+	Then it should return a 200
+
+Scenario: Using CC/BCC with two direct recipients
+	Given I have a new transmission
+	And the transmission is meant to be sent from 'darren@cauthon.com'
+	And the transmission is meant to be sent to 'darrencauthon@hotmail.com'
+	And the transmission is meant to be sent to 'darren@cauthon.com'
+	And the transmission is meant to be CCd to 'darrencauthon@gmail.com'
+	And the transmission is meant to be BCCd to 'darrencauthon@yahoo.com'
+	And the transmission content is
+	| Subject                                   | Html                 |
+	| Test Email With CC and BCC (2 recipients) | this is a test email |
 	When I send the transmission
 	Then it should return a 200

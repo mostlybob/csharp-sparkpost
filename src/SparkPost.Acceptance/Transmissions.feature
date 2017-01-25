@@ -23,3 +23,15 @@ Scenario: Sending a regular email with an attachment
 	| Test Email | this is a test email |
 	When I send the transmission
 	Then it should return a 200
+
+Scenario: Using CC/BCC
+	Given I have a new transmission
+	And the transmission is meant to be sent from 'darren@cauthon.com'
+	And the transmission is meant to be sent to 'darren@cauthon.com'
+	And the transmission is meant to be CCd to 'darrencauthon@gmail.com'
+	And the transmission is meant to be BCCd to 'darrencauthon@yahoo.com'
+	And the transmission content is
+	| Subject                    | Html                 |
+	| Test Email With CC and BCC | this is a test email |
+	When I send the transmission
+	Then it should return a 200

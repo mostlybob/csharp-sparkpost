@@ -58,6 +58,34 @@ namespace SparkPost.Acceptance
             scenarioContext.Set(transmission);
         }
 
+        [Given(@"the transmission is meant to be CCd to '(.*)'")]
+        public void GivenTheTransmissionIsMeantToBeCCdTo(string email)
+        {
+            var transmission = scenarioContext.Get<Transmission>();
+
+            transmission.Recipients.Add(new Recipient
+            {
+                Type = RecipientType.CC,
+                Address = new Address {Email = email}
+            });
+
+            scenarioContext.Set(transmission);
+        }
+
+        [Given(@"the transmission is meant to be BCCd to '(.*)'")]
+        public void GivenTheTransmissionIsMeantToBeBCCdTo(string email)
+        {
+            var transmission = scenarioContext.Get<Transmission>();
+
+            transmission.Recipients.Add(new Recipient
+            {
+                Type = RecipientType.BCC,
+                Address = new Address {Email = email}
+            });
+
+            scenarioContext.Set(transmission);
+        }
+
         [When(@"I send the transmission")]
         public void WhenISendTheTransmission()
         {

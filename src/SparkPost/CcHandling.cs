@@ -105,18 +105,14 @@ namespace SparkPost
         private static string FormatedAddress(Recipient recipient)
         {
             var address = recipient.Address;
-            if (address == null)
-                return null;
 
-            if (String.IsNullOrWhiteSpace(address.Email))
+            if (string.IsNullOrWhiteSpace(address?.Email))
                 return null;
-            else if (String.IsNullOrWhiteSpace(address.Name))
+            if (string.IsNullOrWhiteSpace(address.Name))
                 return address.Email.Trim();
-            else
-            {
-                var name = Regex.IsMatch(address.Name, @"[^\w ]") ? $"\"{address.Name}\"" : address.Name;
-                return $"{name} <{address.Email.Trim()}>";
-            }
+
+            var name = Regex.IsMatch(address.Name, @"[^\w ]") ? $"\"{address.Name}\"" : address.Name;
+            return $"{name} <{address.Email.Trim()}>";
         }
 
         private static void MakeSureThereIsAHeaderDefinedInTheRequest(IDictionary<string, object> result)

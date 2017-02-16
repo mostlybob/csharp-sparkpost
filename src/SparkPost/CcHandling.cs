@@ -108,11 +108,14 @@ namespace SparkPost
 
             if (string.IsNullOrWhiteSpace(address?.Email))
                 return null;
+
+            var email = address.Email.Trim();
+
             if (string.IsNullOrWhiteSpace(address.Name))
-                return address.Email.Trim();
+                return email;
 
             var name = Regex.IsMatch(address.Name, @"[^\w ]") ? $"\"{address.Name}\"" : address.Name;
-            return $"{name} <{address.Email.Trim()}>";
+            return $"{name} <{email}>";
         }
 
         private static void MakeSureThereIsAHeaderDefinedInTheRequest(IDictionary<string, object> result)

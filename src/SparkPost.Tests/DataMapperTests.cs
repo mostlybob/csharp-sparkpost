@@ -491,6 +491,23 @@ namespace SparkPost.Tests
                     .ShouldEqual(result);
             }
 
+            [TestCase("Jones, Bob", "bob@jones.com ", "\"Jones, Bob\" <bob@jones.com>")]
+            [TestCase("Jones, Bob", " bob@jones.com", "\"Jones, Bob\" <bob@jones.com>")]
+            public void It_should_handle_white_space_in_the_email(string name, string address, string result)
+            {
+                var recipient1 = new Recipient { Type = RecipientType.To, Address = new Address() };
+                var recipient2 = new Recipient { Type = RecipientType.CC, Address = new Address(address, name) };
+                transmission.Recipients = new List<Recipient> { recipient1, recipient2 };
+
+                mapper.ToDictionary(transmission)
+                    ["content"]
+                    .CastAs<IDictionary<string, object>>()
+                    ["headers"]
+                    .CastAs<IDictionary<string, string>>()
+                    ["CC"]
+                    .ShouldEqual(result);
+            }
+
             [TestCase(0)]
             [TestCase(1)]
             [TestCase(2)]

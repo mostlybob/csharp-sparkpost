@@ -604,6 +604,23 @@ namespace SparkPost.Tests
             }
 
             [Test]
+            public void use_draft_template()
+            {
+                var value = true;
+                content.UseDraftTemplate = value;
+                mapper.ToDictionary(content)["use_draft_template"].ShouldNotBeNull();
+                mapper.ToDictionary(content)["use_draft_template"].ShouldEqual(value);
+            }
+
+            [Test]
+            public void use_draft_template_not_set()
+            {
+                content.UseDraftTemplate.ShouldBeNull();
+                var o = mapper.ToDictionary(content)["use_draft_template"];
+                o.ShouldBeNull();
+            }
+
+            [Test]
             public void html()
             {
                 var value = Guid.NewGuid().ToString();

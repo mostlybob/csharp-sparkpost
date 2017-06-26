@@ -24,6 +24,15 @@ Scenario: Sending a regular email with an attachment
 	When I send the transmission
 	Then it should return a 200
 
+Scenario: Sending a template email with an attachment
+	Given I have a new transmission
+	And the transmission is meant to be sent from 'darren@cauthon.com'
+	And the transmission is meant to be sent to 'darren@cauthon.com'
+	And the transmission has a text file attachment
+	And the transmission template id is set to 'my-first-email'
+	When I send the transmission
+	Then it should return a 200
+
 Scenario: Using CC/BCC with one direct recipient
 	Given I have a new transmission
 	And the transmission is meant to be sent from 'darren@cauthon.com'

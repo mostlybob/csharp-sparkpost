@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using SparkPost.RequestSenders;
+using SparkPost.Utilities;
 
 namespace SparkPost
 {
@@ -113,14 +114,10 @@ namespace SparkPost
 
             private static string AttemptToPullTheVersionNumberOutOf(string value)
             {
-                return string.Join(".",
-                    Split(Split(Split(value, "Version=")[1]
-                        , ",").First(), ".").Take(3));
-            }
-
-            private static string[] Split(string value, string separator)
-            {
-                return value.Split(new[] {separator}, StringSplitOptions.RemoveEmptyEntries);
+                return value.SplitOn("Version=")[1]
+                    .SplitOn(",")[0]
+                    .SplitOn(".").Take(3)
+                    .JoinWith(".");
             }
         }
     }

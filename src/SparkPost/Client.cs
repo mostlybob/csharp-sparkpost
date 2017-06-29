@@ -101,9 +101,21 @@ namespace SparkPost
 
             private static string GetTheCurrentVersion()
             {
+                try
+                {
+                    return AttemptToPullTheVersionNumberOutOf(typeof(Client).AssemblyQualifiedName);
+                }
+                catch
+                {
+                    return null;
+                }
+            }
+
+            private static string AttemptToPullTheVersionNumberOutOf(string value)
+            {
                 return string.Join(".",
-                    Split(Split(Split(typeof(Client).AssemblyQualifiedName, "Version=")[1]
-                            , ",").First(), ".").Take(3));
+                    Split(Split(Split(value, "Version=")[1]
+                        , ",").First(), ".").Take(3));
             }
 
             private static string[] Split(string value, string separator)

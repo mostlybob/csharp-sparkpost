@@ -100,10 +100,12 @@ namespace SparkPost
 
             private static string GetTheCurrentVersion()
             {
-                var currentVersion = typeof(Client).AssemblyQualifiedName;
-                var splits = currentVersion.Split(new[] {"Version="}, StringSplitOptions.RemoveEmptyEntries);
-                var almost = splits[1].Split(new[] {","}, StringSplitOptions.RemoveEmptyEntries).First();
-                return string.Join(".", almost.Split(new[] {"."}, StringSplitOptions.RemoveEmptyEntries).Take(3));
+                return string.Join(".",
+                    typeof(Client)
+                        .AssemblyQualifiedName.Split(new[] {"Version="},
+                            StringSplitOptions.RemoveEmptyEntries)[1]
+                        .Split(new[] {","}, StringSplitOptions.RemoveEmptyEntries).First()
+                        .Split(new[] {"."}, StringSplitOptions.RemoveEmptyEntries).Take(3));
             }
         }
     }

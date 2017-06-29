@@ -84,7 +84,8 @@ namespace SparkPost
                 };
 
                 var currentVersion = GetTheCurrentVersion();
-                UserAgent = $"csharp-sparkpost/{currentVersion}";
+                if (string.IsNullOrEmpty(currentVersion) == false)
+                    UserAgent = $"csharp-sparkpost/{currentVersion}";
             }
 
             public SendingModes SendingMode { get; set; }

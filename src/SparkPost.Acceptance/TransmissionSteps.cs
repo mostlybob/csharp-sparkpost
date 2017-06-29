@@ -46,6 +46,16 @@ namespace SparkPost.Acceptance
             scenarioContext.Set(transmission);
         }
 
+        [Given(@"the transmission template id is set to '(.*)'")]
+        public void x(string templateId)
+        {
+            var transmission = scenarioContext.Get<Transmission>();
+
+            transmission.Content.TemplateId = templateId;
+
+            scenarioContext.Set(transmission);
+        }
+
         [Given(@"the transmission has a text file attachment")]
         public void GivenTheTransmissionHasATextFileAttachment()
         {

@@ -126,7 +126,7 @@ this.FeatureBackground();
                         "Subject",
                         "Html"});
             table2.AddRow(new string[] {
-                        "Test Email",
+                        "Test Email with an attachment",
                         "this is a test email"});
 #line 21
  testRunner.And("the transmission content is", ((string)(null)), table2, "And ");
@@ -139,10 +139,12 @@ this.FeatureBackground();
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Using CC/BCC with one direct recipient")]
-        public virtual void UsingCCBCCWithOneDirectRecipient()
+        [NUnit.Framework.DescriptionAttribute("Sending a template email with an attachment, which will be ignored and no attachm" +
+            "ent will be included")]
+        public virtual void SendingATemplateEmailWithAnAttachmentWhichWillBeIgnoredAndNoAttachmentWillBeIncluded()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Using CC/BCC with one direct recipient", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Sending a template email with an attachment, which will be ignored and no attachm" +
+                    "ent will be included", ((string[])(null)));
 #line 27
 this.ScenarioSetup(scenarioInfo);
 #line 3
@@ -154,8 +156,35 @@ this.FeatureBackground();
 #line 30
  testRunner.And("the transmission is meant to be sent to \'darren@cauthon.com\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 31
- testRunner.And("the transmission is meant to be CCd to \'darrencauthon@gmail.com\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("the transmission has a text file attachment", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 32
+ testRunner.And("the transmission template id is set to \'my-first-email\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 33
+ testRunner.When("I send the transmission", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 34
+ testRunner.Then("it should return a 200", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Using CC/BCC with one direct recipient")]
+        public virtual void UsingCCBCCWithOneDirectRecipient()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Using CC/BCC with one direct recipient", ((string[])(null)));
+#line 36
+this.ScenarioSetup(scenarioInfo);
+#line 3
+this.FeatureBackground();
+#line 37
+ testRunner.Given("I have a new transmission", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 38
+ testRunner.And("the transmission is meant to be sent from \'darren@cauthon.com\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 39
+ testRunner.And("the transmission is meant to be sent to \'darren@cauthon.com\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 40
+ testRunner.And("the transmission is meant to be CCd to \'darrencauthon@gmail.com\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 41
  testRunner.And("the transmission is meant to be BCCd to \'darrencauthon@yahoo.com\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             TechTalk.SpecFlow.Table table3 = new TechTalk.SpecFlow.Table(new string[] {
@@ -164,11 +193,11 @@ this.FeatureBackground();
             table3.AddRow(new string[] {
                         "Test Email With CC and BCC (1 recipient)",
                         "this is a test email"});
-#line 33
+#line 42
  testRunner.And("the transmission content is", ((string)(null)), table3, "And ");
-#line 36
+#line 45
  testRunner.When("I send the transmission", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 37
+#line 46
  testRunner.Then("it should return a 200", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -179,21 +208,21 @@ this.FeatureBackground();
         public virtual void UsingCCBCCWithTwoDirectRecipients()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Using CC/BCC with two direct recipients", ((string[])(null)));
-#line 39
+#line 48
 this.ScenarioSetup(scenarioInfo);
 #line 3
 this.FeatureBackground();
-#line 40
+#line 49
  testRunner.Given("I have a new transmission", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 41
+#line 50
  testRunner.And("the transmission is meant to be sent from \'darren@cauthon.com\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 42
+#line 51
  testRunner.And("the transmission is meant to be sent to \'darrencauthon@hotmail.com\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 43
+#line 52
  testRunner.And("the transmission is meant to be sent to \'darren@cauthon.com\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 44
+#line 53
  testRunner.And("the transmission is meant to be CCd to \'darrencauthon@gmail.com\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 45
+#line 54
  testRunner.And("the transmission is meant to be BCCd to \'darrencauthon@yahoo.com\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             TechTalk.SpecFlow.Table table4 = new TechTalk.SpecFlow.Table(new string[] {
@@ -202,11 +231,11 @@ this.FeatureBackground();
             table4.AddRow(new string[] {
                         "Test Email With CC and BCC (2 recipients)",
                         "this is a test email"});
-#line 46
+#line 55
  testRunner.And("the transmission content is", ((string)(null)), table4, "And ");
-#line 49
+#line 58
  testRunner.When("I send the transmission", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 50
+#line 59
  testRunner.Then("it should return a 200", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();

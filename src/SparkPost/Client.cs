@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using SparkPost.RequestSenders;
@@ -101,11 +102,13 @@ namespace SparkPost
             private static string GetTheCurrentVersion()
             {
                 return string.Join(".",
-                    typeof(Client)
-                        .AssemblyQualifiedName.Split(new[] {"Version="},
-                            StringSplitOptions.RemoveEmptyEntries)[1]
-                        .Split(new[] {","}, StringSplitOptions.RemoveEmptyEntries).First()
-                        .Split(new[] {"."}, StringSplitOptions.RemoveEmptyEntries).Take(3));
+                    Split(Split(Split(typeof(Client).AssemblyQualifiedName, "Version=")[1]
+                            , ",").First(), ".").Take(3));
+            }
+
+            private static string[] Split(string value, string separator)
+            {
+                return value.Split(new[] {separator}, StringSplitOptions.RemoveEmptyEntries);
             }
         }
     }

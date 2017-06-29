@@ -23,8 +23,7 @@ namespace SparkPost.RequestSenders
                 httpClient.BaseAddress = new Uri(client.ApiHost);
                 httpClient.DefaultRequestHeaders.Add("Authorization", client.ApiKey);
 
-                if (string.IsNullOrEmpty(client.CustomSettings.UserAgent) == false)
-                    httpClient.DefaultRequestHeaders.TryAddWithoutValidation("User-Agent", client.CustomSettings.UserAgent);
+                SetTheUserAgentIfItIsProvided(httpClient);
 
                 if (client.SubaccountId != 0)
                     httpClient.DefaultRequestHeaders.Add("X-MSYS-SUBACCOUNT",
@@ -39,6 +38,12 @@ namespace SparkPost.RequestSenders
                     Content = await result.Content.ReadAsStringAsync()
                 };
             }
+        }
+
+        private void SetTheUserAgentIfItIsProvided(HttpClient httpClient)
+        {
+            if (string.IsNullOrEmpty(client.CustomSettings.UserAgent) == false)
+                httpClient.DefaultRequestHeaders.TryAddWithoutValidation("User-Agent", client.CustomSettings.UserAgent);
         }
 
         protected virtual async Task<HttpResponseMessage> GetTheResponse(Request request, HttpClient httpClient)

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Net.Http;
 using SparkPost.RequestSenders;
 
@@ -80,7 +81,12 @@ namespace SparkPost
                     return httpClient;
                 };
 
-                UserAgent = "csharp-sparkpost/1.13.1";
+                var currentVersion = typeof(Client).AssemblyQualifiedName;
+                var separator = new string[] {"Version="};
+                var splits = currentVersion.Split(separator, StringSplitOptions.RemoveEmptyEntries);
+                currentVersion = splits[1].Split(new []{","}, StringSplitOptions.RemoveEmptyEntries).First();
+                currentVersion = string.Join(".", currentVersion.Split(new[] {"."}, StringSplitOptions.RemoveEmptyEntries).Take(3));
+                UserAgent = $"csharp-sparkpost/{currentVersion}";
             }
 
             public SendingModes SendingMode { get; set; }

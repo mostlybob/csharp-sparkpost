@@ -79,6 +79,8 @@ namespace SparkPost
                     httpClient.DefaultRequestHeaders.Accept.Clear();
                     return httpClient;
                 };
+
+                UserAgent = "csharp-sparkpost/1.13.1";
             }
 
             public SendingModes SendingMode { get; set; }

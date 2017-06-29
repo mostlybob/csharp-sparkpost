@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net.Http;
+using AutoMoq.Helpers;
 using NUnit.Framework;
 using Should;
 
@@ -59,6 +60,22 @@ namespace SparkPost.Tests
             {
                 (new Client(Guid.NewGuid().ToString(), 1234))
                     .SubaccountId.ShouldEqual(1234);
+            }
+        }
+
+        [TestFixture]
+        public class UserAgentTests : AutoMoqTestFixture<Client.Settings>
+        {
+            [SetUp]
+            public void Setup()
+            {
+                ResetSubject();
+            }
+
+            [Test]
+            public void It_should_default_to_the_library_version()
+            {
+                Subject.UserAgent.ShouldEqual($"csharp-sparkpost/1.13.1");
             }
         }
     }

@@ -82,6 +82,7 @@ namespace SparkPost
             }
 
             public SendingModes SendingMode { get; set; }
+            public string UserAgent { get; set; }
 
             public HttpClient CreateANewHttpClient()
             {

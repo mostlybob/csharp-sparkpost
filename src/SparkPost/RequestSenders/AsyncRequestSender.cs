@@ -23,6 +23,8 @@ namespace SparkPost.RequestSenders
                 httpClient.BaseAddress = new Uri(client.ApiHost);
                 httpClient.DefaultRequestHeaders.Add("Authorization", client.ApiKey);
 
+                httpClient.DefaultRequestHeaders.TryAddWithoutValidation("User-Agent", client.CustomSettings.UserAgent);
+
                 if (client.SubaccountId != 0)
                     httpClient.DefaultRequestHeaders.Add("X-MSYS-SUBACCOUNT",
                         client.SubaccountId.ToString(CultureInfo.InvariantCulture));

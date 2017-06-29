@@ -24,7 +24,7 @@ Scenario: Sending a regular email with an attachment
 	When I send the transmission
 	Then it should return a 200
 
-Scenario: Sending a template email with an attachment
+Scenario: Sending a template email with an attachment, which will be ignored and no attachment will be included
 	Given I have a new transmission
 	And the transmission is meant to be sent from 'darren@cauthon.com'
 	And the transmission is meant to be sent to 'darren@cauthon.com'

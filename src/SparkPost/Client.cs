@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using SparkPost.RequestSenders;
+using SparkPost.Utilities;
 
 namespace SparkPost
 {
@@ -79,9 +82,14 @@ namespace SparkPost
                     httpClient.DefaultRequestHeaders.Accept.Clear();
                     return httpClient;
                 };
+
+                var currentVersion = GetTheCurrentVersion();
+                if (string.IsNullOrEmpty(currentVersion) == false)
+                    UserAgent = $"csharp-sparkpost/{currentVersion}";
             }
 
             public SendingModes SendingMode { get; set; }
+            public string UserAgent { get; set; }
 
             public HttpClient CreateANewHttpClient()
             {
@@ -92,7 +100,26 @@ namespace SparkPost
             {
                 httpClientBuilder = httpClient;
             }
-        }
 
+            private static string GetTheCurrentVersion()
+            {
+                try
+                {
+                    return AttemptToPullTheVersionNumberOutOf(typeof(Client).AssemblyQualifiedName);
+                }
+                catch
+                {
+                    return null;
+                }
+            }
+
+            private static string AttemptToPullTheVersionNumberOutOf(string value)
+            {
+                return value.SplitOn("Version=")[1]
+                    .SplitOn(",")[0]
+                    .SplitOn(".").Take(3)
+                    .JoinWith(".");
+            }
+        }
     }
 }

@@ -98,6 +98,7 @@
     <Compile Include="Utilities\Jsonification.cs" />
     <Compile Include="Utilities\MailMessageMapping.cs" />
     <Compile Include="Utilities\SnakeCase.cs" />
+    <Compile Include="Utilities\StringHelper.cs" />
     <Compile Include="ValueMappers\AnonymousValueMapper.cs" />
     <Compile Include="ValueMappers\BooleanValueMapper.cs" />
     <Compile Include="RequestSenders\AsyncRequestSender.cs" />

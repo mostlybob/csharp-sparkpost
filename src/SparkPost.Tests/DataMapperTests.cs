@@ -260,6 +260,16 @@ namespace SparkPost.Tests
             }
 
             [Test]
+            public void do_not_alter_the_keys_passed_to_metadata()
+            {
+                var key = "TEST";
+                var value = Guid.NewGuid().ToString();
+                transmission.Metadata[key] = value;
+                mapper.ToDictionary(transmission)["metadata"]
+                    .CastAs<IDictionary<string, object>>()[key].ShouldEqual(value);
+            }
+
+            [Test]
             public void do_not_include_empty_metadata()
             {
                 mapper.ToDictionary(transmission).Keys.ShouldNotContain("metadata");

@@ -88,6 +88,10 @@ namespace SparkPost
                     transmission.SubstitutionData != null && transmission.SubstitutionData.Keys.Any()
                         ? transmission.SubstitutionData
                         : null,
+                ["metadata"] =
+                    transmission.Metadata != null && transmission.Metadata.Keys.Any()
+                        ? transmission.Metadata
+                        : null,
                 ["recipients"] = transmission.ListId != null
                     ? (object) new Dictionary<string, object> {["list_id"] = transmission.ListId}
                     : transmission.Recipients.Select(ToDictionary)

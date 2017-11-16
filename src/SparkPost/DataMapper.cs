@@ -84,10 +84,8 @@ namespace SparkPost
         {
             var data = new Dictionary<string, object>
             {
-                ["substitution_data"] =
-                    transmission.SubstitutionData != null && transmission.SubstitutionData.Keys.Any()
-                        ? transmission.SubstitutionData
-                        : null,
+                ["substitution_data"] = AlterThisDictionaryToBePassedToSparkpost(transmission.SubstitutionData),
+                ["metadata"] = AlterThisDictionaryToBePassedToSparkpost(transmission.Metadata),
                 ["recipients"] = transmission.ListId != null
                     ? (object) new Dictionary<string, object> {["list_id"] = transmission.ListId}
                     : transmission.Recipients.Select(ToDictionary)
@@ -98,6 +96,13 @@ namespace SparkPost
             CcHandling.Process(transmission, result);
 
             return result;
+        }
+
+        private static IDictionary<string, object> AlterThisDictionaryToBePassedToSparkpost(IDictionary<string, object> dictionary)
+        {
+            return dictionary != null && dictionary.Keys.Any()
+                ? dictionary
+                : null;
         }
 
         public virtual IDictionary<string, object> ToDictionary(Recipient recipient)
